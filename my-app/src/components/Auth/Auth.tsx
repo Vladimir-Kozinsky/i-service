@@ -10,6 +10,8 @@ interface Values {
     password: string;
 }
 
+
+
 class Auth extends React.Component {
     render(): React.ReactNode {
         return (
@@ -28,10 +30,7 @@ class Auth extends React.Component {
                             values: Values,
                             { setSubmitting }: FormikHelpers<Values>
                         ) => {
-                            setTimeout(() => {
-                                alert(JSON.stringify(values, null, 2));
-                                setSubmitting(false);
-                            }, 500);
+
                         }}
                     >
                         <Form className={s.auth__form}>
