@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import userAPI from '../../API/userAPI';
 
 interface IUser {
-    id: string | null,
+    _id: string | null,
     email: string | null,
     password: string | null;
     firstName: string | null;
@@ -11,18 +11,22 @@ interface IUser {
 }
 
 interface IAuthState {
-    user: IUser
+    user: IUser;
+    isAuth: boolean;
+    isAuthError: boolean;
 }
 
 const initialState: IAuthState = {
     user: {
-        id: null,
+        _id: null,
         email: null,
         password: null,
         firstName: null,
         lastName: null,
         position: null,
-    }
+    }, 
+    isAuth: false,
+    isAuthError: false
 }
 
 const authSlice = createSlice({
@@ -32,6 +36,12 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(signIn.fulfilled, (state, action) => {
             state.user = action.payload;
+            state.isAuth = true;
+            state.isAuthError = false;
+        })
+        builder.addCase(signIn.rejected, (state, action) => {
+            state.isAuthError = true;
+            console.log(state.isAuthError);
         })
     },
 })
