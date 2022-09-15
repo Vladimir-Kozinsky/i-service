@@ -2,7 +2,7 @@
     background-color: #ffffff;
     border-radius: 24px;
     height: 38px;
-    padding: 0 40px;
+    width: 120px;
     color: #0A2640;
     font-size: 16px;
     font-family: "Manrope";
@@ -25,5 +25,10 @@
     }
     &.button__white {
         border: #0a2640 2px solid;
+        &:hover {
+            background-color: #0a2640;
+            border: #0a2640 2px solid;
+            color: #ffffff;
+        }
     }
 }

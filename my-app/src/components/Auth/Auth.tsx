@@ -6,14 +6,15 @@ import Input from '../../common/Input';
 import s from './Auth.module.scss';
 import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-interface Values {
+interface IValues {
     email: string;
     password: string;
 }
 
 type MyProps = {
-    signIn: ({ email, password }: Values) => void;
+    signIn: ({ email, password }: IValues) => void;
     isAuthError: boolean;
 }
 
@@ -48,15 +49,15 @@ class Auth extends React.Component<MyProps> {
                 <div className={s.auth}>
                     <h4 className={classNames(s.auth__header, s.auth__header__welcome)}>Welcome back!</h4>
                     <h3 className={classNames(s.auth__header, s.auth__header__signin)}>Sign in to your account</h3>
-                    <h5 className={classNames(s.auth__header, s.auth__header__signup)}>Don't have an account? <a>Sign Up</a></h5>
+                    <h5 className={classNames(s.auth__header, s.auth__header__signup)}>Don't have an account? <Link to="/signup">Sign Up</Link></h5>
                     <Formik
                         initialValues={{
                             email: '',
                             password: ''
                         }}
                         onSubmit={(
-                            values: Values,
-                            { setSubmitting }: FormikHelpers<Values>
+                            values: IValues,
+                            { setSubmitting }: FormikHelpers<IValues>
                         ) => {
                             this.props.signIn(values);
                         }}
