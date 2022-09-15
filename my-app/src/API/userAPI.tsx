@@ -5,7 +5,8 @@ const proxy = axios.create({
 })
 
 const userAPI = {
-    async logIn(email: string, password: string) {
+    async signIn(email: string, password: string) {
+        console.log(email, password);
         const response = await proxy.post('/auth', { email, password });
         return response.data;
     }

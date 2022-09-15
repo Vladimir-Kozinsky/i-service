@@ -4,15 +4,19 @@ import React from 'react';
 import Button from '../../common/buttons/Button';
 import Input from '../../common/Input';
 import s from './Auth.module.scss';
+import { signIn } from './../../store/reducers/authReducer';
+import { connect } from "react-redux";
 
 interface Values {
     email: string;
     password: string;
 }
 
+type MyProps = {
+    signIn: ({ email, password }: Values) => void
+}
 
-
-class Auth extends React.Component {
+class Auth extends React.Component<MyProps> {
     render(): React.ReactNode {
         return (
             <div className={s.auth__container}>
@@ -30,7 +34,7 @@ class Auth extends React.Component {
                             values: Values,
                             { setSubmitting }: FormikHelpers<Values>
                         ) => {
-
+                            this.props.signIn({ email: '123@gmail.com', password: '123' });
                         }}
                     >
                         <Form className={s.auth__form}>
@@ -41,9 +45,10 @@ class Auth extends React.Component {
                     </Formik>
                 </div >
             </div>
-
         )
     }
 }
 
-export default Auth;
+const mapDispatchToProps = { signIn };
+
+export default connect(null, mapDispatchToProps)(Auth);

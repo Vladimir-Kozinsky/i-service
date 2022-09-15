@@ -1,4 +1,3 @@
-//import React from 'react';
 import s from './App.module.scss';
 import Auth from './components/Auth/Auth';
 
