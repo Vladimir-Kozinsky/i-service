@@ -1,5 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import userAPI from '../../API/userAPI';
+import { IAuthValues } from '../../components/Auth/Auth';
+import { ISignUpValues } from '../../components/SignUp/SignUp';
 
 interface IUser {
     _id: string | null,
@@ -14,6 +16,7 @@ interface IAuthState {
     user: IUser;
     isAuth: boolean;
     isAuthError: boolean;
+    signUpMessage: string;
 }
 
 const initialState: IAuthState = {
@@ -24,9 +27,10 @@ const initialState: IAuthState = {
         firstName: null,
         lastName: null,
         position: null,
-    }, 
+    },
     isAuth: false,
-    isAuthError: false
+    isAuthError: false,
+    signUpMessage: ''
 }
 
 const authSlice = createSlice({
@@ -34,7 +38,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(signIn.fulfilled, (state, action) => {
+        builder.addCase(signIn.fulfilled, (state, action: PayloadAction<IUser>) => {
             state.user = action.payload;
             state.isAuth = true;
             state.isAuthError = false;
@@ -43,6 +47,10 @@ const authSlice = createSlice({
             state.isAuthError = true;
             console.log(state.isAuthError);
         })
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            console.log(action.payload);
+            state.signUpMessage = action.payload;
+        })
     },
 })
 
@@ -50,8 +58,16 @@ export const signIn = createAsyncThunk(
     'auth/signIn',
     async ({ email, password }: { email: string, password: string }, thunkAPI) => {
         const response = await userAPI.signIn(email, password);
-        return response.data
+        return response.data;
     }
 )
 
-export default authSlice.reducer
+export const signUp = createAsyncThunk(
+    'auth/signUp',
+    async ({ email, password, firstName, lastName, position }: ISignUpValues, thunkAPI) => {
+       // const response = await userAPI.signUp(email, password, firstName, lastName, position);
+        return 'Account succesfully created';
+    }
+)
+
+export default authSlice.reducer;
