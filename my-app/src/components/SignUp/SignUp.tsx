@@ -7,7 +7,7 @@ import Button from '../../common/buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSignUpErrorMessage, clearSignUpMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
-import { Link } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export interface ISignUpValues {
     email: string;
@@ -18,7 +18,9 @@ export interface ISignUpValues {
 }
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const isAuth = useSelector((state: any) => state.isAuth)
     const signUpMessage = useSelector((state: any) => state.signUpMessage)
     const isSignUpError = useSelector((state: any) => state.isSignUpError)
     const signUpErrorMessage = useSelector((state: any) => state.signUpErrorMessage)
@@ -27,6 +29,7 @@ const SignUp = () => {
     }
     return (
         <div className={s.signout__container}>
+            {isAuth ? <Navigate to="/dashboard" replace={true} /> : null}
             <div className={s.background__circle}></div>
             {signUpMessage.length
                 ? <div className={s.message}>
@@ -82,7 +85,7 @@ const SignUp = () => {
                             ? <span className={s.error_message}>{'* ' + signUpErrorMessage}</span>
                             : null}
                         <div className={s.auth__form__btns} >
-                            <Button text="Cancel" color="white" btnType="button" />
+                            <Button text="Cancel" color="white" btnType="button" handler={() => navigate("/auth")} />
                             <Button text="Sign Up" color="green" btnType="submit" />
                         </div>
                     </Form>
