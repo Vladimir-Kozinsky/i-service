@@ -17,6 +17,7 @@ interface IAuthState {
     isAuthError: boolean;
     signUpMessage: string;
     isSignUpError: boolean;
+    signUpErrorMessage: string;
 }
 
 const initialState: IAuthState = {
@@ -31,7 +32,8 @@ const initialState: IAuthState = {
     isAuth: false,
     isAuthError: false,
     signUpMessage: '',
-    isSignUpError: false
+    isSignUpError: false,
+    signUpErrorMessage: ''
 }
 
 const authSlice = createSlice({
@@ -52,6 +54,7 @@ const authSlice = createSlice({
         })
         builder.addCase(signUp.rejected, (state, action) => {
             state.isSignUpError = true;
+            state.signUpErrorMessage = action.payload as string
         })
     },
 })
@@ -67,8 +70,12 @@ export const signIn = createAsyncThunk(
 export const signUp = createAsyncThunk(
     'auth/signUp',
     async ({ email, password, firstName, lastName, position }: ISignUpValues, thunkAPI) => {
-        const response = await userAPI.signUp(email, password, firstName, lastName, position);
-        return response.data.message
+        try {
+            const response = await userAPI.signUp(email, password, firstName, lastName, position);
+            return response.data.message
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.statusText)
+        }
     }
 )
 

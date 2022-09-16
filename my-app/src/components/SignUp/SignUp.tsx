@@ -77,6 +77,9 @@ const SignUp = () => {
                             <label>Position</label>
                             <Input type="text" id="position" name="position" placeholder="Position" />
                         </div>
+                        {isSignUpError
+                            ? <span></span>
+                            : null}
                         <div className={s.auth__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" />
                             <Button text="Sign Up" color="green" btnType="submit" />
