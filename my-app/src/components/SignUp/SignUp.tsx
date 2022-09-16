@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSignUpErrorMessage, clearSignUpMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import ErrorMessage from '../../common/messages/ErrorMessage';
 
 export interface ISignUpValues {
     email: string;
@@ -52,6 +53,28 @@ const SignUp = () => {
                         lastName: '',
                         position: ''
                     }}
+                    validate={values => {
+                        interface IErrors {
+                            email?: string;
+                            password?: string;
+                            firstName?: string;
+                            lastName?: string;
+                            position?: string;
+                        }
+                        const errors: IErrors = {};
+                        if (!values.email) {
+                            errors.email = 'Required';
+                        } else if (
+                            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                        ) {
+                            errors.email = 'Invalid email address';
+                        }
+                        if (!values.password) errors.password = 'Required';
+                        if (!values.firstName) errors.firstName = 'Required';
+                        if (!values.lastName) errors.lastName = 'Required';
+                        if (!values.position) errors.position = 'Required';
+                        return errors;
+                    }}
                     onSubmit={(
                         values: ISignUpValues,
                         { setSubmitting }: FormikHelpers<ISignUpValues>
@@ -60,35 +83,42 @@ const SignUp = () => {
                         dispatch(clearSignUpErrorMessage());
                     }}
                 >
-                    <Form className={s.auth__form}>
-                        <div className={s.auth__form__link}>
-                            <label>Email</label>
-                            <Input type="email" id="email" name="email" placeholder="john@acme.com" />
-                        </div>
-                        <div className={s.auth__form__link}>
-                            <label>Password</label>
-                            <Input type="password" id="password" name="password" placeholder="Password" />
-                        </div>
-                        <div className={s.auth__form__link}>
-                            <label>First Name</label>
-                            <Input type="text" id="firstName" name="firstName" placeholder="First Name" />
-                        </div>
-                        <div className={s.auth__form__link}>
-                            <label>Last Name</label>
-                            <Input type="text" id="lastName" name="lastName" placeholder="Last Name" />
-                        </div>
-                        <div className={s.auth__form__link}>
-                            <label>Position</label>
-                            <Input type="text" id="position" name="position" placeholder="Position" />
-                        </div>
-                        {isSignUpError
-                            ? <span className={s.error_message}>{'* ' + signUpErrorMessage}</span>
-                            : null}
-                        <div className={s.auth__form__btns} >
-                            <Button text="Cancel" color="white" btnType="button" handler={() => navigate("/auth")} />
-                            <Button text="Sign Up" color="green" btnType="submit" />
-                        </div>
-                    </Form>
+                    {({ errors, touched }) => (
+                        <Form className={s.auth__form}>
+                            <div className={s.auth__form__link}>
+                                {errors.email ? <ErrorMessage message={errors.email} /> : null}
+                                <label>Email</label>
+                                <Input type="email" id="email" name="email" placeholder="john@acme.com" />
+                            </div>
+                            <div className={s.auth__form__link}>
+                                {errors.password ? <ErrorMessage message={errors.password} /> : null}
+                                <label>Password</label>
+                                <Input type="password" id="password" name="password" placeholder="Password" />
+                            </div>
+                            <div className={s.auth__form__link}>
+                                {errors.firstName ? <ErrorMessage message={errors.firstName} /> : null}
+                                <label>First Name</label>
+                                <Input type="text" id="firstName" name="firstName" placeholder="First Name" />
+                            </div>
+                            <div className={s.auth__form__link}>
+                                {errors.lastName && touched ? <ErrorMessage message={errors.lastName} /> : null}
+                                <label>Last Name</label>
+                                <Input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+                            </div>
+                            <div className={s.auth__form__link}>
+                                {errors.position ? <ErrorMessage message={errors.position} /> : null}
+                                <label>Position</label>
+                                <Input type="text" id="position" name="position" placeholder="Position" />
+                            </div>
+                            {isSignUpError
+                                ? <div className={s.error_message}>{'* ' + signUpErrorMessage}</div>
+                                : null}
+                            <div className={s.auth__form__btns} >
+                                <Button text="Cancel" color="white" btnType="button" handler={() => navigate("/auth")} />
+                                <Button text="Sign Up" color="green" btnType="submit" />
+                            </div>
+                        </Form>
+                    )}
                 </Formik>
             </div>
         </div >
