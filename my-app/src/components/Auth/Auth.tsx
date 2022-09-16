@@ -8,13 +8,13 @@ import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-interface IValues {
+export interface IAuthValues {
     email: string;
     password: string;
 }
 
 type MyProps = {
-    signIn: ({ email, password }: IValues) => void;
+    signIn: ({ email, password }: IAuthValues) => void;
     isAuthError: boolean;
 }
 
@@ -56,8 +56,8 @@ class Auth extends React.Component<MyProps> {
                             password: ''
                         }}
                         onSubmit={(
-                            values: IValues,
-                            { setSubmitting }: FormikHelpers<IValues>
+                            values: IAuthValues,
+                            { setSubmitting }: FormikHelpers<IAuthValues>
                         ) => {
                             this.props.signIn(values);
                         }}
