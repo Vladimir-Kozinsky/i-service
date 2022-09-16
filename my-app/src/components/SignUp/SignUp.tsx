@@ -1,11 +1,13 @@
 import s from './SignUp.module.scss';
 import userAvatar from '../../assets/img/png/user-avatar.png'
+import icon from '../../assets/img/png/success-icon.png'
 import { Form, Formik, FormikHelpers } from 'formik';
 import Input from '../../common/Input';
 import Button from '../../common/buttons/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
+import { Link, useNavigate } from "react-router-dom";
 
 export interface ISignUpValues {
     email: string;
@@ -16,10 +18,24 @@ export interface ISignUpValues {
 }
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const signUpMessage = useSelector((state: any) => state.signUpMessage)
+    const isSignUpError = useSelector((state: any) => state.isSignUpError)
+    const setSignUpMessage = () => {
+        console.log('Clear message');
+    }
     return (
         <div className={s.signout__container}>
             <div className={s.background__circle}></div>
+            {signUpMessage.length
+                ? <div className={s.message}>
+                    <h3 className={s.message__header}>Succses!</h3>
+                    <span>Your account has been created</span>
+                    <img className={s.message__icon} src={icon} alt="img" />
+                    <Link onClick={setSignUpMessage} className={s.message__btn} to="/auth">Continue</Link>
+                </div>
+                : null}
             <div className={s.signout} >
                 <div className={s.signout__avatar} >
                     <img className={s.signout__avatar__img} src={userAvatar} />

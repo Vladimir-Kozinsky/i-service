@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import userAPI from '../../API/userAPI';
-import { IAuthValues } from '../../components/Auth/Auth';
 import { ISignUpValues } from '../../components/SignUp/SignUp';
 
 interface IUser {
@@ -17,6 +16,7 @@ interface IAuthState {
     isAuth: boolean;
     isAuthError: boolean;
     signUpMessage: string;
+    isSignUpError: boolean;
 }
 
 const initialState: IAuthState = {
@@ -30,7 +30,8 @@ const initialState: IAuthState = {
     },
     isAuth: false,
     isAuthError: false,
-    signUpMessage: ''
+    signUpMessage: '',
+    isSignUpError: false
 }
 
 const authSlice = createSlice({
@@ -45,11 +46,12 @@ const authSlice = createSlice({
         })
         builder.addCase(signIn.rejected, (state, action) => {
             state.isAuthError = true;
-            console.log(state.isAuthError);
         })
         builder.addCase(signUp.fulfilled, (state, action) => {
-            console.log(action.payload);
             state.signUpMessage = action.payload;
+        })
+        builder.addCase(signUp.rejected, (state, action) => {
+            state.isSignUpError = true;
         })
     },
 })
@@ -65,8 +67,8 @@ export const signIn = createAsyncThunk(
 export const signUp = createAsyncThunk(
     'auth/signUp',
     async ({ email, password, firstName, lastName, position }: ISignUpValues, thunkAPI) => {
-       // const response = await userAPI.signUp(email, password, firstName, lastName, position);
-        return 'Account succesfully created';
+        const response = await userAPI.signUp(email, password, firstName, lastName, position);
+        return response.data.message
     }
 )
 

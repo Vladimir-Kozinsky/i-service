@@ -6,7 +6,7 @@ import Input from '../../common/Input';
 import s from './Auth.module.scss';
 import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export interface IAuthValues {
     email: string;
@@ -16,6 +16,7 @@ export interface IAuthValues {
 type MyProps = {
     signIn: ({ email, password }: IAuthValues) => void;
     isAuthError: boolean;
+    isAuth: boolean;
 }
 
 class Auth extends React.Component<MyProps> {
@@ -24,6 +25,7 @@ class Auth extends React.Component<MyProps> {
     }
     constructor(props: any) {
         super(props);
+
         this.state = {
             isAuthError: false
         }
@@ -45,6 +47,7 @@ class Auth extends React.Component<MyProps> {
     render(): React.ReactNode {
         return (
             <div className={s.auth__container}>
+                {this.props.isAuth ? <Navigate to="/dashboard" replace={true} /> : null}
                 <div className={s.background__circle}></div>
                 <div className={s.auth}>
                     <h4 className={classNames(s.auth__header, s.auth__header__welcome)}>Welcome back!</h4>
@@ -79,7 +82,8 @@ class Auth extends React.Component<MyProps> {
 
 const mapStateToProps = (state: any) => {
     return {
-        isAuthError: state.isAuthError
+        isAuthError: state.isAuthError,
+        isAuth: state.isAuth
     }
 }
 
