@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
+
+.signout__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Manrope";
+}
+
+.background__circle {
+    background-color: #1c3d5b;
+    width: 1200px;
+    height: 1200px;
+    border-radius: 1000px;
+    position: absolute;
+    top: -600px;
+    right: -600px;
+}
+
+.signout {
+    border: #0a2640 2px solid;
+    background-color: #ffffff;
+    border-radius: 25px;
+    min-height: 670px;
+    width: 420px;
+    position: relative;
+    top: 50%;
+    margin: -335px auto;
+    padding-bottom: 15px;
+}
+
+.signout__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    border: 5px solid #1c3d5b;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    margin: 30px auto 0;
+
+    .signout__avatar__img {
+        width: 130%;
+        position: absolute;
+        left: -15px;
+    }
+}
+
+.signout__header {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 10px;
+    font-family: Manrope;
+    font-weight: 700;
+}
+
+.auth__form__link {
+    position: relative;
+    margin: 10px auto;
+    height: 65px;
+    width: 235px;
+
+    label {
+        margin-left: 20px;
+        font-family: Manrope;
+        color: #1c3d5b;
+    }
+}
+
+.auth__form__btns {
+    margin: 25px auto 0;
+    width: 270px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.message {
+    background-color: #ffffff;
+    width: 300px;
+    height: 400px;
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -200px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: #0a2640 1px solid;
+}
+
+.message__header {
+    margin-top: 30px;
+    font-family: Manrope;
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.message__icon {
+    width: 200px;
+}
+
+.message__btn {
+    margin-top: 20px;
+    text-decoration: none;
+
+    background-color: #ffffff;
+    border-radius: 24px;
+    height: 38px;
+    width: 120px;
+    color: #0a2640;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s;
+    background-color: #65e4a3;
+    border: #65e4a3 2px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-color: #ffffff;
+        border: #0a2640 2px solid;
+        cursor: pointer;
+    }
+}
+
+.error_message {
+    position: relative;
+    z-index: 10;
+    top: 5px;
+    color: rgb(180, 0, 0);
+    margin-left: 60px;
+    width: 300px;
+    height: 25px;
+    display: flex;
+    font-size: 14px;
+    font-family: Manrope;
+    justify-content: center;
+    align-items: center;
+    color: rgb(180, 0, 0);
+    border-radius: 24px;
+    background-color: rgb(255, 0, 0, 0.1);
+}
