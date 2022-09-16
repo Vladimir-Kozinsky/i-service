@@ -5,9 +5,9 @@ import { Form, Formik, FormikHelpers } from 'formik';
 import Input from '../../common/Input';
 import Button from '../../common/buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn, signUp } from '../../store/reducers/authReducer';
+import { clearSignUpErrorMessage, clearSignUpMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export interface ISignUpValues {
     email: string;
@@ -18,12 +18,12 @@ export interface ISignUpValues {
 }
 
 const SignUp = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const signUpMessage = useSelector((state: any) => state.signUpMessage)
     const isSignUpError = useSelector((state: any) => state.isSignUpError)
+    const signUpErrorMessage = useSelector((state: any) => state.signUpErrorMessage)
     const setSignUpMessage = () => {
-        console.log('Clear message');
+        dispatch(clearSignUpMessage());
     }
     return (
         <div className={s.signout__container}>
@@ -54,6 +54,7 @@ const SignUp = () => {
                         { setSubmitting }: FormikHelpers<ISignUpValues>
                     ) => {
                         dispatch(signUp(values));
+                        dispatch(clearSignUpErrorMessage());
                     }}
                 >
                     <Form className={s.auth__form}>
@@ -78,7 +79,7 @@ const SignUp = () => {
                             <Input type="text" id="position" name="position" placeholder="Position" />
                         </div>
                         {isSignUpError
-                            ? <span></span>
+                            ? <span className={s.error_message}>{'* ' + signUpErrorMessage}</span>
                             : null}
                         <div className={s.auth__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" />

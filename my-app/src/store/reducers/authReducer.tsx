@@ -39,7 +39,15 @@ const initialState: IAuthState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        clearSignUpMessage(state) {
+            state.signUpMessage = '';
+        },
+        clearSignUpErrorMessage(state) {
+            state.signUpErrorMessage = '';
+            state.isSignUpError = false;
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(signIn.fulfilled, (state, action: PayloadAction<IUser>) => {
             state.user = action.payload;
@@ -79,4 +87,5 @@ export const signUp = createAsyncThunk(
     }
 )
 
+export const { clearSignUpMessage, clearSignUpErrorMessage } = authSlice.actions
 export default authSlice.reducer;
