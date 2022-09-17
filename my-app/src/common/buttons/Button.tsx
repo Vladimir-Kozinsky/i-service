@@ -4,7 +4,7 @@ import s from "./Button.module.scss"
 
 type ButtonProps = {
     text: string;
-    color: string;
+    color: "white" | "green" | "white__dark";
     btnType: "button" | "submit" | "reset";
     handler?: () => void;
 }
