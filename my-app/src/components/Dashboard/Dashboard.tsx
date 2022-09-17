@@ -2,13 +2,14 @@ import Button from '../../common/buttons/Button';
 import s from './Dashboard.module.scss';
 import logo from './../../assets/img/png/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.user);
+    const isAuth = useSelector((state: any) => state.isAuth)
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const logout = () => {
@@ -25,13 +26,14 @@ const Dashboard = () => {
     const aircraftsWidgets = () => {
         return aircraftsArr.map(() => {
             return (
-                <AircraftWidget  />
+                <AircraftWidget />
             )
         })
     }
 
     return (
         <div className={s.dashboard}>
+            {!isAuth ? <Navigate to="/auth" replace={true} /> : null}
             <div className={s.background__circle}></div>
             <div className={s.dashboard__container}>
                 <div className={s.header}>
