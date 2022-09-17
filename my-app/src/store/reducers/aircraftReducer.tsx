@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import aircraftAPI from "../../API/aircraftAPI";
 import userAPI from "../../API/userAPI";
 
 interface IEngine {
@@ -57,19 +58,24 @@ const aircraftSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(addAircraft.fulfilled, (state, action) => {
-
+            state.addAicraftMessage = action.payload;
         })
-        // builder.addCase(signIn.rejected, (state, action) => {
-        //     state.isAuthError = true;
-        // })
+        builder.addCase(addAircraft.rejected, (state, action) => {
+            state.addAicraftErrorMessage = action.payload as string;
+        })
+
     },
 })
 
 export const addAircraft = createAsyncThunk(
     'aircraft/addAircraft',
-    async ({ email, password }: { email: string, password: string }, thunkAPI) => {
-        const response = await userAPI.signIn(email, password);
-        return response.data;
+    async (aircraftData: any, thunkAPI) => {
+        try {
+            const response = await aircraftAPI.addAircraft(aircraftData);
+            return response.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.statusText)
+        }
     }
 )
 
