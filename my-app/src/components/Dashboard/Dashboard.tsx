@@ -8,8 +8,8 @@ import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 
 const Dashboard = () => {
-    const user = useSelector((state: any) => state.user);
-    const isAuth = useSelector((state: any) => state.isAuth)
+    const user = useSelector((state: any) => state.auth.user);
+    const isAuth = useSelector((state: any) => state.auth.isAuth)
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const logout = () => {

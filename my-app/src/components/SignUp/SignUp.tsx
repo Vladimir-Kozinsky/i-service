@@ -21,10 +21,10 @@ export interface ISignUpValues {
 const SignUp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const isAuth = useSelector((state: any) => state.isAuth)
-    const signUpMessage = useSelector((state: any) => state.signUpMessage)
-    const isSignUpError = useSelector((state: any) => state.isSignUpError)
-    const signUpErrorMessage = useSelector((state: any) => state.signUpErrorMessage)
+    const isAuth = useSelector((state: any) => state.auth.isAuth)
+    const signUpMessage = useSelector((state: any) => state.auth.signUpMessage)
+    const isSignUpError = useSelector((state: any) => state.auth.isSignUpError)
+    const signUpErrorMessage = useSelector((state: any) => state.auth.signUpErrorMessage)
     const setSignUpMessage = () => {
         dispatch(clearSignUpMessage());
     }
