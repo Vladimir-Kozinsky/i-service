@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { signOut } from '../../store/reducers/authReducer';
+import AircraftWidget from './AircraftWidget/AircraftWidget';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.user);
@@ -14,6 +15,21 @@ const Dashboard = () => {
         dispatch(signOut());
         navigate('/auth');
     }
+    const aircraftsArr = [
+        { _id: 'dsfsdf', msn: '25899' },
+        { _id: 'dsfsdf', msn: '25900' },
+        { _id: 'dsfsdf', msn: '25991' },
+        { _id: 'dsfsdf', msn: '25999' },
+    ]
+
+    const aircraftsWidgets = () => {
+        return aircraftsArr.map(() => {
+            return (
+                <AircraftWidget  />
+            )
+        })
+    }
+
     return (
         <div className={s.dashboard}>
             <div className={s.background__circle}></div>
@@ -25,6 +41,12 @@ const Dashboard = () => {
                     <div className={s.header__nav} >
                         <span>{`${user.firstName} ${user.lastName}`}</span>
                         <Button text='Log Out' color='white__dark' btnType='button' handler={logout} />
+                    </div>
+                </div>
+                <div className={s.main}>
+                    <div className={s.main__aircrafts} >
+                        {aircraftsWidgets()}
+                        <AircraftWidget type='new' />
                     </div>
                 </div>
             </div>
