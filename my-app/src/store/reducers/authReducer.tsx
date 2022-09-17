@@ -46,10 +46,21 @@ const authSlice = createSlice({
         clearSignUpErrorMessage(state) {
             state.signUpErrorMessage = '';
             state.isSignUpError = false;
+        },
+        signOut(state) {
+            state.isAuth = false;
+            state.user = {
+                _id: null,
+                email: null,
+                password: null,
+                firstName: null,
+                lastName: null,
+                position: null,
+            }
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(signIn.fulfilled, (state, action: PayloadAction<IUser>) => {
+        builder.addCase(signIn.fulfilled, (state: IAuthState, action: PayloadAction<IUser>) => {
             state.user = action.payload;
             state.isAuth = true;
             state.isAuthError = false;
@@ -71,7 +82,7 @@ export const signIn = createAsyncThunk(
     'auth/signIn',
     async ({ email, password }: { email: string, password: string }, thunkAPI) => {
         const response = await userAPI.signIn(email, password);
-        return response.data;
+        return response.data.user;
     }
 )
 
@@ -87,5 +98,5 @@ export const signUp = createAsyncThunk(
     }
 )
 
-export const { clearSignUpMessage, clearSignUpErrorMessage } = authSlice.actions
+export const { clearSignUpMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
 export default authSlice.reducer;

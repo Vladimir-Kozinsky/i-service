@@ -82,8 +82,8 @@ class Auth extends React.Component<MyProps> {
 
 const mapStateToProps = (state: any) => {
     return {
-        isAuthError: state.isAuthError,
-        isAuth: state.isAuth
+        isAuthError: state.auth.isAuthError,
+        isAuth: state.auth.isAuth
     }
 }
 

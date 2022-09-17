@@ -10,10 +10,12 @@
     font-weight: 700;
     border: none;
     transition: all 0.3s;
+
     //  border: #0a2640 2px solid;
     &:hover {
         cursor: pointer;
     }
+
     &.button__green {
         background-color: #65e4a3;
         border: #65e4a3 2px solid;
@@ -23,12 +25,23 @@
             border: #0a2640 2px solid;
         }
     }
+
     &.button__white {
         border: #0a2640 2px solid;
+
         &:hover {
             background-color: #0a2640;
             border: #0a2640 2px solid;
             color: #ffffff;
+        }
+    }
+
+    &.button__white__dark {
+        border: none;
+        height: 34px;
+
+        &:hover {
+            background-color: #65e4a3;
         }
     }
 }
