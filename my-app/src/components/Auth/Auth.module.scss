@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
 
 .auth__container {
     position: relative;
@@ -8,15 +8,13 @@
 }
 
 .background__circle {
-    background-color: #1C3D5B;
+    background-color: #1c3d5b;
     width: 1200px;
     height: 1200px;
     border-radius: 1000px;
     position: absolute;
     top: -600px;
     right: -600px;
-
-
 }
 
 .auth {
