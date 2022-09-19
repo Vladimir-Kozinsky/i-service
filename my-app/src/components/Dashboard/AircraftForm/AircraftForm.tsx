@@ -106,8 +106,17 @@ const AircraftForm = () => {
                         { setSubmitting }: FormikHelpers<any>
                     ) => {
                         const payload = {
-                            ...values,
-                            type: selectedOption
+                            type: selectedOption,
+                            msn: values.msn,
+                            fh: values.fh,
+                            fc: values.fc,
+                            engines: [
+                                { pos: '1', msn: values.eng1 },
+                                { pos: '2', msn: values.eng2 },
+                                { pos: '3', msn: values.eng3 },
+                                { pos: '4', msn: values.eng4 },
+                            ],
+                            legs: []
                         }
                         dispatch(addAircraft(payload));
                     }}
