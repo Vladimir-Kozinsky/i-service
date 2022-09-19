@@ -10,10 +10,10 @@ router.post('/aircraft/add', async (req, res) => {
         if (aircraft) {
             throw new Error("An aircraft with this msn already exists.");
         } else {
-            const newAircraft = await User.create(newAircraftData);
+            const newAircraft = await Aircraft.create(newAircraftData);
             if (!newAircraft) throw new Error(`Aircraft has not been added`);
 
-            if (!newUser) throw new Error(`Account has not been created`);
+            if (!newAircraft) throw new Error(`Account has not been created`);
 
             res.statusMessage = "Aircraft successfully added";
             res.json({ message: "Aircraft successfully added" });
@@ -57,7 +57,5 @@ router.get('/aircraft', async (req, res) => {
         res.json({ message: error.message })
     }
 })
-
-
 
 export default router;
