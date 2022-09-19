@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routers/Auth.js';
+import Aircraftrouter from './routers/Aircraft.js';
 import cors from 'cors';
 
 const PORT = 5000;
@@ -11,6 +12,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use('', router);
+app.use('', Aircraftrouter);
 
 mongoose.connect(URI, {
     useNewUrlParser: true,
