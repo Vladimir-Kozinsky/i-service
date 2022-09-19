@@ -25,4 +25,39 @@ router.post('/aircraft/add', async (req, res) => {
     }
 })
 
+router.get('/aircrafts', async (req, res) => {
+    try {
+        const aircrafts = await Aircraft.find().exec();
+        if (!aircrafts.length) {
+            throw new Error("Aircrafts were not found");
+        } else {
+            res.statusMessage = "Aircrafs were found";
+            res.json(aircrafts);
+        }
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+router.get('/aircraft', async (req, res) => {
+    try {
+        const { msn } = req.query
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        if (!aircraft) {
+            throw new Error("Aircraft was not found");
+        } else {
+            res.statusMessage = "Aircrafs was found";
+            res.json(aircraft);
+        }
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+
+
 export default router;
