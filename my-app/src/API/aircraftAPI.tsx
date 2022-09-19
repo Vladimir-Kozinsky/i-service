@@ -6,8 +6,10 @@ const proxy = axios.create({
 
 const aircraftAPI = {
     async addAircraft(aircraftData: any) {
-        const response = await proxy.post('/aircraft/add', aircraftData);
-        return response;
+        console.log(aircraftData)
+        // const response = await proxy.post('/aircraft/add', aircraftData);
+        // return response;
+        return { data: 'succes aded' }
     },
 }
 

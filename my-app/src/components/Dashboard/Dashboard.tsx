@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
+import { addAircraft } from '../../store/reducers/aircraftReducer';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.auth.user);
@@ -48,7 +49,7 @@ const Dashboard = () => {
                 <div className={s.main}>
                     <div className={s.main__aircrafts} >
                         {aircraftsWidgets()}
-                        <AircraftWidget type='new' />
+                        <AircraftWidget type='new' handler={() => navigate("/aircraft/add")} />
                     </div>
                 </div>
             </div>
