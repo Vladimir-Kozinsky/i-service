@@ -35,7 +35,6 @@ const options = [
     { value: 'Boeing 747-200', label: 'Boeing 747-200' },
     { value: 'Boeing 747-400', label: 'Boeing 747-400' },
     { value: 'Boeing 757-200', label: 'Boeing 757-200' }
-
 ]
 
 const AircraftForm = () => {
