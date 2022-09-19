@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import userAPI from '../../API/userAPI';
+import { ISignUpValues } from '../../components/SignUp/SignUp';
 
 interface IUser {
-    id: string | null,
+    _id: string | null,
     email: string | null,
     password: string | null;
     firstName: string | null;
@@ -11,27 +12,68 @@ interface IUser {
 }
 
 interface IAuthState {
-    user: IUser
+    user: IUser;
+    isAuth: boolean;
+    isAuthError: boolean;
+    signUpMessage: string;
+    isSignUpError: boolean;
+    signUpErrorMessage: string;
 }
 
 const initialState: IAuthState = {
     user: {
-        id: null,
+        _id: null,
         email: null,
         password: null,
         firstName: null,
         lastName: null,
         position: null,
-    }
+    },
+    isAuth: false,
+    isAuthError: false,
+    signUpMessage: '',
+    isSignUpError: false,
+    signUpErrorMessage: ''
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        clearSignUpMessage(state) {
+            state.signUpMessage = '';
+        },
+        clearSignUpErrorMessage(state) {
+            state.signUpErrorMessage = '';
+            state.isSignUpError = false;
+        },
+        signOut(state) {
+            state.isAuth = false;
+            state.user = {
+                _id: null,
+                email: null,
+                password: null,
+                firstName: null,
+                lastName: null,
+                position: null,
+            }
+        }
+    },
     extraReducers: (builder) => {
-        builder.addCase(signIn.fulfilled, (state, action) => {
+        builder.addCase(signIn.fulfilled, (state: IAuthState, action: PayloadAction<IUser>) => {
             state.user = action.payload;
+            state.isAuth = true;
+            state.isAuthError = false;
+        })
+        builder.addCase(signIn.rejected, (state, action) => {
+            state.isAuthError = true;
+        })
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            state.signUpMessage = action.payload;
+        })
+        builder.addCase(signUp.rejected, (state, action) => {
+            state.isSignUpError = true;
+            state.signUpErrorMessage = action.payload as string
         })
     },
 })
@@ -40,8 +82,21 @@ export const signIn = createAsyncThunk(
     'auth/signIn',
     async ({ email, password }: { email: string, password: string }, thunkAPI) => {
         const response = await userAPI.signIn(email, password);
-        return response.data
+        return response.data.user;
     }
 )
 
-export default authSlice.reducer
+export const signUp = createAsyncThunk(
+    'auth/signUp',
+    async ({ email, password, firstName, lastName, position }: ISignUpValues, thunkAPI) => {
+        try {
+            const response = await userAPI.signUp(email, password, firstName, lastName, position);
+            return response.data.message
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.statusText)
+        }
+    }
+)
+
+export const { clearSignUpMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
+export default authSlice.reducer;
