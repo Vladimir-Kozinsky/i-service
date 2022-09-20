@@ -9,6 +9,8 @@ import s from './AircraftForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addAircraft } from '../../../store/reducers/aircraftReducer';
+import { compose } from 'redux';
+import withSuccessMessage from '../../HOC/messageHoc';
 
 interface IAircraftFormValues {
     type: string;
@@ -110,6 +112,7 @@ const AircraftForm = () => {
                             msn: values.msn,
                             fh: values.fh,
                             fc: values.fc,
+                            apu: values.apu,
                             engines: [
                                 { pos: '1', msn: values.eng1 },
                                 { pos: '2', msn: values.eng2 },
@@ -182,4 +185,4 @@ const AircraftForm = () => {
     )
 }
 
-export default AircraftForm;
+export default compose(withSuccessMessage)(AircraftForm);

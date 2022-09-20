@@ -11,6 +11,7 @@ const aircraftSchema = new mongoose.Schema({
             msn: { type: String }
         }
     ],
+    apu: { type: String },
     legs: [
         {
             depDate: { type: String },
