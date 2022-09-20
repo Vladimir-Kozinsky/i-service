@@ -3,14 +3,15 @@ import mongoose from 'mongoose';
 const aircraftSchema = new mongoose.Schema({
     type: { type: String },
     msn: { type: String },
-    FH: { type: String },
-    FC: { type: String },
+    fh: { type: String },
+    fc: { type: String },
     engines: [
         {
             pos: { type: String },
             msn: { type: String }
         }
     ],
+    apu: { type: String },
     legs: [
         {
             depDate: { type: String },

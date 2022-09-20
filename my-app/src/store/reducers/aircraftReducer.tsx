@@ -39,6 +39,7 @@ interface IAircraftState {
     choosedAircraft: string;
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
+    isSuccessMessage: boolean;
 }
 
 const initialState = {
@@ -46,19 +47,21 @@ const initialState = {
     choosedAircraft: null,
     addAicraftMessage: '',
     addAicraftErrorMessage: '',
+    isSuccessMessage: false,
 }
 
 const aircraftSlice = createSlice({
     name: 'aircraft',
     initialState,
     reducers: {
-        // clearSignUpMessage(state) {
-        //     state.signUpMessage = '';
-        // },
+        hideSuccessMessage(state) {
+            state.isSuccessMessage = false;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(addAircraft.fulfilled, (state, action) => {
             state.addAicraftMessage = action.payload;
+            state.isSuccessMessage = true;
         })
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
@@ -79,4 +82,5 @@ export const addAircraft = createAsyncThunk(
     }
 )
 
+export const { hideSuccessMessage } = aircraftSlice.actions
 export default aircraftSlice.reducer;

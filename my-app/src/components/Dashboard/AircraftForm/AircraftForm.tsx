@@ -9,6 +9,8 @@ import s from './AircraftForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addAircraft } from '../../../store/reducers/aircraftReducer';
+import { compose } from 'redux';
+import withSuccessMessage from '../../HOC/messageHoc';
 
 interface IAircraftFormValues {
     type: string;
@@ -106,8 +108,18 @@ const AircraftForm = () => {
                         { setSubmitting }: FormikHelpers<any>
                     ) => {
                         const payload = {
-                            ...values,
-                            type: selectedOption
+                            type: selectedOption,
+                            msn: values.msn,
+                            fh: values.fh,
+                            fc: values.fc,
+                            apu: values.apu,
+                            engines: [
+                                { pos: '1', msn: values.eng1 },
+                                { pos: '2', msn: values.eng2 },
+                                { pos: '3', msn: values.eng3 },
+                                { pos: '4', msn: values.eng4 },
+                            ],
+                            legs: []
                         }
                         dispatch(addAircraft(payload));
                     }}
@@ -173,4 +185,4 @@ const AircraftForm = () => {
     )
 }
 
-export default AircraftForm;
+export default compose(withSuccessMessage)(AircraftForm);

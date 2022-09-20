@@ -1,14 +1,15 @@
 import s from './SignUp.module.scss';
 import userAvatar from '../../assets/img/png/user-avatar.png'
-import icon from '../../assets/img/png/success-icon.png'
 import { Form, Formik, FormikHelpers } from 'formik';
 import Input from '../../common/Input';
 import Button from '../../common/buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSignUpErrorMessage, clearSignUpMessage, signUp } from '../../store/reducers/authReducer';
+import { clearSignUpErrorMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import ErrorMessage from '../../common/messages/ErrorMessage';
+import { compose } from 'redux';
+import withSuccessMessage from '../HOC/messageHoc';
 
 export interface ISignUpValues {
     email: string;
@@ -22,24 +23,12 @@ const SignUp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const isAuth = useSelector((state: any) => state.auth.isAuth)
-    const signUpMessage = useSelector((state: any) => state.auth.signUpMessage)
     const isSignUpError = useSelector((state: any) => state.auth.isSignUpError)
     const signUpErrorMessage = useSelector((state: any) => state.auth.signUpErrorMessage)
-    const setSignUpMessage = () => {
-        dispatch(clearSignUpMessage());
-    }
     return (
         <div className={s.signout__container}>
             {isAuth ? <Navigate to="/dashboard" replace={true} /> : null}
             <div className={s.background__circle}></div>
-            {signUpMessage.length
-                ? <div className={s.message}>
-                    <h3 className={s.message__header}>Succses!</h3>
-                    <span>Your account has been created</span>
-                    <img className={s.message__icon} src={icon} alt="img" />
-                    <Link onClick={setSignUpMessage} className={s.message__btn} to="/auth">Continue</Link>
-                </div>
-                : null}
             <div className={s.signout} >
                 <div className={s.signout__avatar} >
                     <img className={s.signout__avatar__img} src={userAvatar} />
@@ -125,4 +114,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp;
+export default compose(withSuccessMessage)(SignUp);

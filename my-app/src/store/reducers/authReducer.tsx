@@ -15,7 +15,7 @@ interface IAuthState {
     user: IUser;
     isAuth: boolean;
     isAuthError: boolean;
-    signUpMessage: string;
+    isSuccessMessage: boolean;
     isSignUpError: boolean;
     signUpErrorMessage: string;
 }
@@ -31,7 +31,7 @@ const initialState: IAuthState = {
     },
     isAuth: false,
     isAuthError: false,
-    signUpMessage: '',
+    isSuccessMessage: false,
     isSignUpError: false,
     signUpErrorMessage: ''
 }
@@ -40,8 +40,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        clearSignUpMessage(state) {
-            state.signUpMessage = '';
+        hideSuccessMessage(state) {
+            state.isSuccessMessage = false;
         },
         clearSignUpErrorMessage(state) {
             state.signUpErrorMessage = '';
@@ -69,7 +69,7 @@ const authSlice = createSlice({
             state.isAuthError = true;
         })
         builder.addCase(signUp.fulfilled, (state, action) => {
-            state.signUpMessage = action.payload;
+            state.isSuccessMessage = true;
         })
         builder.addCase(signUp.rejected, (state, action) => {
             state.isSignUpError = true;
@@ -98,5 +98,5 @@ export const signUp = createAsyncThunk(
     }
 )
 
-export const { clearSignUpMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
+export const { hideSuccessMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
 export default authSlice.reducer;
