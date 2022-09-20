@@ -6,7 +6,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
-import { addAircraft } from '../../store/reducers/aircraftReducer';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../HOC/withAuthRedirect';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.auth.user);
@@ -34,7 +35,6 @@ const Dashboard = () => {
 
     return (
         <div className={s.dashboard}>
-            {!isAuth ? <Navigate to="/auth" replace={true} /> : null}
             <div className={s.background__circle}></div>
             <div className={s.dashboard__container}>
                 <div className={s.header}>
@@ -57,4 +57,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+export default compose(withAuthRedirect)(Dashboard);

@@ -11,7 +11,7 @@ interface IUser {
     position: string | null;
 }
 
-interface IAuthState {
+export interface IAuthState {
     user: IUser;
     isAuth: boolean;
     isAuthError: boolean;

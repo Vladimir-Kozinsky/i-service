@@ -3,7 +3,7 @@ import { redirect, useNavigate } from 'react-router-dom';
 import Button from '../../../common/buttons/Button';
 import Input from '../../../common/Input';
 import ErrorMessage from '../../../common/messages/ErrorMessage';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Select, { ActionMeta } from 'react-select'
 import s from './AircraftForm.module.scss';
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import { AppDispatch } from '../../../store/store';
 import { addAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
+import { withAuthRedirect } from '../../HOC/withAuthRedirect';
 
 interface IAircraftFormValues {
     type: string;
@@ -185,4 +186,4 @@ const AircraftForm = () => {
     )
 }
 
-export default compose(withSuccessMessage)(AircraftForm);
+export default compose(withSuccessMessage, withAuthRedirect)(AircraftForm);

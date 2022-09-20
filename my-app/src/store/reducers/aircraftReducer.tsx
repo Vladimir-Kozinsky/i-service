@@ -34,7 +34,7 @@ interface IAircraft {
     legs: ILeg[];
 }
 
-interface IAircraftState {
+export interface IAircraftState {
     aircrafts: IAircraft[];
     choosedAircraft: string;
     addAicraftMessage: string;
