@@ -24,7 +24,7 @@ interface ILeg {
     fc: string;
 }
 
-interface IAircraft {
+export interface IAircraft {
     _id: string;
     type: string;
     msn: string;

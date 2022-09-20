@@ -8,6 +8,7 @@ import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../HOC/withAuthRedirect';
+import { IAircraft } from '../../store/reducers/aircraftReducer';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.auth.user);
@@ -19,16 +20,58 @@ const Dashboard = () => {
         navigate('/auth');
     }
     const aircraftsArr = [
-        { _id: 'dsfsdf', msn: '25899' },
-        { _id: 'dsfsdf', msn: '25900' },
-        { _id: 'dsfsdf', msn: '25991' },
-        { _id: 'dsfsdf', msn: '25999' },
+        {
+            _id: 'sdfsdfsd',
+            type: 'IL-76TD',
+            msn: '23232',
+            FH: '34234',
+            FC: '23434',
+            engines: [
+                { _id: '23ereger', pos: 1, msn: '24234' },
+                { _id: '23ereger', pos: 2, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' }
+
+            ],
+            legs: []
+        },
+        {
+            _id: 'sdfsdfsd',
+            type: 'IL-76T',
+            msn: '23232',
+            FH: '34234',
+            FC: '23434',
+            engines: [
+                { _id: '23ereger', pos: 1, msn: '24234' },
+                { _id: '23ereger', pos: 2, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' }
+
+            ],
+            legs: []
+        },
+        {
+            _id: 'sdfsdfsd',
+            type: 'IL-76TD',
+            msn: '23232',
+            FH: '34234',
+            FC: '23434',
+            engines: [
+                { _id: '23ereger', pos: 1, msn: '24234' },
+                { _id: '23ereger', pos: 2, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' },
+                { _id: '23ereger', pos: 3, msn: '24234' }
+
+            ],
+            legs: []
+        },
+
     ]
 
     const aircraftsWidgets = () => {
-        return aircraftsArr.map(() => {
+        return aircraftsArr.map((aircraft: IAircraft) => {
             return (
-                <AircraftWidget />
+                <AircraftWidget aircraft={aircraft} />
             )
         })
     }
