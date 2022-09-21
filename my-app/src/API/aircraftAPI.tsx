@@ -9,6 +9,11 @@ const aircraftAPI = {
         const response = await proxy.post('/aircraft/add', aircraftData);
         return response;
     },
+
+    async getAircrafts() {
+        const response = await proxy.get('/aircrafts');
+        return response;
+    },
 }
 
 export default aircraftAPI;
