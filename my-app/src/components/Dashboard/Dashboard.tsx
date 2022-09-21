@@ -2,39 +2,42 @@ import Button from '../../common/buttons/Button';
 import s from './Dashboard.module.scss';
 import logo from './../../assets/img/png/logo.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import { signOut } from '../../store/reducers/authReducer';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
-import { addAircraft } from '../../store/reducers/aircraftReducer';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../HOC/withAuthRedirect';
+import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
+import { useEffect } from 'react';
 
 const Dashboard = () => {
     const user = useSelector((state: any) => state.auth.user);
-    const isAuth = useSelector((state: any) => state.auth.isAuth)
-    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(getAircrafts())
+    }, [])
+
+
     const logout = () => {
         dispatch(signOut());
         navigate('/auth');
     }
-    const aircraftsArr = [
-        { _id: 'dsfsdf', msn: '25899' },
-        { _id: 'dsfsdf', msn: '25900' },
-        { _id: 'dsfsdf', msn: '25991' },
-        { _id: 'dsfsdf', msn: '25999' },
-    ]
 
     const aircraftsWidgets = () => {
-        return aircraftsArr.map(() => {
+        if (!aircrafts) return
+        return aircrafts.map((aircraft: IAircraft) => {
             return (
-                <AircraftWidget />
+                <AircraftWidget key={aircraft._id} aircraft={aircraft} />
             )
         })
     }
 
     return (
         <div className={s.dashboard}>
-            {!isAuth ? <Navigate to="/auth" replace={true} /> : null}
             <div className={s.background__circle}></div>
             <div className={s.dashboard__container}>
                 <div className={s.header}>
@@ -57,4 +60,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+export default compose(withAuthRedirect)(Dashboard);

@@ -24,17 +24,17 @@ interface ILeg {
     fc: string;
 }
 
-interface IAircraft {
+export interface IAircraft {
     _id: string;
     type: string;
     msn: string;
     FH: string;
     FC: string;
     engines: IEngine[];
-    legs: ILeg[];
+    apu: string;
 }
 
-interface IAircraftState {
+export interface IAircraftState {
     aircrafts: IAircraft[];
     choosedAircraft: string;
     addAicraftMessage: string;
@@ -66,6 +66,10 @@ const aircraftSlice = createSlice({
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
         })
+        builder.addCase(getAircrafts.fulfilled, (state, action) => {
+            state.aircrafts = action.payload;
+        })
+
 
     },
 })
@@ -78,6 +82,18 @@ export const addAircraft = createAsyncThunk(
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.statusText)
+        }
+    }
+)
+
+export const getAircrafts = createAsyncThunk(
+    'aircraft/getAircrafts',
+    async () => {
+        try {
+            const response = await aircraftAPI.getAircrafts();
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
         }
     }
 )

@@ -7,6 +7,9 @@ import s from './Auth.module.scss';
 import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
+import { compose } from 'redux';
+import { withAuthRedirect } from '../HOC/withAuthRedirect';
+import { withDashboardRedirect } from '../HOC/withDashboardRedirect';
 
 export interface IAuthValues {
     email: string;
@@ -47,7 +50,6 @@ class Auth extends React.Component<MyProps> {
     render(): React.ReactNode {
         return (
             <div className={s.auth__container}>
-                {this.props.isAuth ? <Navigate to="/dashboard" replace={true} /> : null}
                 <div className={s.background__circle}></div>
                 <div className={s.auth}>
                     <h4 className={classNames(s.auth__header, s.auth__header__welcome)}>Welcome back!</h4>
@@ -89,4 +91,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = { signIn };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withDashboardRedirect
+)(Auth);
