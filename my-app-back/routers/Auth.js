@@ -8,6 +8,8 @@ router.post('/auth', async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email: email }).exec();
         if (user && password === user.password) {
+            const update = await User.updateOne({ email: email }, { isAuth: true });
+            if (update.matchedCount) user.isAuth = true;
             res.statusMessage = "User successfully authorised.";
             res.json({ user })
         } else {
@@ -34,6 +36,20 @@ router.post('/signup', async (req, res) => {
         } else {
             throw new Error(`User with ${user.email} already exists`);
         }
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+router.get('/token', async (req, res) => {
+    try {
+        const { id } = req.query;
+        const user = await User.findOne({ _id: id }).exec();
+        if (!user) throw new Error("The user was not found");
+        res.statusMessage = "Request successfully processed";
+        res.json({ isAuth: user.isAuth });
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;
