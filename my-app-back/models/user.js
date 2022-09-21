@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String },
     position: { type: String },
     password: { type: String },
+    isAuth: { type: Boolean }
 })
 
 const User = mongoose.model('User', userSchema)
