@@ -5,7 +5,7 @@
     width: 290px;
     height: 200px;
     padding: 20px;
-    background-color: rgb(255, 255, 255, 0.15);
+    background-color: rgb(255, 255, 255, 0.2);
     border-radius: 15px;
     display: flex;
     transition: all 0.3s;
@@ -24,6 +24,44 @@
         top: 50%;
         margin-top: -90px;
         margin-left: -90px;
+    }
+}
+
+.widget__btns {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+
+    button {
+        position: absolute;
+        background: none;
+        margin: 0;
+        padding: 0;
+        border: none;
+        transition: all 0.3s;
+    }
+
+    .widget__btns__set {
+        top: 7px;
+        left: 290px;
+        width: 30px;
+        &:hover {
+            cursor: pointer;
+            width: 34px;
+            top: 5px;
+            left: 288px;
+        }
+        :active {
+            width: 30px;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .widget__btns__del {
+        left: 60px;
     }
 }
 
@@ -50,15 +88,18 @@
     column-gap: 20px;
     justify-content: center;
 }
+
 .engine {
     height: 45px;
     display: flex;
     align-items: center;
+
     img {
         width: 40px;
         height: 30px;
         opacity: 1;
     }
+
     span {
         color: rgb(255, 255, 255, 0.8);
         font-family: Manrope;
