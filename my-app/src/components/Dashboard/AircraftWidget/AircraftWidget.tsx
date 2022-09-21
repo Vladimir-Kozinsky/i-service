@@ -12,6 +12,12 @@ type propsAircraftWidget = {
 }
 
 const AircraftWidget = ({ handler, type, aircraft }: propsAircraftWidget) => {
+    const cutData = (str: string | undefined) => {
+        if (!str) return 'N/A'
+        if (str.length <= 5) return str;
+        const cutStr = str.slice(str.length - 3, str.length)
+        return `...${cutStr}`;
+    }
     return (
         <div className={s.widget} onClick={handler} >
             {!type ? <img className={s.widget__plane__img} src={plane} alt="plane-icon" /> : <img className={s.widget__cross__img} src={cross} alt="plane-icon" />}
@@ -22,23 +28,23 @@ const AircraftWidget = ({ handler, type, aircraft }: propsAircraftWidget) => {
                     <div className={s.widget__data__engines}>
                         <div className={s.engine}>
                             <img src={engine} alt="engine-icon" />
-                            <span>{`#1: ${aircraft?.engines[0].msn}`}</span>
+                            <span>{`#1: ${cutData(aircraft?.engines[0].msn)}`}</span>
                         </div>
                         <div className={s.engine}>
                             <img src={engine} alt="engine-icon" />
-                            <span>{`#2: ${aircraft?.engines[1].msn}`}</span>
+                            <span>{`#2: ${cutData(aircraft?.engines[1].msn)}`}</span>
                         </div>
                         <div className={s.engine}>
                             <img src={engine} alt="engine-icon" />
-                            <span>{`#3: ${aircraft?.engines[2].msn}`}</span>
+                            <span>{`#3: ${cutData(aircraft?.engines[2].msn)}`}</span>
                         </div>
                         <div className={s.engine}>
                             <img src={engine} alt="engine-icon" />
-                            <span>{`#4: ${aircraft?.engines[3].msn}`}</span>
+                            <span>{`#4: ${cutData(aircraft?.engines[3].msn)}`}</span>
                         </div>
                         <div className={s.engine}>
                             <img src={apu} alt="engine-icon" />
-                            <span>{"#4: 25096"}</span>
+                            <span>{`APU: ${cutData(aircraft?.apu)}`}</span>
                         </div>
                     </div >
                 </div>
