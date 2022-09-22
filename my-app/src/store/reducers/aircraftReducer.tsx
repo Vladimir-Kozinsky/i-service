@@ -28,8 +28,8 @@ export interface IAircraft {
     _id: string;
     type: string;
     msn: string;
-    FH: string;
-    FC: string;
+    fh: string;
+    fc: string;
     engines: IEngine[];
     apu: string;
 }
