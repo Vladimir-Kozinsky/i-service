@@ -1,30 +1,37 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { IAircraftState } from "../../store/reducers/aircraftReducer";
-import { IAuthState } from "../../store/reducers/authReducer";
+import { checkAuth, IAuthState } from "../../store/reducers/authReducer";
 
 type MyProps = {
     isAuth: boolean;
+    checkAuth: (id: string) => void
+    id: string | null
 }
 interface IState {
     auth: IAuthState;
-    aircraftL: IAircraftState
 }
 
 const mapStateToProps = (state: IState) => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        id: state.auth.user._id
     }
 }
 
 export const withAuthRedirect = (Component: any) => {
     class RedirectComponent extends React.Component<MyProps> {
+        componentDidMount(): void {
+            if (this.props.id) {
+                this.props.checkAuth(this.props.id)
+            }
+        }
         render() {
             if (!this.props.isAuth) return <Navigate to="/auth" replace={true} />
             return <Component {...this.props} />
         }
     }
-    let ConnectedAuthRedirectComponent = connect(mapStateToProps)(RedirectComponent);
+    const mapDispatchToProps = { checkAuth };
+    let ConnectedAuthRedirectComponent = connect(mapStateToProps, mapDispatchToProps)(RedirectComponent);
     return ConnectedAuthRedirectComponent
 }

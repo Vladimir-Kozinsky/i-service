@@ -75,6 +75,9 @@ const authSlice = createSlice({
             state.isSignUpError = true;
             state.signUpErrorMessage = action.payload as string
         })
+        builder.addCase(checkAuth.fulfilled, (state, action) => {
+            state.isAuth = action.payload;
+        })
     },
 })
 
@@ -95,6 +98,13 @@ export const signUp = createAsyncThunk(
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.statusText)
         }
+    }
+)
+export const checkAuth = createAsyncThunk(
+    'auth/checkAuth',
+    async (id: string) => {
+        const response = await userAPI.isAuth(id);
+        return response.data.isAuth
     }
 )
 
