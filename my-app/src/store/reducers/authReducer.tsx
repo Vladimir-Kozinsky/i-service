@@ -40,7 +40,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        hideSuccessMessage(state) {
+        hideAuthSuccessMessage(state) {
             state.isSuccessMessage = false;
         },
         clearSignUpErrorMessage(state) {
@@ -108,5 +108,5 @@ export const checkAuth = createAsyncThunk(
     }
 )
 
-export const { hideSuccessMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
+export const { hideAuthSuccessMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
 export default authSlice.reducer;
