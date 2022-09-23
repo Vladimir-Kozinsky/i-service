@@ -69,8 +69,9 @@ const aircraftSlice = createSlice({
         builder.addCase(getAircrafts.fulfilled, (state, action) => {
             state.aircrafts = action.payload;
         })
-
-
+        builder.addCase(updateAircraft.fulfilled, (state, action) => {
+            console.log("aircraft updated")
+        })
     },
 })
 
@@ -91,6 +92,17 @@ export const getAircrafts = createAsyncThunk(
     async () => {
         try {
             const response = await aircraftAPI.getAircrafts();
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+export const updateAircraft = createAsyncThunk(
+    'aircraft/updateAircraft',
+    async (aircraftData: any) => {
+        try {
+            const response = await aircraftAPI.updateAircraft(aircraftData);
             return response.data;
         } catch (error: any) {
             console.log(error)

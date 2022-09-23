@@ -29,7 +29,9 @@ router.post('/aircraft/edit', async (req, res) => {
     try {
         const { id, msn, fh, fc, eng1, eng2, eng3, eng4, apu } = req.body;
 
-        const update = await Aircraft.updateOne({ id: id }, {
+        console.log(id);
+
+        const update = await Aircraft.updateOne({ _id: id }, {
             msn: msn,
             fh: fh,
             fc: fc,

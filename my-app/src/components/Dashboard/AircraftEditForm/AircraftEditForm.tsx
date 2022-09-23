@@ -7,7 +7,7 @@ import Select, { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { addAircraft, IAircraft } from '../../../store/reducers/aircraftReducer';
+import { addAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { connect } from 'http2';
 import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
@@ -122,6 +122,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
                     const payload = {
+                        id: aircraft._id,
                         type: selectedOption,
                         msn: values.msn,
                         fh: values.fh,
@@ -135,8 +136,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         ],
                         legs: []
                     }
-                    // dispatch(addAircraft(payload));
-                    console.log(payload)
+                    dispatch(updateAircraft(payload));
                 }}
             >
                 {({ errors, touched }) => (
