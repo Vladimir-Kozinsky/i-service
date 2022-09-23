@@ -12,6 +12,7 @@ import { addAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
 import { withAuthRedirect } from '../../HOC/withAuthRedirect';
+import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 
 interface IAircraftFormValues {
     type: string;
