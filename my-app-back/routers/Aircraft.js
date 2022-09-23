@@ -25,6 +25,31 @@ router.post('/aircraft/add', async (req, res) => {
     }
 })
 
+router.post('/aircraft/edit', async (req, res) => {
+    try {
+        const { id, msn, fh, fc, eng1, eng2, eng3, eng4, apu } = req.body;
+
+        const update = await Aircraft.updateOne({ id: id }, {
+            msn: msn,
+            fh: fh,
+            fc: fc,
+            eng1: eng1,
+            eng2: eng2,
+            eng3: eng3,
+            eng4: eng4,
+            apu: apu
+        });
+
+        if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        res.statusMessage = "Aircraft successfully updated";
+        res.json({ message: "Aircraft successfully updated" });
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 router.get('/aircrafts', async (req, res) => {
     try {
         const aircrafts = await Aircraft.find().exec();
