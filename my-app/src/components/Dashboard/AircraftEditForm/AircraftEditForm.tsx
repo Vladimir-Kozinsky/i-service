@@ -46,7 +46,7 @@ const options = [
 
 const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditForm) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type ? aircraft.type : null);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) {
             setSelectedOption(option.value);
@@ -95,10 +95,22 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         apu?: string;
                     }
                     const errors: IErrors = {};
+                    const checkFormat = (str = '') => {
+                        let count = 0;
+                        for (let char of str) {
+                            if (char === ':') count += 1
+                        }
+                        if (count !== 1) return false;
+                        if (str[str.length - 3] !== ':') return false;
+                        if (str[str.length - 2] > '5') return false;
+                        if (str.length > 9) return false;
+                        return true
+                    }
 
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.fh) errors.fh = 'FH is required';
+                    if (!checkFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
                     if (!values.eng1) errors.eng1 = 'Serial number is required';
                     if (!values.eng2) errors.eng2 = 'Serial number is required';
@@ -124,7 +136,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         legs: []
                     }
                     // dispatch(addAircraft(payload));
-                    console.log('update aircraft')
+                    console.log(payload)
                 }}
             >
                 {({ errors, touched }) => (
@@ -135,7 +147,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                                 <label>Type <span>*</span></label>
                                 <Select value={
                                     options.filter((option: IOption) =>
-                                        option.label === aircraft.type)
+                                        option.label === aircraft.type
+                                    )
                                 } options={options} onChange={onChange} styles={customStyles} />
                             </div>
                             <div className={s.aircraft__form__link}>
