@@ -1,0 +1,37 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav__link {
+    background-color: #ffffff;
+    border-radius: 24px;
+    height: 38px;
+    width: 230px;
+    color: #0a2640;
+    font-size: 16px;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 700;
+    border: none;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+    &:hover {
+        background-color: #65e4a3;
+    }
+}
+
+.aircraftData {
+    background-color: aqua;
+}
