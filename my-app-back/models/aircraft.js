@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const aircraftSchema = new mongoose.Schema({
     type: { type: String },
     msn: { type: String },
+    regNum: { type: String },
     fh: { type: String },
     fc: { type: String },
     engines: [
