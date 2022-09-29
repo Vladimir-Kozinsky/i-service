@@ -1,0 +1,56 @@
+.legs__contaiter {
+    max-width: 1200px;
+    height: 100vh;
+    margin: 0 auto;
+    padding-top: 5px;
+}
+
+.legs__filter {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 200px auto 0;
+    label {
+        margin-right: 8px;
+        color: #0A2640;
+        font-size: 16px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+    }
+    .value__wrap {
+        input {
+            width: 125px;
+            height: 34px;
+        }
+    }
+}
+
+.legs {
+    margin-top: 0px;
+}
+
+.leg__title,
+.leg {
+    margin: 0 auto;
+    padding: 0 8px;
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
+    background: #d0e8ff;
+    height: 30px;
+    border-radius: 24px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.leg__title__value {
+    width: 70px;
+    color: #0A2640;
+    font-size: 12px;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+}
