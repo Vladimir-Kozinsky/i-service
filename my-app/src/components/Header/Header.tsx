@@ -6,7 +6,11 @@ import logo from './../../assets/img/png/logo.png';
 import s from './Header.module.scss';
 import { signOut } from '../../store/reducers/authReducer';
 
-const Header = () => {
+type HeaderProps = {
+    theme?: string
+}
+
+const Header = ({ theme }: HeaderProps) => {
     const user = useSelector((state: any) => state.auth.user);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
@@ -14,6 +18,7 @@ const Header = () => {
         dispatch(signOut());
         navigate('/auth');
     }
+    const color = theme === "white" ? "white" : "white__dark"
     return (
         <div className={s.header}>
             <div className={s.header__logo}>
@@ -21,7 +26,7 @@ const Header = () => {
             </div>
             <div className={s.header__nav} >
                 <span>{`${user.firstName} ${user.lastName}`}</span>
-                <Button text='Log Out' color='white__dark' btnType='button' handler={logout} />
+                <Button text='Log Out' color={color} btnType='button' handler={logout} />
             </div>
         </div>
     )
