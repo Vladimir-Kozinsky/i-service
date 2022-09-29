@@ -3,6 +3,62 @@
     height: 100vh;
     margin: 0 auto;
     padding-top: 5px;
+    position: relative;
+}
+
+.background__circle {
+    background-color: rgb(28, 61, 91, 0.05);
+    width: 1200px;
+    height: 1200px;
+    border-radius: 1000px;
+    position: absolute;
+    top: -600px;
+    right: -600px;
+    z-index: -1;
+}
+
+.background__img1 {
+    position: absolute;
+    opacity: 0.1;
+    top: 70%;
+    left: -100px;
+    z-index: -1;
+}
+
+.background__img2 {
+    position: absolute;
+    opacity: 0.1;
+    top: 50%;
+    left: -100px;
+    z-index: -1;
+}
+
+.aircraftInfo {
+    margin: 60px auto 30px;
+    width: 430px;
+    display: grid;
+    grid-template-columns: 180px 180px;
+    grid-template-rows: 30px 30px 30px;
+    grid-column-gap: 50px;
+
+
+    .aircraftInfo__block {
+        width: 200px;
+        height: 30px;
+        color: #0A2640;
+        font-size: 16px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+
+        .aircraftInfo__block__title {
+            margin-right: 10px;
+        }
+
+        .aircraftInfo__block__title {
+            width: 40px;
+        }
+    }
 }
 
 .legs__filter {
@@ -10,7 +66,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 200px auto 0;
+    margin: 0 auto 0;
+
     label {
         margin-right: 8px;
         color: #0A2640;
@@ -19,6 +76,7 @@
         font-style: normal;
         font-weight: 700;
     }
+
     .value__wrap {
         input {
             width: 125px;
@@ -53,4 +111,12 @@
     font-style: normal;
     font-weight: 400;
     text-align: center;
+}
+
+.buttons {
+    margin: 30px auto 0;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+
 }
