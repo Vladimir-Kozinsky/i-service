@@ -10,10 +10,10 @@ const Pagenator = () => {
         pagesArr.push(i)
     }
 
-    const pageHandler = () => {
-
+    const pageHandler = (page: number) => {
+        if (currentPage !== page) setCurrentPage(page);
     }
-    
+
     const prevPageHandler = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1)
     }
@@ -27,21 +27,21 @@ const Pagenator = () => {
         if (item === currentPage)
             return <div className={classNames(s.page, s.active)}>{` ${item} `}</div>
         if (item === 1)
-            return <div className={s.page}>{` ${item} `}</div>
+            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if (item === totalPages)
-            return <div className={s.page}>{` ${item} `}</div>
+            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if ((item < currentPage && item >= currentPage - 2) || (item > currentPage && item <= currentPage + 2))
-            return <div className={s.page}>{` ${item} `}</div>
+            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if (item === currentPage - 4 || item === currentPage + 4)
             return <div className={s.page__dot}> . . . </div>
     })
     return (
         <div className={s.pagenator}>
-            <Button state={currentPage} handler={prevPageHandler} text='Prev' color='green' btnType='button' />
+            <Button state={currentPage} handler={prevPageHandler} text='Prev' color='white' btnType='button' />
             <div className={s.pagenator__pages}>
                 {pages}
             </div>
-            <Button state={currentPage} handler={nextPageHandler} text='Next' color='green' btnType='button' />
+            <Button state={currentPage} handler={nextPageHandler} text='Next' color='white' btnType='button' />
         </div>
     )
 }
