@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
+
 .aircraftFile {
     max-width: 1200px;
     margin: 0 auto;
@@ -20,9 +22,6 @@
     margin-top: 30px;
 }
 
-.aircraftData {
-}
-
 .aircraftInfo {
     margin: 10px auto 30px;
     width: 430px;
@@ -30,7 +29,7 @@
     grid-template-columns: 180px 180px;
     grid-template-rows: 30px 30px 30px;
     grid-column-gap: 50px;
-    
+
 }
 
 .aircraftInfo__block {
@@ -60,18 +59,3 @@
 
 }
 
-.widget {
-    position: relative;
-    width: 190px;
-    height: 100px;
-    padding: 20px;
-    background-color: rgba(1, 95, 184, 0.2);
-    border-radius: 15px;
-    display: flex;
-    transition: all 0.3s;
-
-    &:hover {
-        cursor: pointer;
-        background-color: rgba(1, 95, 184, 0.3);
-    }
-}

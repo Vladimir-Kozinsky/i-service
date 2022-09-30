@@ -74,6 +74,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                 initialValues={{
                     type: aircraft.type,
                     msn: aircraft.msn,
+                    regNum: aircraft.regNum,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
                     eng1: aircraft.engines[0].msn,
@@ -86,6 +87,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     interface IErrors {
                         type?: string;
                         msn?: string;
+                        regNum?: string;
                         fh?: string;
                         fc?: string;
                         eng1?: string;
@@ -109,6 +111,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
 
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
+                    if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!checkFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
@@ -125,6 +128,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         id: aircraft._id,
                         type: selectedOption,
                         msn: values.msn,
+                        regNum: values.regNum,
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,
@@ -155,6 +159,11 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                                 {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
                                 <label>MSN <span>*</span></label>
                                 <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
+                            </div>
+                            <div className={s.aircraft__form__link}>
+                                {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
+                                <label>Reg: <span>*</span></label>
+                                <Input type="text" id="regNum" name="regNum" placeholder="Enter Reg" />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.fh ? <ErrorMessage message={errors.fh} /> : null}

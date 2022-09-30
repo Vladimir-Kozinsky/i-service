@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Link, Route, Routes } from "react-router-dom";
 import Header from "../../Header/Header";
 import s from "./AircraftFile.module.scss";
+import AircraftFileWidget from "./AircraftFileWdget/AircraftFileWidget";
 
 const fakeAircraft = {
     _id: "632ac45eaaac3b3162a6d242",
@@ -54,7 +54,7 @@ const AircraftFile = ({ msn }: { msn: string }) => {
                     </div>
                 </div>
                 <div className={s.widget__container} >
-                    <div className={s.widget} ></div>
+                    <AircraftFileWidget text='LEGS' />
                 </div>
             </div>
 

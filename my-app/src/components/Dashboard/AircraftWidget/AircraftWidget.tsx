@@ -1,23 +1,18 @@
 import s from './AircraftWidget.module.scss';
 import plane from './../../../assets/img/png/plane.png'
-import cross from './../../../assets/img/png/cross.png'
 import engine from './../../../assets/img/png/engine.png'
 import apu from './../../../assets/img/png/apu.png'
 import { IAircraft } from '../../../store/reducers/aircraftReducer';
-import setting_icon from './../../../assets/img/png/setting_icon.png'
-import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
 import { IAircraftFile } from '../Dashboard';
 
 type propsAircraftWidget = {
-    handler?: () => void
     onClick?: ({ show, msn }: IAircraftFile) => void
-    type?: "new";
     aircraft?: IAircraft;
 }
 
-const AircraftWidget = ({ handler, onClick, type, aircraft }: propsAircraftWidget) => {
+const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
     const cutData = (str: string | undefined) => {
         if (!str) return 'N/A'
         if (str.length <= 5) return str;
@@ -38,20 +33,15 @@ const AircraftWidget = ({ handler, onClick, type, aircraft }: propsAircraftWidge
     }
 
     return (
-        <div className={s.widget} onClick={widgetOnClick} >
-
+        <>
             {arcraftEditForm && aircraft ? <AircraftEditForm aircraft={aircraft} showArcraftEditForm={showArcraftEditForm} /> : null}
-
-            {!type ? <div className={s.widget__btns} >
-                <button className={s.widget__btns__set} onClick={showArcraftEditForm} >
-                    {/* <img src={setting_icon} alt="setting-icon" /> */}
-                </button>
-            </div> : null}
-
-            {!type ? <img className={s.widget__plane__img} src={plane} alt="plane-icon" /> : <img className={s.widget__cross__img} src={cross} alt="plane-icon" />}
-
-            {!type
-                ? <div className={s.widget__data}>
+            <div className={s.widget} onClick={widgetOnClick} >
+                <div className={s.widget__btns} >
+                    <button className={s.widget__btns__set} onClick={showArcraftEditForm} >
+                    </button>
+                </div>
+                <img className={s.widget__plane__img} src={plane} alt="plane-icon" />
+                <div className={s.widget__data}>
                     <h3 className={s.widget__data__value}>{`Type: ${aircraft?.type}`}</h3>
                     <h3 className={s.widget__data__value}>{`MSN: ${aircraft?.msn}`}</h3>
                     <div className={s.widget__data__engines}>
@@ -77,8 +67,8 @@ const AircraftWidget = ({ handler, onClick, type, aircraft }: propsAircraftWidge
                         </div>
                     </div >
                 </div>
-                : null}
-        </div>
+            </div>
+        </>
     )
 }
 
