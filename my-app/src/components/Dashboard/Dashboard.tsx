@@ -37,28 +37,24 @@ const Dashboard = () => {
     }
 
     return (
-        <>
-            {aircraftFile.show
-                ? <AircraftFile msn={aircraftFile.msn} />
-                : <div className={s.dashboard}>
-                    <div className={s.background__circle}></div>
-                    <div className={s.dashboard__container}>
-                        <Header />
-                        <div className={s.main}>
-                            <div className={s.main__aircrafts} >
-                                {aircraftsWidgets()}
-                                {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
-                                <div className={s.widget} onClick={() => setAddForm(true)} >
+        <div className={s.dashboard}>
+            <div className={s.background__circle}></div>
+            <div className={s.dashboard__container}>
+                <Header />
+                <div className={s.main}>
+                    <div className={s.main__aircrafts} >
+                        {aircraftsWidgets()}
+                        {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
+                        <div className={s.widget} onClick={() => setAddForm(true)} >
 
-                                    <div className={s.widget__btns} >
-                                    </div>
-                                    <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
-                                </div>
+                            <div className={s.widget__btns} >
                             </div>
+                            <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
                         </div>
                     </div>
-                </div>}
-        </>
+                </div>
+            </div>
+        </div>
     )
 }
 

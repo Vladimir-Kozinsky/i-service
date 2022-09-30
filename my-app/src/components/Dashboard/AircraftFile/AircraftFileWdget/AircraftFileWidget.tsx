@@ -4,14 +4,15 @@ import s from "./AircraftFileWidget.module.scss"
 
 type IAircraftFileWidgetProps = {
     text: "LEGS";
+    img: string;
 }
 
-const AircraftFileWidget = ({ text }: IAircraftFileWidgetProps) => {
+const AircraftFileWidget = ({ text, img }: IAircraftFileWidgetProps) => {
     const [page, setPage] = useState(false);
     const choosePage = (text: string) => {
         switch (text) {
             case "LEGS":
-                return <Legs />
+                return <Legs setPage={setPage} />
             default:
                 break;
         }
@@ -22,6 +23,7 @@ const AircraftFileWidget = ({ text }: IAircraftFileWidgetProps) => {
             {page && choosePage(text)}
             <div className={s.widget} onClick={() => setPage(true)} >
                 <h3>{text}</h3>
+                <img src={img} alt="icon" />
             </div>
         </>
 

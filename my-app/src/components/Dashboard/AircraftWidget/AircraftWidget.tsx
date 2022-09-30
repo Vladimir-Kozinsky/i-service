@@ -6,6 +6,7 @@ import { IAircraft } from '../../../store/reducers/aircraftReducer';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
 import { IAircraftFile } from '../Dashboard';
+import AircraftFile from '../AircraftFile/AircraftFile';
 
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
@@ -20,6 +21,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
         return `...${cutStr}`;
     }
     const [arcraftEditForm, setArcraftEditForm] = useState(false);
+    const [arcraftFile, setArcraftFile] = useState(false);
 
     const showArcraftEditForm = () => {
         arcraftEditForm ? setArcraftEditForm(false) : setArcraftEditForm(true);
@@ -28,12 +30,13 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
     const widgetOnClick = (event: React.MouseEvent<HTMLElement>) => {
         const target = event.target as HTMLElement
         if (aircraft && onClick && target.tagName !== "BUTTON") {
-            onClick({ show: true, msn: aircraft.msn })
+            setArcraftFile(true);
         }
     }
 
     return (
         <>
+            {arcraftFile && aircraft && <AircraftFile aircraft={aircraft} setArcraftFile={setArcraftFile} />}
             {arcraftEditForm && aircraft ? <AircraftEditForm aircraft={aircraft} showArcraftEditForm={showArcraftEditForm} /> : null}
             <div className={s.widget} onClick={widgetOnClick} >
                 <div className={s.widget__btns} >
@@ -69,6 +72,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
                 </div>
             </div>
         </>
+
     )
 }
 

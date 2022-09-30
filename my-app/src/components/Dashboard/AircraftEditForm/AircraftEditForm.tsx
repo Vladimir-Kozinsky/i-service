@@ -69,7 +69,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
     }
     return (
         <div className={s.aircraftForm}>
-            <h3 className={s.aircraftForm__header}>Add an Aircraft</h3>
+            <h3 className={s.aircraftForm__header}>Update an Aircraft</h3>
             <Formik
                 initialValues={{
                     type: aircraft.type,

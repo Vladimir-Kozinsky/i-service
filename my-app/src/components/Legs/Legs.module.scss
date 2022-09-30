@@ -1,9 +1,13 @@
 .legs__contaiter {
-    max-width: 1200px;
-    height: 100vh;
-    margin: 0 auto;
-    padding-top: 5px;
-    position: relative;
+  background-color: white;
+  position: fixed;
+  width: 1200px;
+  height: 90vh;
+  left: 50%;
+  top: 50%;
+  margin-top: -45vh;
+  margin-left: -600px;
+  border-radius: 25px;
 }
 
 .background__circle {
@@ -21,7 +25,7 @@
     position: absolute;
     opacity: 0.1;
     top: 70%;
-    left: -100px;
+    left: 20px;
     z-index: -1;
 }
 
@@ -29,21 +33,19 @@
     position: absolute;
     opacity: 0.1;
     top: 50%;
-    left: -100px;
+    left: 20px;
     z-index: -1;
 }
 
 .aircraftInfo {
-    margin: 60px auto 30px;
-    width: 430px;
+    margin: 20px auto 0px;
+    width: 90%;
     display: grid;
-    grid-template-columns: 180px 180px;
-    grid-template-rows: 30px 30px 30px;
-    grid-column-gap: 50px;
+    display: flex;
+    justify-content: space-between;
 
 
     .aircraftInfo__block {
-        width: 200px;
         height: 30px;
         color: #0A2640;
         font-size: 16px;
