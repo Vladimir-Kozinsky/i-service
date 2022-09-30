@@ -14,6 +14,10 @@ const aircraftAPI = {
         const response = await proxy.get('/aircrafts');
         return response;
     },
+    async getAircraft(msn: string) {
+        const response = await proxy.get('/aircraft');
+        return response;
+    },
     async updateAircraft() {
         const response = await proxy.get('/aircraft/edit');
         return response;
