@@ -14,9 +14,9 @@ router.post('/aircraft/add', async (req, res) => {
             if (!newAircraft) throw new Error(`Aircraft has not been added`);
 
             if (!newAircraft) throw new Error(`Account has not been created`);
-
+            console.log(newAircraft);
             res.statusMessage = "Aircraft successfully added";
-            res.json({ message: "Aircraft successfully added" });
+            res.json(newAircraft);
         }
     } catch (error) {
         res.statusCode = 403;
@@ -43,8 +43,9 @@ router.post('/aircraft/edit', async (req, res) => {
         });
 
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraft = await Aircraft.findOne({ id: id }).exec();
         res.statusMessage = "Aircraft successfully updated";
-        res.json({ message: "Aircraft successfully updated" });
+        res.json(aircraft);
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;
