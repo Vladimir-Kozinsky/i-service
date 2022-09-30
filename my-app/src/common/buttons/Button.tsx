@@ -6,9 +6,10 @@ type ButtonProps = {
     color: "white" | "green" | "white__dark";
     btnType: "button" | "submit" | "reset";
     handler?: () => void;
+    state?: any 
 }
 
-const Button = ({ text, color, btnType, handler }: ButtonProps) => {
+const Button = ({ text, color, btnType, handler, state }: ButtonProps) => {
     return (
         <button type={btnType} className={classNames(s.button, s[`button__${color}`])} onClick={handler}>{text}</button>
     )
