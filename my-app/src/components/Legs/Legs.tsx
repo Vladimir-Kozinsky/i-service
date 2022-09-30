@@ -6,9 +6,14 @@ import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
 import backgroundImg1 from "./../../assets/img/png/back-img1.png"
 import backgroundImg2 from "./../../assets/img/png/back-img2.png"
+import { compose } from "redux";
+import { withContainerBlur } from "../HOC/withContainerBlur/withContainerBlur";
+import Header from "../Header/Header";
 
 type ILegsProps = {
     aircraft?: IAircraft;
+    setPage: (isPage: boolean) => void
+
 }
 interface IFilterValues {
     from: string;
@@ -84,32 +89,37 @@ const fakeAircraft = {
     legs: []
 }
 
-const Legs = () => {
+
+const Legs = ({ setPage }: ILegsProps) => {
     return (
         <div className={s.legs__contaiter}>
-              <div className={s.background__circle}></div>
-              <img className={s.background__img1} src={backgroundImg1} alt="" />
-              <img className={s.background__img2} src={backgroundImg2} alt="" />
+            <div className={s.background__circle}></div>
+            <img className={s.background__img1} src={backgroundImg1} alt="" />
+            <img className={s.background__img2} src={backgroundImg2} alt="" />
             <div className={s.aircraftInfo} >
-                <div className={s.aircraftInfo__block} >
-                    <span className={s.aircraftInfo__block__title}>Type:</span>
-                    <span className={s.aircraftInfo__block__value}>{fakeAircraft.type}</span>
+                <div className={s.aircraftInfo__wrap} >
+                    <div className={s.aircraftInfo__block} >
+                        <span className={s.aircraftInfo__block__title}>Type:</span>
+                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.type}</span>
+                    </div>
+                    <div className={s.aircraftInfo__block}>
+                        <span className={s.aircraftInfo__block__title}>MSN:</span>
+                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.msn}</span>
+                    </div>
+                    <div className={s.aircraftInfo__block}>
+                        <span className={s.aircraftInfo__block__title}>Reg:</span>
+                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.regNum}</span>
+                    </div>
                 </div>
-                <div className={s.aircraftInfo__block}>
-                    <span className={s.aircraftInfo__block__title}>MSN:</span>
-                    <span className={s.aircraftInfo__block__value}>{fakeAircraft.msn}</span>
-                </div>
-                <div className={s.aircraftInfo__block}>
-                    <span className={s.aircraftInfo__block__title}>Reg:</span>
-                    <span className={s.aircraftInfo__block__value}>{fakeAircraft.regNum}</span>
-                </div>
-                <div className={s.aircraftInfo__block}>
-                    <span className={s.aircraftInfo__block__title}>FH:</span>
-                    <span className={s.aircraftInfo__block__value}>{fakeAircraft.fh}</span>
-                </div>
-                <div className={s.aircraftInfo__block}>
-                    <span className={s.aircraftInfo__block__title}>FC:</span>
-                    <span className={s.aircraftInfo__block__value}>{fakeAircraft.fc}</span>
+                <div className={s.aircraftInfo__wrap} >
+                    <div className={s.aircraftInfo__block}>
+                        <span className={s.aircraftInfo__block__title}>FH:</span>
+                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.fh}</span>
+                    </div>
+                    <div className={s.aircraftInfo__block}>
+                        <span className={s.aircraftInfo__block__title}>FC:</span>
+                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.fc}</span>
+                    </div>
                 </div>
             </div>
             <Formik
@@ -155,12 +165,12 @@ const Legs = () => {
                 {legs}
             </div>
             <div className={s.buttons} >
-                <Button text="Back" btnType="button" color="white" />
+                <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
                 <Button text="Add" btnType="button" color="green" />
             </div>
-        </div>
+        </div >
 
     )
 }
 
-export default Legs;
+export default compose(withContainerBlur)(Legs); 

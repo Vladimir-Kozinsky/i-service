@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
 
 .dashboard {
     position: relative;
@@ -6,10 +6,11 @@
     height: 100%;
     overflow: hidden;
     z-index: -2;
+    background-color: #0a2640;
 }
 
 .background__circle {
-    background-color: #1C3D5B;
+    background-color: #1c3d5b;
     width: 1200px;
     height: 1200px;
     border-radius: 1000px;
@@ -24,35 +25,36 @@
     max-width: 1200px;
 }
 
-.header {
-    margin-top: 30px;
-    position: relative;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.header__logo {
-    width: 80px;
-    img {
-        width: 100%;
-    }
-}
-
-.header__nav {
-span {
-    margin-right: 20px;
-    color: #FFFFFF;
-    font-family: Manrope;
-    font-size: 16px;
-    font-weight: 600;
-}
-}
-
 .main__aircrafts {
     margin-top: 60px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+
+.widget {
+    position: relative;
+    width: 290px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255, 0.3);
+    }
+
+    .widget__cross__img {
+        margin-top: 45px;
+        margin-left: 95px;
+        width: 100px;
+        height: 100px;
+    }
 }

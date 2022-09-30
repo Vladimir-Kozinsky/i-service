@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IAircraft } from "../store/reducers/aircraftReducer";
 
 const proxy = axios.create({
     baseURL: "http://localhost:5000"
@@ -18,8 +19,8 @@ const aircraftAPI = {
         const response = await proxy.get('/aircraft');
         return response;
     },
-    async updateAircraft() {
-        const response = await proxy.get('/aircraft/edit');
+    async updateAircraft(aircraftData: any) {
+        const response = await proxy.post('/aircraft/edit', aircraftData);
         return response;
     }
 }
