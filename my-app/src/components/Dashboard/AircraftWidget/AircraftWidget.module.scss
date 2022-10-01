@@ -33,12 +33,18 @@
     top: 0px;
 
     button {
+        width: 30px;
+        height: 34px;
         position: absolute;
         background: none;
         margin: 0;
         padding: 0;
         border: none;
         transition: all 0.3s;
+        background-image: url(./../../../assets/img/png/setting_icon.png);
+        background-position: center;
+        background-size: cover;
+        background-repeat: noRepeat;
     }
 
     .widget__btns__set {
@@ -48,15 +54,12 @@
         &:hover {
             cursor: pointer;
             width: 34px;
+            height: 36px;
             top: 5px;
             left: 288px;
         }
         :active {
             width: 30px;
-        }
-
-        img {
-            width: 100%;
         }
     }
 

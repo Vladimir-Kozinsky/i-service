@@ -7,7 +7,7 @@ import Select, { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { addAircraft, IAircraft } from '../../../store/reducers/aircraftReducer';
+import { addAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { connect } from 'http2';
 import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
@@ -69,11 +69,12 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
     }
     return (
         <div className={s.aircraftForm}>
-            <h3 className={s.aircraftForm__header}>Add an Aircraft</h3>
+            <h3 className={s.aircraftForm__header}>Update an Aircraft</h3>
             <Formik
                 initialValues={{
                     type: aircraft.type,
                     msn: aircraft.msn,
+                    regNum: aircraft.regNum,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
                     eng1: aircraft.engines[0].msn,
@@ -86,6 +87,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     interface IErrors {
                         type?: string;
                         msn?: string;
+                        regNum?: string;
                         fh?: string;
                         fc?: string;
                         eng1?: string;
@@ -109,6 +111,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
 
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
+                    if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!checkFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
@@ -122,8 +125,10 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
                     const payload = {
+                        id: aircraft._id,
                         type: selectedOption,
                         msn: values.msn,
+                        regNum: values.regNum,
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,
@@ -135,8 +140,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         ],
                         legs: []
                     }
-                    // dispatch(addAircraft(payload));
-                    console.log(payload)
+                    dispatch(updateAircraft(payload));
                 }}
             >
                 {({ errors, touched }) => (
@@ -155,6 +159,11 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                                 {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
                                 <label>MSN <span>*</span></label>
                                 <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
+                            </div>
+                            <div className={s.aircraft__form__link}>
+                                {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
+                                <label>Reg: <span>*</span></label>
+                                <Input type="text" id="regNum" name="regNum" placeholder="Enter Reg" />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
