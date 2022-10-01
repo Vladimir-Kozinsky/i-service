@@ -21,7 +21,15 @@ const aircraftAPI = {
     async updateAircraft() {
         const response = await proxy.get('/aircraft/edit');
         return response;
-    }
+    },
+    async getLegs(msn: string, from: string, to: string, page: string) {
+        const response = await proxy.get(`/aircraft/legs?msn=${msn}&from=${from}&to=${to}&page=${page}`);
+        return response;
+    },
+    async addLeg(leg: any, msn: string) {
+        const response = await proxy.post('/aircraft/legs/add', leg);
+        return response;
+    },
 }
 
 export default aircraftAPI;
