@@ -86,4 +86,55 @@ router.get('/aircraft', async (req, res) => {
     }
 })
 
+router.get('/aircraft/legs', async (req, res) => {
+    try {
+        const { msn, from, to, page } = req.query
+        console.log(msn, from, to)
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        if (!aircraft) throw new Error("Aircraft was not found");
+        const legs = aircraft.legs.filter(item => {
+            const legDate = new Date(item.depDate);
+            const fromDate = new Date(from);
+            const toDate = new Date(to);
+            return legDate >= fromDate && legDate <= toDate
+        })
+        const legsOnPage = 15;
+        const totalPages = Math.ceil(legs.length / legsOnPage);
+        const fromIndex = page * legsOnPage - legsOnPage;
+        const toIndex = page * legsOnPage - 1;
+        console.log(fromIndex, toIndex)
+        const reducedLegs = legs.filter((leg, index) => index >= fromIndex && index <= toIndex);
+        res.statusMessage = reducedLegs.length
+            ? "Legs were found"
+            : "No results were found for your search, please change your search parameters";
+        res.json({
+            legs: reducedLegs.reverse(),
+            currentPage: page,
+            totalPages: totalPages
+        });
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+router.post('/aircraft/legs/add', async (req, res) => {
+    try {
+        const { newLeg, msn } = req.body;
+        const update = await Aircraft.updateOne({ msn: msn }, { legs: newLeg });
+        if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        const addedLeg = aircraft.legs[legs.length - 1];
+        res.statusMessage = "Leg successfully added";
+        res.json(addedLeg);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+
+
 export default router;
