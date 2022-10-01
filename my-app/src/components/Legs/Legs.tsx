@@ -9,9 +9,13 @@ import backgroundImg2 from "./../../assets/img/png/back-img2.png"
 import { compose } from "redux";
 import { withContainerBlur } from "../HOC/withContainerBlur/withContainerBlur";
 import Header from "../Header/Header";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import aircraftAPI from "../../API/aircraftAPI";
+import { useState } from "react";
 
 type ILegsProps = {
-    aircraft?: IAircraft;
+    aircraft: IAircraft;
     setPage: (isPage: boolean) => void
 
 }
@@ -35,62 +39,47 @@ interface ILeg {
     fh: string;
     fc: string;
 }
-const Leg: ILeg = {
-    _id: '223423',
-    depDate: '25.05.2020',
-    flightNumber: 'tss2345',
-    from: 'EDDT',
-    to: 'EDDD',
-    blockOff: '14:30',
-    takeOff: '14:40',
-    landing: '18:00',
-    blockOn: '18:10',
-    flightTime: "02:15",
-    blockTime: "02:25",
-    fh: '343434',
-    fc: '343433'
-}
-
-const fakeArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-
-const legs = fakeArr.map(() => {
-    return (
-        <div className={s.leg}>
-            <div className={s.leg__title__value}>{Leg.depDate}</div>
-            <div className={s.leg__title__value}>{Leg.flightNumber}</div>
-            <div className={s.leg__title__value}>{Leg.from}</div>
-            <div className={s.leg__title__value}>{Leg.to}</div>
-            <div className={s.leg__title__value}>{Leg.blockOff}</div>
-            <div className={s.leg__title__value}>{Leg.takeOff}</div>
-            <div className={s.leg__title__value}>{Leg.landing}</div>
-            <div className={s.leg__title__value}>{Leg.blockOn}</div>
-            <div className={s.leg__title__value}>{Leg.flightTime}</div>
-            <div className={s.leg__title__value}>{Leg.blockTime}</div>
-            <div className={s.leg__title__value}>{Leg.fh}</div>
-            <div className={s.leg__title__value}>{Leg.fc}</div>
-        </div>
-    )
-})
-
-const fakeAircraft = {
-    _id: "632ac45eaaac3b3162a6d242",
-    type: "Boeing 737-300",
-    regNum: "23233",
-    msn: "111111",
-    fh: "4444:11",
-    fc: "1111",
-    engines: [
-        { _id: "ac45eaaac3b3162a6d242pos", pos: 1, msn: "34343" },
-        { _id: "ac45eaaac3b3162a6d242pos", pos: 2, msn: "34343" },
-        { _id: "ac45eaaac3b3162a6d242pos", pos: 3, msn: "34343" },
-        { _id: "ac45eaaac3b3162a6d242pos", pos: 4, msn: "34343" }
-    ],
-    apu: "111",
-    legs: []
-}
 
 
-const Legs = ({ setPage }: ILegsProps) => {
+const Legs = ({ setPage, aircraft }: ILegsProps) => {
+    const [legs, setLegs] = useState<any>([])
+    const [totalPages, setTotalPages] = useState<any>(1);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchParam, setSearchParam] = useState({ from: '', to: '' });
+    const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
+        const response = await aircraftAPI.getLegs(msn, from, to, page);
+        const legs = response.data.legs;
+        if (legs) setLegs(legs);
+        if (+response.data.totalPages === 0) {
+            setTotalPages(1);
+        } else {
+            setTotalPages(+response.data.totalPages);
+        }
+        setCurrentPage(+response.data.currentPage);
+    }
+    const legsComp = legs.map((leg: ILeg) => {
+        return (
+            <div className={s.leg}>
+                <div className={s.leg__title__value}>{leg.depDate}</div>
+                <div className={s.leg__title__value}>{leg.flightNumber}</div>
+                <div className={s.leg__title__value}>{leg.from}</div>
+                <div className={s.leg__title__value}>{leg.to}</div>
+                <div className={s.leg__title__value}>{leg.blockOff}</div>
+                <div className={s.leg__title__value}>{leg.takeOff}</div>
+                <div className={s.leg__title__value}>{leg.landing}</div>
+                <div className={s.leg__title__value}>{leg.blockOn}</div>
+                <div className={s.leg__title__value}>{leg.flightTime}</div>
+                <div className={s.leg__title__value}>{leg.blockTime}</div>
+                <div className={s.leg__title__value}>{leg.fh}</div>
+                <div className={s.leg__title__value}>{leg.fc}</div>
+            </div>
+        )
+    })
+
+    const changePage = (page: number) => {
+        getLegsFunc(aircraft.msn, searchParam.from, searchParam.to, page)
+    }
+
     return (
         <div className={s.legs__contaiter}>
             <div className={s.background__circle}></div>
@@ -100,25 +89,25 @@ const Legs = ({ setPage }: ILegsProps) => {
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >
                         <span className={s.aircraftInfo__block__title}>Type:</span>
-                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.type}</span>
+                        <span className={s.aircraftInfo__block__value}>{aircraft.type}</span>
                     </div>
                     <div className={s.aircraftInfo__block}>
                         <span className={s.aircraftInfo__block__title}>MSN:</span>
-                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.msn}</span>
+                        <span className={s.aircraftInfo__block__value}>{aircraft.msn}</span>
                     </div>
                     <div className={s.aircraftInfo__block}>
                         <span className={s.aircraftInfo__block__title}>Reg:</span>
-                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.regNum}</span>
+                        <span className={s.aircraftInfo__block__value}>{aircraft.regNum}</span>
                     </div>
                 </div>
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block}>
                         <span className={s.aircraftInfo__block__title}>FH:</span>
-                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.fh}</span>
+                        <span className={s.aircraftInfo__block__value}>{aircraft.fh}</span>
                     </div>
                     <div className={s.aircraftInfo__block}>
                         <span className={s.aircraftInfo__block__title}>FC:</span>
-                        <span className={s.aircraftInfo__block__value}>{fakeAircraft.fc}</span>
+                        <span className={s.aircraftInfo__block__value}>{aircraft.fc}</span>
                     </div>
                 </div>
             </div>
@@ -131,7 +120,8 @@ const Legs = ({ setPage }: ILegsProps) => {
                     values: IFilterValues,
                     { setSubmitting }: FormikHelpers<IFilterValues>
                 ) => {
-                    console.log('search legs from to', values)
+                    getLegsFunc(aircraft.msn, values.from, values.to, currentPage)
+                    setSearchParam({ from: values.from, to: values.to })
                 }}
             >
                 <Form className={s.legs__filter}>
@@ -146,7 +136,7 @@ const Legs = ({ setPage }: ILegsProps) => {
                     <Button text="Search" color="white" btnType="submit" />
                 </Form>
             </Formik>
-            <Pagenator />
+            <Pagenator totalPages={totalPages} currentPage={currentPage} changePage={changePage} />
             <div className={s.legs}>
                 <div className={s.leg__title}>
                     <div className={s.leg__title__value}>Date</div>
@@ -162,7 +152,7 @@ const Legs = ({ setPage }: ILegsProps) => {
                     <div className={s.leg__title__value}>FH</div>
                     <div className={s.leg__title__value}>FC</div>
                 </div>
-                {legs}
+                {legsComp}
             </div>
             <div className={s.buttons} >
                 <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />

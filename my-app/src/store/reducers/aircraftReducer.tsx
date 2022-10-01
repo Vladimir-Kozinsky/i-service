@@ -73,6 +73,9 @@ const aircraftSlice = createSlice({
         builder.addCase(updateAircraft.fulfilled, (state, action) => {
             console.log("aircraft updated")
         })
+        builder.addCase(getLegs.fulfilled, (state, action) => {
+            console.log(action.payload.legs)
+        })
     },
 })
 
@@ -104,6 +107,18 @@ export const updateAircraft = createAsyncThunk(
     async (aircraftData: any) => {
         try {
             const response = await aircraftAPI.updateAircraft(aircraftData);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+
+export const getLegs = createAsyncThunk(
+    'aircraft/getLegs',
+    async ({msn, from, to, page}: any) => {
+        try {
+            const response = await aircraftAPI.getLegs(msn, from, to, page);
             return response.data;
         } catch (error: any) {
             console.log(error)

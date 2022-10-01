@@ -1,18 +1,20 @@
 import { useState } from "react";
+import { IAircraft } from "../../../../store/reducers/aircraftReducer";
 import Legs from "../../../Legs/Legs";
 import s from "./AircraftFileWidget.module.scss"
 
 type IAircraftFileWidgetProps = {
     text: "LEGS";
     img: string;
+    aircraft: IAircraft;
 }
 
-const AircraftFileWidget = ({ text, img }: IAircraftFileWidgetProps) => {
+const AircraftFileWidget = ({ text, img, aircraft }: IAircraftFileWidgetProps) => {
     const [page, setPage] = useState(false);
     const choosePage = (text: string) => {
         switch (text) {
             case "LEGS":
-                return <Legs setPage={setPage} />
+                return <Legs setPage={setPage} aircraft={aircraft} />
             default:
                 break;
         }
