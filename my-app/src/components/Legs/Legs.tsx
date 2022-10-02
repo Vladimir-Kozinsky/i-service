@@ -8,11 +8,9 @@ import backgroundImg1 from "./../../assets/img/png/back-img1.png"
 import backgroundImg2 from "./../../assets/img/png/back-img2.png"
 import { compose } from "redux";
 import { withContainerBlur } from "../HOC/withContainerBlur/withContainerBlur";
-import Header from "../Header/Header";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
 import aircraftAPI from "../../API/aircraftAPI";
 import { useState } from "react";
+import AddLegForm from "./AddLegForm/AddLegForm";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -46,6 +44,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const [totalPages, setTotalPages] = useState<any>(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
+    const [addLegForm, setAddLegForm] = useState(false);
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         const response = await aircraftAPI.getLegs(msn, from, to, page);
         const legs = response.data.legs;
@@ -83,8 +82,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     return (
         <div className={s.legs__contaiter}>
             <div className={s.background__circle}></div>
-            <img className={s.background__img1} src={backgroundImg1} alt="" />
-            <img className={s.background__img2} src={backgroundImg2} alt="" />
+            {addLegForm && <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} />}
             <div className={s.aircraftInfo} >
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >
@@ -156,10 +154,9 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
             </div>
             <div className={s.buttons} >
                 <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
-                <Button text="Add" btnType="button" color="green" />
+                <Button text="Add" btnType="button" color="green" handler={() => setAddLegForm(true)} />
             </div>
         </div >
-
     )
 }
 

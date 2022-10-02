@@ -1,13 +1,13 @@
 .legs__contaiter {
-  background-color: white;
-  position: fixed;
-  width: 1200px;
-  height: 90vh;
-  left: 50%;
-  top: 50%;
-  margin-top: -45vh;
-  margin-left: -600px;
-  border-radius: 25px;
+    background-color: white;
+    position: fixed;
+    width: 1200px;
+    height: 90vh;
+    left: 50%;
+    top: 50%;
+    margin-top: -45vh;
+    margin-left: -600px;
+    border-radius: 25px;
 }
 
 .background__circle {
@@ -21,22 +21,6 @@
     z-index: -1;
 }
 
-.background__img1 {
-    position: absolute;
-    opacity: 0.1;
-    top: 70%;
-    left: 20px;
-    z-index: -1;
-}
-
-.background__img2 {
-    position: absolute;
-    opacity: 0.1;
-    top: 50%;
-    left: 20px;
-    z-index: -1;
-}
-
 .aircraftInfo {
     margin: 20px auto 0px;
     width: 90%;
@@ -44,10 +28,9 @@
     display: flex;
     justify-content: space-between;
 
-
     .aircraftInfo__block {
         height: 30px;
-        color: #0A2640;
+        color: #0a2640;
         font-size: 16px;
         font-family: "Manrope";
         font-style: normal;
@@ -72,7 +55,7 @@
 
     label {
         margin-right: 8px;
-        color: #0A2640;
+        color: #0a2640;
         font-size: 16px;
         font-family: "Manrope";
         font-style: normal;
@@ -89,6 +72,8 @@
 
 .legs {
     margin-top: 0px;
+    max-height: 60%;
+    overflow-y: auto;
 }
 
 .leg__title,
@@ -107,7 +92,7 @@
 
 .leg__title__value {
     width: 70px;
-    color: #0A2640;
+    color: #0a2640;
     font-size: 12px;
     font-family: "Manrope";
     font-style: normal;
@@ -120,5 +105,4 @@
     width: 300px;
     display: flex;
     justify-content: space-between;
-
 }
