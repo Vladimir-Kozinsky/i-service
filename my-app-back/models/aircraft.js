@@ -4,6 +4,8 @@ const aircraftSchema = new mongoose.Schema({
     type: { type: String },
     msn: { type: String },
     regNum: { type: String },
+    initFh: { type: String },
+    initFc: { type: String },
     fh: { type: String },
     fc: { type: String },
     engines: [

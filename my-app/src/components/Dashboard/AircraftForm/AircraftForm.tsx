@@ -116,6 +116,8 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                         type: selectedOption,
                         msn: values.msn,
                         regNum: values.regNum,
+                        initFh: values.fh,
+                        initFc: values.fc,
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,

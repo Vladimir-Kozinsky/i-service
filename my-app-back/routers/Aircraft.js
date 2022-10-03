@@ -121,11 +121,17 @@ router.get('/aircraft/legs', async (req, res) => {
 
 router.post('/aircraft/legs/add', async (req, res) => {
     try {
-        const { newLeg, msn } = req.body;
-        const update = await Aircraft.updateOne({ msn: msn }, { legs: newLeg });
+
+        const culcFH =(legs, initFH) => {
+            
+        }
+
+        const { leg, msn } = req.body;
+        console.log(leg)
+        const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
-        const addedLeg = aircraft.legs[legs.length - 1];
+        const addedLeg = aircraft.legs[aircraft.legs.length - 1];
         res.statusMessage = "Leg successfully added";
         res.json(addedLeg);
     } catch (error) {

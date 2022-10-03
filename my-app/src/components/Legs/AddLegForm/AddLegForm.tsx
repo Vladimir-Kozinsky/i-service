@@ -1,9 +1,11 @@
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
 import ErrorMessage from "../../../common/messages/ErrorMessage";
+import AircraftEditForm from "../../Dashboard/AircraftEditForm/AircraftEditForm";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
+import aircraftAPI from "../../../API/aircraftAPI";
 import s from "./AddLegForm.module.scss"
 
 interface ILeg {
@@ -23,9 +25,62 @@ interface ILeg {
 
 type AddLegFormProps = {
     setAddLegForm: (addLegForm: boolean) => void;
-    msn: string
+    msn: string;
+    fh: string;
+    fc: string;
 }
-const AddLegForm = ({ setAddLegForm, msn }: AddLegFormProps) => {
+
+const calcTime = (depDate: string, startTime: string, endTime: string) => {
+    if (!depDate || !startTime || !endTime) return '00:00';
+    const startYear = +depDate.split('-')[0];
+    const startMonth = +depDate.split('-')[1];
+    const startDate = +depDate.split('-')[2];
+    const starthh = +startTime.split(':')[0];
+    const startmm = +startTime.split(':')[1];
+    const start = new Date() as any;
+    start.setUTCFullYear(startYear, startMonth, startDate);
+    start.setUTCHours(starthh, startmm);
+
+    const endYear = +depDate.split('-')[0];
+    const endMonth = +depDate.split('-')[1];
+    const endDate = +depDate.split('-')[2];
+    const endhh = +endTime.split(':')[0];
+    const endmm = +endTime.split(':')[1];
+    const end = new Date() as any;
+    end.setUTCFullYear(endYear, endMonth, endDate);
+    end.setUTCHours(endhh, endmm);
+
+    if (start > end) end.setUTCDate(endDate + 1);
+    const totalTimemm = Math.abs((end - start) / 1000 / 60);
+    const hh = Math.floor(totalTimemm / 60);
+    const mm = totalTimemm % 60;
+    return `${hh}:${mm}`
+}
+
+const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
+    const onChangeTime = (e: any, setFieldValue: any, values: any) => {
+        const takeOff = e.target.id === 'takeOff' ? e.target.value : values.takeOff;
+        const landing = e.target.id === 'landing' ? e.target.value : values.landing;
+        const blockOff = e.target.id === 'blockOff' ? e.target.value : values.blockOff;
+        const blockOn = e.target.id === 'blockOn' ? e.target.value : values.blockOn;
+        const date = e.target.id === 'depDate' ? e.target.value : values.depDate;
+        const flightTime = calcTime(date, takeOff, landing)
+        setFieldValue(`${e.target.id}`, e.target.value);
+        setFieldValue('flightTime', flightTime);
+        setFieldValue('blockTime', calcTime(date, blockOff, blockOn));
+        if (e.target.id === 'takeOff' || e.target.id === 'landing') onChangeFH(setFieldValue, flightTime)
+
+    }
+    const onChangeFH = (setFieldValue: any, flightTime: any) => {
+        const currentTimemm = (+fh.split(':')[0] * 60) + (+fh.split(':')[1]);
+        const newTimemm = (+flightTime.split(':')[0] * 60) + (+flightTime.split(':')[1]);
+        const totalTimemm = currentTimemm + newTimemm;
+        const hh = Math.floor(totalTimemm / 60);
+        const mm = totalTimemm % 60;
+        setFieldValue('fh', `${hh}:${mm}`);
+        console.log(`${hh}:${mm}`);
+    }
+
     return (
         <div className={s.addLeg} >
             <h3 className={s.addLeg__header}>Add a leg</h3>
@@ -40,9 +95,9 @@ const AddLegForm = ({ setAddLegForm, msn }: AddLegFormProps) => {
                     landing: '',
                     blockOn: '',
                     flightTime: '',
-                    blockTime: '20',
-                    fh: '',
-                    fc: '',
+                    blockTime: '',
+                    fh: fh,
+                    fc: fc,
                 }}
                 validate={values => {
                     interface IErrors {
@@ -56,8 +111,6 @@ const AddLegForm = ({ setAddLegForm, msn }: AddLegFormProps) => {
                         blockOn?: string;
                         flightTime?: string;
                         blockTime?: string;
-                        fh?: string;
-                        fc?: string;
                     }
                     const errors: IErrors = {};
 
@@ -69,75 +122,151 @@ const AddLegForm = ({ setAddLegForm, msn }: AddLegFormProps) => {
                     if (!values.blockOn) errors.blockOn = 'Serial number is required';
                     // if (!values.flightTime) errors.flightTime = 'Serial number is required';
                     if (!values.blockTime) errors.blockTime = 'Serial number is required';
-                    if (!values.fh) errors.fh = 'Serial number is required';
-                    if (!values.fc) errors.fc = 'Serial number is required';
                     return errors;
                 }}
-                onSubmit={(
+                onSubmit={async (
                     values: ILeg,
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
-                    const payload = {
-
+                    const newLeg = {
+                        depDate: values.depDate,
+                        flightNumber: values.flightNumber,
+                        from: values.from,
+                        to: values.to,
+                        blockOff: values.blockOff,
+                        takeOff: values.takeOff,
+                        landing: values.landing,
+                        blockOn: values.blockOn,
+                        flightTime: values.flightTime,
+                        blockTime: values.blockTime,
                     }
-                    // dispatch(addAircraft(payload));
-                    console.log('add leg', values)
+                    const response = await aircraftAPI.addLeg(values, msn);
+                    console.log(newLeg, msn);
+                    console.log(response);
                 }}
             >
-                {({ errors, touched }) => (
-                    <Form className={s.addLeg__form}>
+                {({ errors, touched, setFieldValue, values, handleSubmit }) => (
+                    <Form className={s.addLeg__form} onSubmit={handleSubmit}>
                         <div className={s.addLeg__form__wrap}>
                             <div className={s.addLeg__form__link}>
                                 {errors.depDate ? <ErrorMessage message={errors.depDate} /> : null}
                                 <label>Date <span>*</span></label>
-                                <Input type="date" id="depDate" name="depDate" placeholder="Enter Date" />
+                                <Field
+                                    type="date"
+                                    id="depDate"
+                                    name="depDate"
+                                    placeholder="Enter Date"
+                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.flightNumber ? <ErrorMessage message={errors.flightNumber} /> : null}
                                 <label>Flight No <span>*</span></label>
-                                <Input type="text" id="flightNumber" name="flightNumber" placeholder="Enter Flight No" />
+                                <Input
+                                    type="text"
+                                    id="flightNumber"
+                                    name="flightNumber"
+                                    placeholder="Enter Flight No" />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.from ? <ErrorMessage message={errors.from} /> : null}
                                 <label>Depature airport <span>*</span></label>
-                                <Input type="text" id="from" name="from" placeholder="Enter depature airport" />
+                                <Input
+                                    type="text"
+                                    id="from"
+                                    name="from"
+                                    placeholder="Enter depature airport" />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.to ? <ErrorMessage message={errors.to} /> : null}
                                 <label>Arrive airport <span>*</span></label>
-                                <Input type="text" id="to" name="to" placeholder="Enter arrive airport" />
+                                <Input
+                                    type="text"
+                                    id="to"
+                                    name="to"
+                                    placeholder="Enter arrive airport" />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
                                 <label>Block Off <span>*</span></label>
-                                <Input type="text" id="blockOff" name="blockOff" placeholder="Enter Block Off" />
+                                <Field
+                                    type="time"
+                                    id="blockOff"
+                                    name="blockOff"
+                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)}
+                                />
+                            </div>
+                            <div className={s.addLeg__form__link}>
+                                {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
+                                <label>Take Off <span>*</span></label>
+                                <Field
+                                    type="time"
+                                    id="takeOff"
+                                    name="takeOff"
+                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
+                            </div>
+                            <div className={s.addLeg__form__link}>
+                                {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
+                                <label>Landing <span>*</span></label>
+                                <Field
+                                    type="time"
+                                    id="landing"
+                                    name="landing"
+                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.blockOn ? <ErrorMessage message={errors.blockOn} /> : null}
                                 <label>Block On <span>*</span></label>
-                                <Input type="text" id="blockOn" name="blockOn" placeholder="Enter Block On" />
+                                <Field
+                                    type="time"
+                                    id="blockOn"
+                                    name="blockOn"
+                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)}
+                                />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.flightTime ? <ErrorMessage message={errors.flightTime} /> : null}
                                 <label>Flight Time <span>*</span></label>
-                                <Input type="text" id="flightTime" name="flightTime" placeholder="Enter Flight Time" value="203" disabled={true} />
+                                <Input
+                                    type="text"
+                                    id="flightTime" name="flightTime"
+                                    placeholder='00:00'
+                                    value={values.flightTime}
+                                    disabled={true}
+                                />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.blockTime ? <ErrorMessage message={errors.blockTime} /> : null}
                                 <label>Block Time<span>*</span></label>
-                                <Input type="text" id="blockTime" name="blockTime" placeholder="Enter Block Time" />
+                                <Field
+                                    type="text"
+                                    id="blockTime"
+                                    name="blockTime"
+                                    placeholder='00:00'
+                                    value={values.blockTime}
+                                    disabled={true}
+                                />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
                                 <label>FH<span>*</span></label>
-                                <Input type="text" id="fh" name="fh" placeholder="Enter FH" />
+                                <Field
+                                    type="text"
+                                    id="fh"
+                                    name="fh"
+                                    placeholder={fh}
+                                    value={values.fh}
+                                />
                             </div>
                             <div className={s.addLeg__form__link}>
                                 {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
                                 <label>FC<span>*</span></label>
-                                <Input type="text" id="fc" name="fc" placeholder="Enter FC" />
+                                <Input
+                                    type="text"
+                                    id="fc"
+                                    name="fc"
+                                    value={(+fc + 1).toString()}
+                                    placeholder={fc} />
                             </div>
-                           
                         </div>
                         <div className={s.addLeg__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => setAddLegForm(false)} />

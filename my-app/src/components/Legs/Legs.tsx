@@ -82,7 +82,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     return (
         <div className={s.legs__contaiter}>
             <div className={s.background__circle}></div>
-            {addLegForm && <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} />}
+            {addLegForm && <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} />}
             <div className={s.aircraftInfo} >
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >
