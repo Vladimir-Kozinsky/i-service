@@ -59,6 +59,10 @@ router.get('/aircrafts', async (req, res) => {
         if (!aircrafts.length) {
             throw new Error("Aircrafts were not found");
         } else {
+            for (let i = 0; i < aircrafts.length; i++) {
+                const aircraft = aircrafts[i];
+                aircraft.legs = [];
+            }
             res.statusMessage = "Aircrafs were found";
             res.json(aircrafts);
         }
@@ -121,19 +125,39 @@ router.get('/aircraft/legs', async (req, res) => {
 
 router.post('/aircraft/legs/add', async (req, res) => {
     try {
+        const culcFH = (legs, initFH) => {
+            const toMins = (str) => {
+                const hh = +str.split(':')[0] * 60;
+                const mm = +str.split(':')[1];
+                return hh + mm
+            }
+            const fh = legs.reduce((prevValue, item) => {
+                return prevValue += toMins(item.flightTime)
+            }, toMins(initFH))
 
-        const culcFH =(legs, initFH) => {
-            
+            const hh = Math.floor(fh / 60);
+            const mm = fh % 60;
+            return `${hh}:${mm}`;
+        }
+        const culcFC = (legs, initFC) => {
+            return +initFC + legs.length
         }
 
         const { leg, msn } = req.body;
-        console.log(leg)
         const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
+
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraftWithLeg = await Aircraft.findOne({ msn: msn }).exec();
+        const newFH = culcFH(aircraftWithLeg.legs, aircraftWithLeg.initFh)
+        console.log(newFH)
+        const newFC = culcFC(aircraftWithLeg.legs, aircraftWithLeg.initFc)
+        const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
+        if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
+
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
         const addedLeg = aircraft.legs[aircraft.legs.length - 1];
         res.statusMessage = "Leg successfully added";
-        res.json(addedLeg);
+        res.json({ addedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;

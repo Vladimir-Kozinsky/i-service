@@ -1,16 +1,17 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import Button from "../../common/buttons/Button";
 import Input from "../../common/Input";
-import { IAircraft } from "../../store/reducers/aircraftReducer";
+import { getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
 import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
 import backgroundImg1 from "./../../assets/img/png/back-img1.png"
 import backgroundImg2 from "./../../assets/img/png/back-img2.png"
 import { compose } from "redux";
 import { withContainerBlur } from "../HOC/withContainerBlur/withContainerBlur";
-import aircraftAPI from "../../API/aircraftAPI";
 import { useState } from "react";
 import AddLegForm from "./AddLegForm/AddLegForm";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store/store";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -40,23 +41,20 @@ interface ILeg {
 
 
 const Legs = ({ setPage, aircraft }: ILegsProps) => {
-    const [legs, setLegs] = useState<any>([])
-    const [totalPages, setTotalPages] = useState<any>(1);
-    const [currentPage, setCurrentPage] = useState(1);
+    const dispatch = useDispatch<AppDispatch>();
+    const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
+    const totalPages = useSelector((state: any) => state.aircraft.legsTotalPages);
+    const currentPage = useSelector((state: any) => state.aircraft.legsCurrentPage);
+    console.log(currentPage)
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
+
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
-        const response = await aircraftAPI.getLegs(msn, from, to, page);
-        const legs = response.data.legs;
-        if (legs) setLegs(legs);
-        if (+response.data.totalPages === 0) {
-            setTotalPages(1);
-        } else {
-            setTotalPages(+response.data.totalPages);
-        }
-        setCurrentPage(+response.data.currentPage);
+        console.log(msn, from, to, page)
+        dispatch(getLegs({ msn, from, to, page }))
     }
-    const legsComp = legs.map((leg: ILeg) => {
+
+    const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div className={s.leg}>
                 <div className={s.leg__title__value}>{leg.depDate}</div>
@@ -73,7 +71,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 <div className={s.leg__title__value}>{leg.fc}</div>
             </div>
         )
-    })
+    }) : null
 
     const changePage = (page: number) => {
         getLegsFunc(aircraft.msn, searchParam.from, searchParam.to, page)

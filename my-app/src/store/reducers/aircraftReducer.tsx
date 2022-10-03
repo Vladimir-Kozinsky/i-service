@@ -33,22 +33,25 @@ export interface IAircraft {
     fc: string;
     engines: IEngine[];
     apu: string;
+    legs?: any
 }
 
 export interface IAircraftState {
     aircrafts: IAircraft[];
-    choosedAircraft: string;
+    choosedAircraft: IAircraft;
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
     isSuccessMessage: boolean;
 }
 
 const initialState = {
-    aircrafts: null,
-    choosedAircraft: null,
+    aircrafts: [],
+    choosedAircraft: {} as IAircraft,
     addAicraftMessage: '',
     addAicraftErrorMessage: '',
     isSuccessMessage: false,
+    legsTotalPages: 1,
+    legsCurrentPage: 1
 }
 
 const aircraftSlice = createSlice({
@@ -58,6 +61,15 @@ const aircraftSlice = createSlice({
         hideSuccessMessage(state) {
             state.isSuccessMessage = false;
         },
+        setChoosedAircraft(state, action) {
+            state.choosedAircraft = action.payload
+        },
+        setLegsTotalPages(state, action) {
+            state.legsTotalPages = action.payload
+        },
+        setLegsCurrentPage(state, action) {
+            state.legsCurrentPage = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(addAircraft.fulfilled, (state, action) => {
@@ -74,7 +86,14 @@ const aircraftSlice = createSlice({
             console.log("aircraft updated")
         })
         builder.addCase(getLegs.fulfilled, (state, action) => {
-            console.log(action.payload.legs)
+            state.choosedAircraft.legs = action.payload.legs
+            state.legsTotalPages = +action.payload.totalPages
+            state.legsCurrentPage = +action.payload.currentPage
+        })
+        builder.addCase(addLeg.fulfilled, (state, action) => {
+            if (state.choosedAircraft) {
+                state.choosedAircraft.legs.push(action.payload)
+            }
         })
     },
 })
@@ -116,7 +135,7 @@ export const updateAircraft = createAsyncThunk(
 
 export const getLegs = createAsyncThunk(
     'aircraft/getLegs',
-    async ({msn, from, to, page}: any) => {
+    async ({ msn, from, to, page }: any) => {
         try {
             const response = await aircraftAPI.getLegs(msn, from, to, page);
             return response.data;
@@ -126,5 +145,17 @@ export const getLegs = createAsyncThunk(
     }
 )
 
-export const { hideSuccessMessage } = aircraftSlice.actions
+export const addLeg = createAsyncThunk(
+    'aircraft/addLeg',
+    async ({ leg, msn }: any) => {
+        try {
+            const response = await aircraftAPI.addLeg(leg, msn);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+
+export const { hideSuccessMessage, setChoosedAircraft, setLegsTotalPages, setLegsCurrentPage } = aircraftSlice.actions
 export default aircraftSlice.reducer;

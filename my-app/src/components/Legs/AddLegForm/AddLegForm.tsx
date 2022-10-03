@@ -7,6 +7,9 @@ import AircraftEditForm from "../../Dashboard/AircraftEditForm/AircraftEditForm"
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import aircraftAPI from "../../../API/aircraftAPI";
 import s from "./AddLegForm.module.scss"
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { addLeg } from "../../../store/reducers/aircraftReducer";
 
 interface ILeg {
     depDate: string;
@@ -58,6 +61,7 @@ const calcTime = (depDate: string, startTime: string, endTime: string) => {
 }
 
 const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
+    const dispatch = useDispatch<AppDispatch>();
     const onChangeTime = (e: any, setFieldValue: any, values: any) => {
         const takeOff = e.target.id === 'takeOff' ? e.target.value : values.takeOff;
         const landing = e.target.id === 'landing' ? e.target.value : values.landing;
@@ -69,8 +73,8 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
         setFieldValue('flightTime', flightTime);
         setFieldValue('blockTime', calcTime(date, blockOff, blockOn));
         if (e.target.id === 'takeOff' || e.target.id === 'landing') onChangeFH(setFieldValue, flightTime)
-
     }
+
     const onChangeFH = (setFieldValue: any, flightTime: any) => {
         const currentTimemm = (+fh.split(':')[0] * 60) + (+fh.split(':')[1]);
         const newTimemm = (+flightTime.split(':')[0] * 60) + (+flightTime.split(':')[1]);
@@ -78,7 +82,7 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
         const hh = Math.floor(totalTimemm / 60);
         const mm = totalTimemm % 60;
         setFieldValue('fh', `${hh}:${mm}`);
-        console.log(`${hh}:${mm}`);
+        setFieldValue('fc', `${+fc + 1}`);
     }
 
     return (
@@ -128,7 +132,7 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
                     values: ILeg,
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
-                    const newLeg = {
+                    const leg = {
                         depDate: values.depDate,
                         flightNumber: values.flightNumber,
                         from: values.from,
@@ -139,10 +143,10 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
                         blockOn: values.blockOn,
                         flightTime: values.flightTime,
                         blockTime: values.blockTime,
+                        fh: values.fh,
+                        fc: values.fc
                     }
-                    const response = await aircraftAPI.addLeg(values, msn);
-                    console.log(newLeg, msn);
-                    console.log(response);
+                    dispatch(addLeg({ leg, msn }))
                 }}
             >
                 {({ errors, touched, setFieldValue, values, handleSubmit }) => (
