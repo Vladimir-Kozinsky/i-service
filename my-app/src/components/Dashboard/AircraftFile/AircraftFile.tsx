@@ -42,7 +42,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                     </div>
                 </div>
                 <div className={s.widget__container} >
-                    <AircraftFileWidget text='LEGS' img={legsIcon} />
+                    <AircraftFileWidget text='LEGS' img={legsIcon} aircraft={aircraft} />
                 </div>
             </div>
             <div className={s.buttons} >

@@ -15,14 +15,11 @@ const SuccessMessage = ({ route, handler }: SuccessMessageProps) => {
         dispatch(handler())
     }
     return (
-        <div className={s.signout__container}>
-            <div className={s.background__circle}></div>
-            <div className={s.message}>
-                <h3 className={s.message__header}>Success!</h3>
-                <span>Your request has been successfully <br />processed</span>
-                <img className={s.message__icon} src={icon} alt="img" />
-                <Link onClick={setSignUpMessage} className={s.message__btn} to={route} >Continue</Link>
-            </div>
+        <div className={s.message}>
+            <h3 className={s.message__header}>Success!</h3>
+            <span>Your request has been successfully <br />processed</span>
+            <img className={s.message__icon} src={icon} alt="img" />
+            <Link onClick={setSignUpMessage} className={s.message__btn} to={route} >Continue</Link>
         </div>
     )
 }

@@ -59,6 +59,10 @@ router.get('/aircrafts', async (req, res) => {
         if (!aircrafts.length) {
             throw new Error("Aircrafts were not found");
         } else {
+            for (let i = 0; i < aircrafts.length; i++) {
+                const aircraft = aircrafts[i];
+                aircraft.legs = [];
+            }
             res.statusMessage = "Aircrafs were found";
             res.json(aircrafts);
         }
@@ -98,17 +102,24 @@ router.get('/aircraft/legs', async (req, res) => {
             const toDate = new Date(to);
             return legDate >= fromDate && legDate <= toDate
         })
+        legs.sort((legA, legB) => {
+            const dateA = new Date(legA.depDate);
+            const dateB = new Date(legB.depDate);
+            if (dateA < dateB) return 1; // если первое значение больше второго
+            if (dateA == dateB) return 0; // если равны
+            if (dateA > dateB) return -1;
+        })
+
         const legsOnPage = 15;
         const totalPages = Math.ceil(legs.length / legsOnPage);
         const fromIndex = page * legsOnPage - legsOnPage;
         const toIndex = page * legsOnPage - 1;
-        console.log(fromIndex, toIndex)
         const reducedLegs = legs.filter((leg, index) => index >= fromIndex && index <= toIndex);
         res.statusMessage = reducedLegs.length
             ? "Legs were found"
             : "No results were found for your search, please change your search parameters";
         res.json({
-            legs: reducedLegs.reverse(),
+            legs: reducedLegs,
             currentPage: page,
             totalPages: totalPages
         });
@@ -121,13 +132,39 @@ router.get('/aircraft/legs', async (req, res) => {
 
 router.post('/aircraft/legs/add', async (req, res) => {
     try {
-        const { newLeg, msn } = req.body;
-        const update = await Aircraft.updateOne({ msn: msn }, { legs: newLeg });
+        const culcFH = (legs, initFH) => {
+            const toMins = (str) => {
+                const hh = +str.split(':')[0] * 60;
+                const mm = +str.split(':')[1];
+                return hh + mm
+            }
+            const fh = legs.reduce((prevValue, item) => {
+                return prevValue += toMins(item.flightTime)
+            }, toMins(initFH))
+
+            const hh = Math.floor(fh / 60);
+            const mm = fh % 60;
+            return `${hh}:${mm}`;
+        }
+        const culcFC = (legs, initFC) => {
+            return +initFC + legs.length
+        }
+
+        const { leg, msn } = req.body;
+        const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
+
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraftWithLeg = await Aircraft.findOne({ msn: msn }).exec();
+        const newFH = culcFH(aircraftWithLeg.legs, aircraftWithLeg.initFh)
+        console.log(newFH)
+        const newFC = culcFC(aircraftWithLeg.legs, aircraftWithLeg.initFc)
+        const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
+        if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
+
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
-        const addedLeg = aircraft.legs[legs.length - 1];
+        const addedLeg = aircraft.legs[aircraft.legs.length - 1];
         res.statusMessage = "Leg successfully added";
-        res.json(addedLeg);
+        res.json({ addedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;

@@ -6,14 +6,17 @@ type InputProps = {
     id: string;
     name: string;
     placeholder: string;
+    value?: string;
+    disabled?: boolean;
 }
 
-const Input = ({ type, id, name, placeholder }: InputProps) => {
+const Input = ({ type, id, name, placeholder, value, disabled }: InputProps) => {
     return (
         <Field type={type}
             id={id} name={name}
             placeholder={placeholder}
-            className={s.input} />
+            className={s.input}
+            value={value} disabled={disabled} />
     )
 }
 

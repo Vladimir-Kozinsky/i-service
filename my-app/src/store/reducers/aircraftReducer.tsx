@@ -33,22 +33,25 @@ export interface IAircraft {
     fc: string;
     engines: IEngine[];
     apu: string;
+    legs?: ILeg[];
 }
 
 export interface IAircraftState {
     aircrafts: IAircraft[];
-    choosedAircraft: string;
+    choosedAircraft: IAircraft;
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
     isSuccessMessage: boolean;
 }
 
 const initialState = {
-    aircrafts: null,
-    choosedAircraft: null,
+    aircrafts: [] as IAircraft[],
+    choosedAircraft: {} as IAircraft,
     addAicraftMessage: '',
     addAicraftErrorMessage: '',
     isSuccessMessage: false,
+    legsTotalPages: 1,
+    legsCurrentPage: 1
 }
 
 const aircraftSlice = createSlice({
@@ -58,11 +61,21 @@ const aircraftSlice = createSlice({
         hideSuccessMessage(state) {
             state.isSuccessMessage = false;
         },
+        setChoosedAircraft(state, action) {
+            state.choosedAircraft = action.payload
+        },
+        setLegsTotalPages(state, action) {
+            state.legsTotalPages = action.payload
+        },
+        setLegsCurrentPage(state, action) {
+            state.legsCurrentPage = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(addAircraft.fulfilled, (state, action) => {
             state.addAicraftMessage = action.payload;
             state.isSuccessMessage = true;
+            state.aircrafts.push(action.payload);
         })
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
@@ -72,6 +85,25 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(updateAircraft.fulfilled, (state, action) => {
             console.log("aircraft updated")
+        })
+        builder.addCase(getLegs.fulfilled, (state, action) => {
+            state.choosedAircraft.legs = action.payload.legs
+            state.legsTotalPages = +action.payload.totalPages ? +action.payload.totalPages : 1;
+            state.legsCurrentPage = +action.payload.currentPage
+        })
+        builder.addCase(addLeg.fulfilled, (state, action) => {
+            if (state.choosedAircraft) {
+                //state.choosedAircraft.legs.unshift(action.payload.addedLeg);
+                state.choosedAircraft.fh = action.payload.fh;
+                state.choosedAircraft.fc = action.payload.fc;
+            }
+            state.addAicraftMessage = action.payload;
+            state.isSuccessMessage = true;
+            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === state.choosedAircraft.msn) as IAircraft | undefined;
+            if (aircraft) {
+                aircraft.fh = action.payload.fh;
+                aircraft.fc = action.payload.fc;
+            }
         })
     },
 })
@@ -111,5 +143,29 @@ export const updateAircraft = createAsyncThunk(
     }
 )
 
-export const { hideSuccessMessage } = aircraftSlice.actions
+export const getLegs = createAsyncThunk(
+    'aircraft/getLegs',
+    async ({ msn, from, to, page }: any) => {
+        try {
+            const response = await aircraftAPI.getLegs(msn, from, to, page);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+
+export const addLeg = createAsyncThunk(
+    'aircraft/addLeg',
+    async ({ leg, msn }: any) => {
+        try {
+            const response = await aircraftAPI.addLeg(leg, msn);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+
+export const { hideSuccessMessage, setChoosedAircraft, setLegsTotalPages, setLegsCurrentPage } = aircraftSlice.actions
 export default aircraftSlice.reducer;

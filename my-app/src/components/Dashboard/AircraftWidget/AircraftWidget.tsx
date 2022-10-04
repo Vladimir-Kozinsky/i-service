@@ -2,11 +2,13 @@ import s from './AircraftWidget.module.scss';
 import plane from './../../../assets/img/png/plane.png'
 import engine from './../../../assets/img/png/engine.png'
 import apu from './../../../assets/img/png/apu.png'
-import { IAircraft } from '../../../store/reducers/aircraftReducer';
+import { IAircraft, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
 import { IAircraftFile } from '../Dashboard';
 import AircraftFile from '../AircraftFile/AircraftFile';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store/store';
 
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
@@ -14,6 +16,7 @@ type propsAircraftWidget = {
 }
 
 const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
+    const dispatch = useDispatch<AppDispatch>();
     const cutData = (str: string | undefined) => {
         if (!str) return 'N/A'
         if (str.length <= 5) return str;
@@ -31,6 +34,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
         const target = event.target as HTMLElement
         if (aircraft && onClick && target.tagName !== "BUTTON") {
             setArcraftFile(true);
+            dispatch(setChoosedAircraft(aircraft))
         }
     }
 
