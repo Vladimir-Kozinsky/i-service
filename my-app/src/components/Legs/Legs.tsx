@@ -12,6 +12,8 @@ import { useState } from "react";
 import AddLegForm from "./AddLegForm/AddLegForm";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
+import withSuccessMessage from "../HOC/messageHoc";
+import { withAuthRedirect } from "../HOC/withAuthRedirect";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -39,24 +41,21 @@ interface ILeg {
     fc: string;
 }
 
-
 const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
     const totalPages = useSelector((state: any) => state.aircraft.legsTotalPages);
     const currentPage = useSelector((state: any) => state.aircraft.legsCurrentPage);
-    console.log(currentPage)
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
-        console.log(msn, from, to, page)
         dispatch(getLegs({ msn, from, to, page }))
     }
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
-            <div className={s.leg}>
+            <div key={leg._id} className={s.leg}>
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>
@@ -158,4 +157,4 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     )
 }
 
-export default compose(withContainerBlur)(Legs); 
+export default compose(withContainerBlur, withSuccessMessage, withAuthRedirect)(Legs); 

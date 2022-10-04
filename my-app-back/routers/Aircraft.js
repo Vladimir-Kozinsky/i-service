@@ -102,17 +102,24 @@ router.get('/aircraft/legs', async (req, res) => {
             const toDate = new Date(to);
             return legDate >= fromDate && legDate <= toDate
         })
+        legs.sort((legA, legB) => {
+            const dateA = new Date(legA.depDate);
+            const dateB = new Date(legB.depDate);
+            if (dateA < dateB) return 1; // если первое значение больше второго
+            if (dateA == dateB) return 0; // если равны
+            if (dateA > dateB) return -1;
+        })
+
         const legsOnPage = 15;
         const totalPages = Math.ceil(legs.length / legsOnPage);
         const fromIndex = page * legsOnPage - legsOnPage;
         const toIndex = page * legsOnPage - 1;
-        console.log(fromIndex, toIndex)
         const reducedLegs = legs.filter((leg, index) => index >= fromIndex && index <= toIndex);
         res.statusMessage = reducedLegs.length
             ? "Legs were found"
             : "No results were found for your search, please change your search parameters";
         res.json({
-            legs: reducedLegs.reverse(),
+            legs: reducedLegs,
             currentPage: page,
             totalPages: totalPages
         });

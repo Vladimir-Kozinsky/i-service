@@ -33,7 +33,7 @@ export interface IAircraft {
     fc: string;
     engines: IEngine[];
     apu: string;
-    legs?: any
+    legs?: ILeg[];
 }
 
 export interface IAircraftState {
@@ -45,7 +45,7 @@ export interface IAircraftState {
 }
 
 const initialState = {
-    aircrafts: [],
+    aircrafts: [] as IAircraft[],
     choosedAircraft: {} as IAircraft,
     addAicraftMessage: '',
     addAicraftErrorMessage: '',
@@ -75,6 +75,7 @@ const aircraftSlice = createSlice({
         builder.addCase(addAircraft.fulfilled, (state, action) => {
             state.addAicraftMessage = action.payload;
             state.isSuccessMessage = true;
+            state.aircrafts.push(action.payload);
         })
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
@@ -87,12 +88,21 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(getLegs.fulfilled, (state, action) => {
             state.choosedAircraft.legs = action.payload.legs
-            state.legsTotalPages = +action.payload.totalPages
+            state.legsTotalPages = +action.payload.totalPages ? +action.payload.totalPages : 1;
             state.legsCurrentPage = +action.payload.currentPage
         })
         builder.addCase(addLeg.fulfilled, (state, action) => {
             if (state.choosedAircraft) {
-                state.choosedAircraft.legs.push(action.payload)
+                //state.choosedAircraft.legs.unshift(action.payload.addedLeg);
+                state.choosedAircraft.fh = action.payload.fh;
+                state.choosedAircraft.fc = action.payload.fc;
+            }
+            state.addAicraftMessage = action.payload;
+            state.isSuccessMessage = true;
+            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === state.choosedAircraft.msn) as IAircraft | undefined;
+            if (aircraft) {
+                aircraft.fh = action.payload.fh;
+                aircraft.fc = action.payload.fc;
             }
         })
     },

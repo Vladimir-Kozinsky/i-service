@@ -28,17 +28,17 @@ const Pagenator = ({ totalPages, currentPage, changePage }: IPagenatorProps) => 
 
     const pages = pagesArr.map((item) => {
         if (item === currentPage)
-            return <div className={classNames(s.page, s.active)}>{` ${item} `}</div>
+            return <div key={item} className={classNames(s.page, s.active)}>{` ${item} `}</div>
         if (item === 1)
-            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
+            return <div key={item} className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if (item === totalPages)
-            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
+            return <div key={item} className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if ((item < currentPage && item >= currentPage - 2) || (item > currentPage && item <= currentPage + 2))
-            return <div className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
+            return <div key={item} className={s.page} onClick={() => pageHandler(item)}>{` ${item} `}</div>
         if (item === currentPage - 4 || item === currentPage + 4)
-            return <div className={s.page__dot}> . . . </div>
+            return <div key={item} className={s.page__dot}> . . . </div>
     })
-  
+
     return (
         <div className={s.pagenator}>
             <Button state={currentPage} handler={prevPageHandler} text='Prev' color='white' btnType='button' />
