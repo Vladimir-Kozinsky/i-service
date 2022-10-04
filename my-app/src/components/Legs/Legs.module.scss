@@ -78,6 +78,7 @@
 
 .leg__title,
 .leg {
+    position: relative;
     margin: 0 auto;
     padding: 0 8px;
     display: flex;
@@ -98,6 +99,55 @@
     font-style: normal;
     font-weight: 400;
     text-align: center;
+}
+
+.edit__btns {
+    position: absolute;
+    right: -55px;
+    width: 50px;
+    background-color: #d0e8ff;
+
+    button {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: none;
+        padding: 0;
+        border: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: noRepeat;
+        transition: all 0.2s;
+    }
+
+    .edit__btns__del {
+        background-image: url(../../assets/img/png/del-icon.png);
+        width: 34px;
+        height: 34px;
+        top: -16px;
+        left: 30px;
+
+        &:hover {
+            cursor: pointer;
+            width: 37px;
+            height: 37px;
+            top: -17.5px;
+            left: 28.5px;
+        }
+    }
+
+    .edit__btns__edit {
+        background-image: url(../../assets/img/png/edit-icon.png);
+        top: -15px;
+
+        &:hover {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            top: -16px;
+            left: -1px;
+        }
+    }
 }
 
 .buttons {

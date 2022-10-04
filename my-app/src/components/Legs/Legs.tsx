@@ -48,6 +48,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const currentPage = useSelector((state: any) => state.aircraft.legsCurrentPage);
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
+    const [legsEditMode, setlegsEditMode] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         dispatch(getLegs({ msn, from, to, page }))
@@ -68,6 +69,11 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 <div className={s.leg__title__value}>{leg.blockTime}</div>
                 <div className={s.leg__title__value}>{leg.fh}</div>
                 <div className={s.leg__title__value}>{leg.fc}</div>
+                {legsEditMode
+                    && <div className={s.edit__btns} >
+                        <button className={s.edit__btns__edit}></button>
+                        <button className={s.edit__btns__del} ></button>
+                    </div>}
             </div>
         )
     }) : null
@@ -151,6 +157,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
             </div>
             <div className={s.buttons} >
                 <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
+                <Button text="Edit" btnType="button" color="white" handler={() => setlegsEditMode(true)} />
                 <Button text="Add" btnType="button" color="green" handler={() => setAddLegForm(true)} />
             </div>
         </div >
