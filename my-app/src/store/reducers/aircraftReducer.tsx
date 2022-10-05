@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
-import userAPI from "../../API/userAPI";
 
 interface IEngine {
     _id: string;
@@ -120,6 +119,9 @@ const aircraftSlice = createSlice({
                 aircraft.fc = action.payload.fc;
             }
         })
+        builder.addCase(delLeg.fulfilled, (state, action) => {
+            state.isSuccessMessage = true
+        })
     },
 })
 
@@ -175,6 +177,17 @@ export const addLeg = createAsyncThunk(
     async ({ leg, msn }: any) => {
         try {
             const response = await aircraftAPI.addLeg(leg, msn);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+export const delLeg = createAsyncThunk(
+    'aircraft/delLeg',
+    async (legId: string) => {
+        try {
+            const response = await aircraftAPI.delLeg(legId);
             return response.data;
         } catch (error: any) {
             console.log(error)

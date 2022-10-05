@@ -1,7 +1,7 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import Button from "../../common/buttons/Button";
 import Input from "../../common/Input";
-import { getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
+import { delLeg, getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
 import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
 import backgroundImg1 from "./../../assets/img/png/back-img1.png"
@@ -54,6 +54,18 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
         dispatch(getLegs({ msn, from, to, page }))
     }
 
+    const editBtnHandler = () => {
+        if (legsEditMode) {
+            setlegsEditMode(false);
+        } else {
+            setlegsEditMode(true);
+        }
+    }
+
+    const deleteLeg = (legId: string) => {
+        dispatch(delLeg(legId))
+    }
+
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
@@ -72,7 +84,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 {legsEditMode
                     && <div className={s.edit__btns} >
                         <button className={s.edit__btns__edit}></button>
-                        <button className={s.edit__btns__del} ></button>
+                        <button className={s.edit__btns__del} onClick={() => deleteLeg(leg._id)} ></button>
                     </div>}
             </div>
         )
@@ -152,12 +164,12 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                     <div className={s.leg__title__value}>Block Time</div>
                     <div className={s.leg__title__value}>FH</div>
                     <div className={s.leg__title__value}>FC</div>
+                    <button className={s.edit__btn} onClick={editBtnHandler}></button>
                 </div>
                 {legsComp}
             </div>
             <div className={s.buttons} >
                 <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
-                <Button text="Edit" btnType="button" color="white" handler={() => setlegsEditMode(true)} />
                 <Button text="Add" btnType="button" color="green" handler={() => setAddLegForm(true)} />
             </div>
         </div >
