@@ -29,6 +29,8 @@ export interface IAircraft {
     type: string;
     msn: string;
     regNum: string;
+    initFh: string;
+    initFc: string;
     fh: string;
     fc: string;
     engines: IEngine[];
@@ -84,7 +86,20 @@ const aircraftSlice = createSlice({
             state.aircrafts = action.payload;
         })
         builder.addCase(updateAircraft.fulfilled, (state, action) => {
-            console.log("aircraft updated")
+            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === action.payload.msn) as IAircraft | undefined;
+            if (aircraft) {
+                aircraft.msn = action.payload.msn;
+                aircraft._id = action.payload._id;
+                aircraft.type = action.payload.type;
+                aircraft.regNum = action.payload.regNum;
+                aircraft.initFh = action.payload.initFh;
+                aircraft.initFc = action.payload.initFc;
+                aircraft.fh = action.payload.fh;
+                aircraft.fc = action.payload.fc;
+                aircraft.engines = action.payload.engines;
+                aircraft.apu = action.payload.apu;
+            }
+            state.isSuccessMessage = true;
         })
         builder.addCase(getLegs.fulfilled, (state, action) => {
             state.choosedAircraft.legs = action.payload.legs
