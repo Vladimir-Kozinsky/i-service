@@ -31,6 +31,10 @@ const aircraftAPI = {
         const response = await proxy.post('/aircraft/legs/add', { leg, msn });
         return response;
     },
+    async delLeg(legId: string) {
+        const response = await proxy.post('/aircraft/legs/del', legId);
+        return response;
+    },
 }
 
 export default aircraftAPI;
