@@ -8,9 +8,9 @@ import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
-import { connect } from 'http2';
 import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
+import withSuccessMessage from '../../HOC/messageHoc';
 
 type propsAircraftEditForm = {
     aircraft: IAircraft
@@ -20,6 +20,8 @@ type propsAircraftEditForm = {
 interface IAircraftFormValues {
     type: string;
     msn: string;
+    initFh: string;
+    initFc: string;
     fh: string;
     fc: string;
     eng1: string;
@@ -75,6 +77,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     type: aircraft.type,
                     msn: aircraft.msn,
                     regNum: aircraft.regNum,
+                    initFh: aircraft.initFh,
+                    initFc: aircraft.initFc,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
                     eng1: aircraft.engines[0].msn,
@@ -88,6 +92,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         type?: string;
                         msn?: string;
                         regNum?: string;
+                        initFh?: string;
+                        initFc?: string;
                         fh?: string;
                         fc?: string;
                         eng1?: string;
@@ -112,6 +118,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
+                    if (!values.initFh) errors.initFh = 'Initial FH is required';
+                    if (!values.initFc) errors.initFc = 'Initial FC is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!checkFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
@@ -129,6 +137,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                         type: selectedOption,
                         msn: values.msn,
                         regNum: values.regNum,
+                        initFh: values.initFh,
+                        initFc: values.initFc,
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,
@@ -158,47 +168,57 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                             <div className={s.aircraft__form__link}>
                                 {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
                                 <label>MSN <span>*</span></label>
-                                <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
+                                <Input type="text" id="msn" name="msn" placeholder={aircraft.msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
                                 <label>Reg: <span>*</span></label>
-                                <Input type="text" id="regNum" name="regNum" placeholder="Enter Reg" />
+                                <Input type="text" id="regNum" name="regNum" placeholder={aircraft.regNum} />
+                            </div>
+                            <div className={s.aircraft__form__link}>
+                                {errors.initFh ? <ErrorMessage message={errors.initFh} /> : null}
+                                <label>Initial FH <span>*</span></label>
+                                <Input type="text" id="initFh" name="initFh" placeholder={aircraft.initFh} />
+                            </div>
+                            <div className={s.aircraft__form__link}>
+                                {errors.initFc ? <ErrorMessage message={errors.initFc} /> : null}
+                                <label>Initial FC <span>*</span></label>
+                                <Input type="text" id="initFc" name="initFc" placeholder={aircraft.initFc} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
                                 <label>FH <span>*</span></label>
-                                <Input type="text" id="fh" name="fh" placeholder="Enter FH" />
+                                <Input type="text" id="fh" name="fh" placeholder={aircraft.fh} disabled />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
                                 <label>FC <span>*</span></label>
-                                <Input type="text" id="fc" name="fc" placeholder="Enter FC" />
+                                <Input type="text" id="fc" name="fc" placeholder={aircraft.fc} disabled />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.eng1 ? <ErrorMessage message={errors.eng1} /> : null}
                                 <label>ENG #1 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng1" name="eng1" placeholder="Enter serial number" />
+                                <Input type="text" id="eng1" name="eng1" placeholder={aircraft.engines[0].msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.eng2 ? <ErrorMessage message={errors.eng2} /> : null}
                                 <label>ENG #2 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng2" name="eng2" placeholder="Enter serial number" />
+                                <Input type="text" id="eng2" name="eng2" placeholder={aircraft.engines[1].msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.eng3 ? <ErrorMessage message={errors.eng3} /> : null}
                                 <label>ENG #3 Serial Number</label>
-                                <Input type="text" id="eng3" name="eng3" placeholder="Enter serial number" />
+                                <Input type="text" id="eng3" name="eng3" placeholder={aircraft.engines[2].msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.eng4 ? <ErrorMessage message={errors.eng4} /> : null}
                                 <label>ENG #4 Serial Number</label>
-                                <Input type="text" id="eng4" name="eng4" placeholder="Enter serial number" />
+                                <Input type="text" id="eng4" name="eng4" placeholder={aircraft.engines[3].msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.apu ? <ErrorMessage message={errors.apu} /> : null}
                                 <label>APU Serial Number</label>
-                                <Input type="text" id="apu" name="apu" placeholder="Enter serial number" />
+                                <Input type="text" id="apu" name="apu" placeholder={aircraft.apu} />
                             </div>
                         </div>
                         <div className={s.aircraft__form__btns} >
@@ -212,4 +232,4 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
     )
 }
 
-export default compose(withContainerBlur)(AircraftEditForm);
+export default compose(withContainerBlur, withSuccessMessage)(AircraftEditForm);

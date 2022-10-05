@@ -1,8 +1,25 @@
 import { Router } from "express";
 import Aircraft from "../models/aircraft.js";
 
-const router = new Router();
+const culcFH = (legs, initFH) => {
+    const toMins = (str) => {
+        const hh = +str.split(':')[0] * 60;
+        const mm = +str.split(':')[1];
+        return hh + mm
+    }
+    const fh = legs.reduce((prevValue, item) => {
+        return prevValue += toMins(item.flightTime)
+    }, toMins(initFH))
 
+    const hh = Math.floor(fh / 60);
+    const mm = fh % 60;
+    return `${hh}:${mm}`;
+}
+const culcFC = (legs, initFC) => {
+    return +initFC + legs.length
+}
+
+const router = new Router();
 router.post('/aircraft/add', async (req, res) => {
     try {
         const newAircraftData = req.body;
@@ -27,14 +44,11 @@ router.post('/aircraft/add', async (req, res) => {
 
 router.post('/aircraft/edit', async (req, res) => {
     try {
-        const { id, msn, fh, fc, eng1, eng2, eng3, eng4, apu } = req.body;
-
-        console.log(id);
-
+        const { id, msn, initFh, initFc, eng1, eng2, eng3, eng4, apu } = req.body;
         const update = await Aircraft.updateOne({ _id: id }, {
             msn: msn,
-            fh: fh,
-            fc: fc,
+            initFh: initFh,
+            initFc: initFc,
             eng1: eng1,
             eng2: eng2,
             eng3: eng3,
@@ -43,9 +57,15 @@ router.post('/aircraft/edit', async (req, res) => {
         });
 
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
-        const aircraft = await Aircraft.findOne({ id: id }).exec();
+        const aircraft = await Aircraft.findOne({ _id: id }).exec();
+        const newFH = culcFH(aircraft.legs, aircraft.initFh)
+        const newFC = culcFC(aircraft.legs, aircraft.initFc)
+        console.log(aircraft.legs, aircraft.initFh);
+        const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
+        if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
+        const aircraftUpdated = await Aircraft.findOne({ id: id }).exec();
         res.statusMessage = "Aircraft successfully updated";
-        res.json(aircraft);
+        res.json(aircraftUpdated);
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;
@@ -93,7 +113,6 @@ router.get('/aircraft', async (req, res) => {
 router.get('/aircraft/legs', async (req, res) => {
     try {
         const { msn, from, to, page } = req.query
-        console.log(msn, from, to)
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
         if (!aircraft) throw new Error("Aircraft was not found");
         const legs = aircraft.legs.filter(item => {
@@ -132,24 +151,6 @@ router.get('/aircraft/legs', async (req, res) => {
 
 router.post('/aircraft/legs/add', async (req, res) => {
     try {
-        const culcFH = (legs, initFH) => {
-            const toMins = (str) => {
-                const hh = +str.split(':')[0] * 60;
-                const mm = +str.split(':')[1];
-                return hh + mm
-            }
-            const fh = legs.reduce((prevValue, item) => {
-                return prevValue += toMins(item.flightTime)
-            }, toMins(initFH))
-
-            const hh = Math.floor(fh / 60);
-            const mm = fh % 60;
-            return `${hh}:${mm}`;
-        }
-        const culcFC = (legs, initFC) => {
-            return +initFC + legs.length
-        }
-
         const { leg, msn } = req.body;
         const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
 

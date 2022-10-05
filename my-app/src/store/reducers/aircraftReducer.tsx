@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
-import userAPI from "../../API/userAPI";
 
 interface IEngine {
     _id: string;
@@ -29,6 +28,8 @@ export interface IAircraft {
     type: string;
     msn: string;
     regNum: string;
+    initFh: string;
+    initFc: string;
     fh: string;
     fc: string;
     engines: IEngine[];
@@ -84,7 +85,20 @@ const aircraftSlice = createSlice({
             state.aircrafts = action.payload;
         })
         builder.addCase(updateAircraft.fulfilled, (state, action) => {
-            console.log("aircraft updated")
+            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === action.payload.msn) as IAircraft | undefined;
+            if (aircraft) {
+                aircraft.msn = action.payload.msn;
+                aircraft._id = action.payload._id;
+                aircraft.type = action.payload.type;
+                aircraft.regNum = action.payload.regNum;
+                aircraft.initFh = action.payload.initFh;
+                aircraft.initFc = action.payload.initFc;
+                aircraft.fh = action.payload.fh;
+                aircraft.fc = action.payload.fc;
+                aircraft.engines = action.payload.engines;
+                aircraft.apu = action.payload.apu;
+            }
+            state.isSuccessMessage = true;
         })
         builder.addCase(getLegs.fulfilled, (state, action) => {
             state.choosedAircraft.legs = action.payload.legs
@@ -104,6 +118,9 @@ const aircraftSlice = createSlice({
                 aircraft.fh = action.payload.fh;
                 aircraft.fc = action.payload.fc;
             }
+        })
+        builder.addCase(delLeg.fulfilled, (state, action) => {
+            state.isSuccessMessage = true
         })
     },
 })
@@ -160,6 +177,17 @@ export const addLeg = createAsyncThunk(
     async ({ leg, msn }: any) => {
         try {
             const response = await aircraftAPI.addLeg(leg, msn);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+export const delLeg = createAsyncThunk(
+    'aircraft/delLeg',
+    async (legId: string) => {
+        try {
+            const response = await aircraftAPI.delLeg(legId);
             return response.data;
         } catch (error: any) {
             console.log(error)

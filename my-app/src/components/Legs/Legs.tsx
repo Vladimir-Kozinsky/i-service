@@ -1,7 +1,7 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import Button from "../../common/buttons/Button";
 import Input from "../../common/Input";
-import { getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
+import { delLeg, getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
 import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
 import backgroundImg1 from "./../../assets/img/png/back-img1.png"
@@ -48,9 +48,22 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const currentPage = useSelector((state: any) => state.aircraft.legsCurrentPage);
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
+    const [legsEditMode, setlegsEditMode] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         dispatch(getLegs({ msn, from, to, page }))
+    }
+
+    const editBtnHandler = () => {
+        if (legsEditMode) {
+            setlegsEditMode(false);
+        } else {
+            setlegsEditMode(true);
+        }
+    }
+
+    const deleteLeg = (legId: string) => {
+        dispatch(delLeg(legId))
     }
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
@@ -68,6 +81,11 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 <div className={s.leg__title__value}>{leg.blockTime}</div>
                 <div className={s.leg__title__value}>{leg.fh}</div>
                 <div className={s.leg__title__value}>{leg.fc}</div>
+                {legsEditMode
+                    && <div className={s.edit__btns} >
+                        <button className={s.edit__btns__edit}></button>
+                        <button className={s.edit__btns__del} onClick={() => deleteLeg(leg._id)} ></button>
+                    </div>}
             </div>
         )
     }) : null
@@ -146,6 +164,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                     <div className={s.leg__title__value}>Block Time</div>
                     <div className={s.leg__title__value}>FH</div>
                     <div className={s.leg__title__value}>FC</div>
+                    <button className={s.edit__btn} onClick={editBtnHandler}></button>
                 </div>
                 {legsComp}
             </div>
