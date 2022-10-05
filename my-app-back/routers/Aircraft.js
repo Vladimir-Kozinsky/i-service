@@ -173,6 +173,24 @@ router.post('/aircraft/legs/add', async (req, res) => {
     }
 })
 
+router.post('/aircraft/legs/del', async (req, res) => {
+    try {
+        const { msn, legId } = req.body;
+        const update = await Aircraft.updateOne({ msn: msn }, {
+            $pull: {
+                legs: { _id: legId }
+            }
+        });
+        if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        res.statusMessage = "Leg successfully deleted";
+        res.json({ message: "Leg successfully deleted", legId: legId });
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 
 
 export default router;

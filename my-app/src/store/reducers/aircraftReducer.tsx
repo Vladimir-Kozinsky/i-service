@@ -120,6 +120,11 @@ const aircraftSlice = createSlice({
             }
         })
         builder.addCase(delLeg.fulfilled, (state, action) => {
+            if (state.choosedAircraft && state.choosedAircraft.legs) {
+                const newLegs = state.choosedAircraft.legs.filter((leg: ILeg) => leg._id !== action.payload.legId )
+                console.log(newLegs, action.payload.legId);
+                state.choosedAircraft.legs = newLegs;
+            }
             state.isSuccessMessage = true
         })
     },
@@ -185,9 +190,10 @@ export const addLeg = createAsyncThunk(
 )
 export const delLeg = createAsyncThunk(
     'aircraft/delLeg',
-    async (legId: string) => {
+    async ({ msn, legId }: any) => {
         try {
-            const response = await aircraftAPI.delLeg(legId);
+            console.log(msn, legId)
+            const response = await aircraftAPI.delLeg(msn, legId);
             return response.data;
         } catch (error: any) {
             console.log(error)
