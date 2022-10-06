@@ -191,6 +191,22 @@ router.post('/aircraft/legs/del', async (req, res) => {
     }
 })
 
+router.post('/aircraft/legs/edit', async (req, res) => {
+    try {
+        const { msn, legId, leg } = req.body;
+        const aircraft = await Aircraft.findOne({ msn });
+        const updatedLeg = aircraft.editLeg(legId, leg)
+        aircraft.save();
+
+        res.statusMessage = "Leg successfully updated";
+        res.json(updatedLeg);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 
 
 export default router;
