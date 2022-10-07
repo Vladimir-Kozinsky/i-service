@@ -15,6 +15,7 @@ const culcFH = (legs, initFH) => {
     const mm = fh % 60;
     return `${hh}:${mm}`;
 }
+
 const culcFC = (legs, initFC) => {
     return +initFC + legs.length
 }
@@ -166,6 +167,41 @@ router.post('/aircraft/legs/add', async (req, res) => {
         const addedLeg = aircraft.legs[aircraft.legs.length - 1];
         res.statusMessage = "Leg successfully added";
         res.json({ addedLeg, fh: aircraft.fh, fc: aircraft.fc });
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+router.post('/aircraft/legs/del', async (req, res) => {
+    try {
+        const { msn, legId } = req.body;
+        const update = await Aircraft.updateOne({ msn: msn }, {
+            $pull: {
+                legs: { _id: legId }
+            }
+        });
+        if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        res.statusMessage = "Leg successfully deleted";
+        res.json({ message: "Leg successfully deleted", legId: legId });
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+router.post('/aircraft/legs/edit', async (req, res) => {
+    try {
+        const { msn, legId, leg } = req.body;
+        const aircraft = await Aircraft.findOne({ msn });
+        const updatedLeg = aircraft.editLeg(legId, leg)
+        aircraft.reculcFhFc();
+        aircraft.save();
+
+        res.statusMessage = "Leg successfully updated";
+        res.json(updatedLeg);
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;

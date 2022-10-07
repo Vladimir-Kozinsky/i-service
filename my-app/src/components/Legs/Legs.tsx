@@ -63,7 +63,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     }
 
     const deleteLeg = (legId: string) => {
-        dispatch(delLeg(legId))
+        dispatch(delLeg({ msn: aircraft.msn, legId: legId }))
     }
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
