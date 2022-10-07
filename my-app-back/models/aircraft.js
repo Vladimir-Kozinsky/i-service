@@ -49,6 +49,30 @@ aircraftSchema.methods.editLeg = function (legId, newLeg) {
     return this.legs[legIndex];
 }
 
+aircraftSchema.methods.reculcFhFc = function () {
+    const toMins = (str) => {
+        const hh = +str.split(':')[0] * 60;
+        const mm = +str.split(':')[1];
+        return hh + mm
+    }
+
+    const minsToStr = (mins) => {
+        const hh = Math.floor(mins / 60);
+        const mm = mins % 60;
+        return `${hh}:${mm}`;
+    }
+
+    const fh = this.legs.reduce((prevValue, item, index) => {
+        prevValue += toMins(item.flightTime);
+        item.fh = minsToStr(prevValue);
+        item.fc = +this.initFc + (+index + 1);
+        return prevValue
+    }, toMins(this.initFh))
+
+    this.fh = minsToStr(fh);
+    this.fc = +this.initFc + this.legs.length;
+}
+
 const Aircraft = mongoose.model('Aircraft', aircraftSchema)
 
 export default Aircraft;

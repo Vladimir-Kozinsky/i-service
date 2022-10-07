@@ -15,6 +15,7 @@ const culcFH = (legs, initFH) => {
     const mm = fh % 60;
     return `${hh}:${mm}`;
 }
+
 const culcFC = (legs, initFC) => {
     return +initFC + legs.length
 }
@@ -196,6 +197,7 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         const { msn, legId, leg } = req.body;
         const aircraft = await Aircraft.findOne({ msn });
         const updatedLeg = aircraft.editLeg(legId, leg)
+        aircraft.reculcFhFc();
         aircraft.save();
 
         res.statusMessage = "Leg successfully updated";
