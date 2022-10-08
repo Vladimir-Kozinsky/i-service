@@ -1,11 +1,9 @@
-import { Field, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import Button from "../../common/buttons/Button";
 import Input from "../../common/Input";
-import { delLeg, getLegs, IAircraft, setLegsCurrentPage, setLegsTotalPages } from "../../store/reducers/aircraftReducer";
+import { delLeg, getLegs, IAircraft  } from "../../store/reducers/aircraftReducer";
 import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
-import backgroundImg1 from "./../../assets/img/png/back-img1.png"
-import backgroundImg2 from "./../../assets/img/png/back-img2.png"
 import { compose } from "redux";
 import { withContainerBlur } from "../HOC/withContainerBlur/withContainerBlur";
 import { useState } from "react";
@@ -14,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import withSuccessMessage from "../HOC/messageHoc";
 import { withAuthRedirect } from "../HOC/withAuthRedirect";
+import EditLegForm from "./EditLegForm/EditLegForm";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -49,6 +48,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
     const [legsEditMode, setlegsEditMode] = useState(false);
+    const [editLegForm, setEditLegForm] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         dispatch(getLegs({ msn, from, to, page }))
@@ -68,7 +68,9 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
+
             <div key={leg._id} className={s.leg}>
+                {editLegForm && <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} />}
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>
@@ -83,10 +85,12 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 <div className={s.leg__title__value}>{leg.fc}</div>
                 {legsEditMode
                     && <div className={s.edit__btns} >
-                        <button className={s.edit__btns__edit}></button>
+                        <button className={s.edit__btns__edit} onClick={() => setEditLegForm(true)}></button>
                         <button className={s.edit__btns__del} onClick={() => deleteLeg(leg._id)} ></button>
                     </div>}
             </div>
+
+
         )
     }) : null
 

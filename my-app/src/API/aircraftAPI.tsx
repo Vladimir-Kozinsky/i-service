@@ -1,5 +1,4 @@
 import axios from "axios";
-import { IAircraft } from "../store/reducers/aircraftReducer";
 
 const proxy = axios.create({
     baseURL: "http://localhost:5000"
@@ -10,7 +9,6 @@ const aircraftAPI = {
         const response = await proxy.post('/aircraft/add', aircraftData);
         return response;
     },
-
     async getAircrafts() {
         const response = await proxy.get('/aircrafts');
         return response;
@@ -32,8 +30,11 @@ const aircraftAPI = {
         return response;
     },
     async delLeg(msn: string, legId: string) {
-        console.log({msn, legId})
-        const response = await proxy.post('/aircraft/legs/del', {msn, legId});
+        const response = await proxy.post('/aircraft/legs/del', { msn, legId });
+        return response;
+    },
+    async editLeg(msn: string, legId: string, leg: any) {
+        const response = await proxy.post('/aircraft/legs/edit', { msn, legId, leg });
         return response;
     },
 }

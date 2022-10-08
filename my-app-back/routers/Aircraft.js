@@ -199,9 +199,8 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         const updatedLeg = aircraft.editLeg(legId, leg)
         aircraft.reculcFhFc();
         aircraft.save();
-
         res.statusMessage = "Leg successfully updated";
-        res.json(updatedLeg);
+        res.json({ updatedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
         res.statusCode = 403;
         res.statusMessage = error.message;

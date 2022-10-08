@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
 
 interface IEngine {
@@ -107,7 +107,6 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(addLeg.fulfilled, (state, action) => {
             if (state.choosedAircraft) {
-                //state.choosedAircraft.legs.unshift(action.payload.addedLeg);
                 state.choosedAircraft.fh = action.payload.fh;
                 state.choosedAircraft.fc = action.payload.fc;
             }
@@ -121,11 +120,29 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(delLeg.fulfilled, (state, action) => {
             if (state.choosedAircraft && state.choosedAircraft.legs) {
-                const newLegs = state.choosedAircraft.legs.filter((leg: ILeg) => leg._id !== action.payload.legId )
-                console.log(newLegs, action.payload.legId);
+                const newLegs = state.choosedAircraft.legs.filter((leg: ILeg) => leg._id !== action.payload.legId)
                 state.choosedAircraft.legs = newLegs;
             }
             state.isSuccessMessage = true
+        })
+        builder.addCase(editLeg.fulfilled, (state, action) => {
+            if (state.choosedAircraft) {
+                state.choosedAircraft.fh = action.payload.fh;
+                state.choosedAircraft.fc = action.payload.fc;
+            }
+            state.addAicraftMessage = action.payload;
+            state.isSuccessMessage = true;
+            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === state.choosedAircraft.msn) as IAircraft | undefined;
+            if (aircraft) {
+                aircraft.fh = action.payload.fh;
+                aircraft.fc = action.payload.fc;
+
+                const legIndex = state.choosedAircraft.legs?.findIndex((leg) => {
+                    return leg._id === action.payload.updatedLeg._id
+                });
+                if (legIndex !== undefined && legIndex >= 0 && state.choosedAircraft.legs)
+                    state.choosedAircraft.legs[legIndex] = action.payload.updatedLeg;
+            }
         })
     },
 })
@@ -192,8 +209,18 @@ export const delLeg = createAsyncThunk(
     'aircraft/delLeg',
     async ({ msn, legId }: any) => {
         try {
-            console.log(msn, legId)
             const response = await aircraftAPI.delLeg(msn, legId);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+)
+export const editLeg = createAsyncThunk(
+    'aircraft/editLeg',
+    async ({ msn, legId, updatedLeg }: any) => {
+        try {
+            const response = await aircraftAPI.editLeg(msn, legId, updatedLeg);
             return response.data;
         } catch (error: any) {
             console.log(error)
