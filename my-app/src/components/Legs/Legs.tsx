@@ -1,7 +1,7 @@
 import { Form, Formik, FormikHelpers } from "formik";
 import Button from "../../common/buttons/Button";
 import Input from "../../common/Input";
-import { delLeg, getLegs, IAircraft  } from "../../store/reducers/aircraftReducer";
+import { delLeg, getLegs, IAircraft } from "../../store/reducers/aircraftReducer";
 import s from "./Legs.module.scss"
 import Pagenator from "./Pagenator/Pagenator";
 import { compose } from "redux";
@@ -13,6 +13,7 @@ import { AppDispatch } from "../../store/store";
 import withSuccessMessage from "../HOC/messageHoc";
 import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import EditLegForm from "./EditLegForm/EditLegForm";
+import Print from "./Print/Print";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -49,6 +50,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const [addLegForm, setAddLegForm] = useState(false);
     const [legsEditMode, setlegsEditMode] = useState(false);
     const [editLegForm, setEditLegForm] = useState(false);
+    const [print, setPrint] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         dispatch(getLegs({ msn, from, to, page }))
@@ -68,7 +70,6 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
-
             <div key={leg._id} className={s.leg}>
                 {editLegForm && <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} />}
                 <div className={s.leg__title__value}>{leg.depDate}</div>
@@ -101,7 +102,9 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     return (
         <div className={s.legs__contaiter}>
             <div className={s.background__circle}></div>
+            <button onClick={() => setPrint(true)} className={s.print__btn}></button>
             {addLegForm && <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} />}
+            {print && <Print aircraft={aircraft} setPrint={setPrint} />}
             <div className={s.aircraftInfo} >
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >

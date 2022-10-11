@@ -25,6 +25,11 @@ const aircraftAPI = {
         const response = await proxy.get(`/aircraft/legs?msn=${msn}&from=${from}&to=${to}&page=${page}`);
         return response;
     },
+    async getPrintLegs(msn: string, from: string, to: string) {
+        const response = await proxy.get(`/aircraft/legs/print?msn=${msn}&from=${from}&to=${to}`);
+        return response;
+    },
+
     async addLeg(leg: any, msn: string) {
         const response = await proxy.post('/aircraft/legs/add', { leg, msn });
         return response;

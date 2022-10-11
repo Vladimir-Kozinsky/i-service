@@ -150,6 +150,35 @@ router.get('/aircraft/legs', async (req, res) => {
     }
 })
 
+router.get('/aircraft/legs/print', async (req, res) => {
+    try {
+        const { msn, from, to } = req.query
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        if (!aircraft) throw new Error("Aircraft was not found");
+        const legs = aircraft.legs.filter(item => {
+            const legDate = new Date(item.depDate);
+            const fromDate = new Date(from);
+            const toDate = new Date(to);
+            return legDate >= fromDate && legDate <= toDate
+        })
+        legs.sort((legA, legB) => {
+            const dateA = new Date(legA.depDate);
+            const dateB = new Date(legB.depDate);
+            if (dateA < dateB) return 1; // если первое значение больше второго
+            if (dateA == dateB) return 0; // если равны
+            if (dateA > dateB) return -1;
+        })
+        res.statusMessage = legs.length
+            ? "Legs were found"
+            : "No results were found for your search, please change your search parameters";
+        res.json(legs);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 router.post('/aircraft/legs/add', async (req, res) => {
     try {
         const { leg, msn } = req.body;
