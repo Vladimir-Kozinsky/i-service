@@ -1,0 +1,158 @@
+.print {
+    position: absolute;
+    z-index: 2;
+    width: 1200px;
+    left: 50%;
+    top: 50%;
+    margin-left: -600px;
+    margin-top: -48vh;
+    height: 95vh;
+    background-color: white;
+    border-radius: 25px;
+}
+
+.legs__filter {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px auto 0;
+
+    label {
+        margin-right: 8px;
+        color: #0a2640;
+        font-size: 16px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .value__wrap {
+        input {
+            width: 125px;
+            height: 34px;
+        }
+    }
+}
+
+.print__header {
+    margin: 20px 50px;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+
+.printBlock {
+    margin: 20px auto;
+    width: 1100px;
+    height: 75%;
+    overflow: auto;
+}
+
+
+.aircraftInfo {
+    margin: 20px auto 0px;
+    width: 90%;
+    display: grid;
+    display: flex;
+    justify-content: space-between;
+
+    .aircraftInfo__block {
+        height: 30px;
+        color: #0a2640;
+        font-size: 14px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 400;
+
+        .aircraftInfo__block__title {
+            margin-right: 10px;
+        }
+
+        .aircraftInfo__block__title {
+            width: 40px;
+        }
+    }
+}
+
+.buttons {
+    margin: 30px auto 0;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page {
+    padding-top: 20px;
+}
+
+
+.legs {
+    margin-top: 0px;
+    max-height: 60%;
+    overflow-y: auto;
+}
+
+.leg__title,
+.leg {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 8px;
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
+    height: 30px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.leg__title__value {
+    width: 70px;
+    color: #0a2640;
+    font-size: 12px;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+}
+
+.page__footer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+
+    span {
+        font-size: 14px;
+        margin-left: 10px;
+    }
+}
+
+
+@media all {
+    .break {
+        display: none;
+    }
+}
+
+@media print {
+
+    html,
+    body {
+        height: initial !important;
+        overflow: initial !important;
+        // -webkit-print-color-adjust: exact;
+    }
+}
+
+@media print {
+    .break {
+        margin-top: 1rem;
+        display: block;
+        page-break-before: always;
+        color: aquamarine;
+    }
+}
+
+@page {
+    size: auto;
+    margin: 20mm;
+}
