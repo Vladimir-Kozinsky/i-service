@@ -1,24 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import axios from 'axios';
 import userAPI from '../../API/userAPI';
 import { ISignUpValues } from '../../components/SignUp/SignUp';
-
-interface IUser {
-    _id: string | null,
-    email: string | null,
-    password: string | null;
-    firstName: string | null;
-    lastName: string | null;
-    position: string | null;
-}
-
-export interface IAuthState {
-    user: IUser;
-    isAuth: boolean;
-    isAuthError: boolean;
-    isSuccessMessage: boolean;
-    isSignUpError: boolean;
-    signUpErrorMessage: string;
-}
+import { IAuthState, IUser } from '../../types/types';
 
 const initialState: IAuthState = {
     user: {
@@ -40,14 +24,14 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        hideAuthSuccessMessage(state) {
+        hideAuthSuccessMessage(state: IAuthState) {
             state.isSuccessMessage = false;
         },
-        clearSignUpErrorMessage(state) {
+        clearSignUpErrorMessage(state: IAuthState) {
             state.signUpErrorMessage = '';
             state.isSignUpError = false;
         },
-        signOut(state) {
+        signOut(state: IAuthState) {
             state.isAuth = false;
             state.user = {
                 _id: null,
@@ -57,6 +41,23 @@ const authSlice = createSlice({
                 lastName: null,
                 position: null,
             }
+            window.localStorage.removeItem("user-id");
+            window.localStorage.removeItem("user-email");
+            window.localStorage.removeItem("user-firstName");
+            window.localStorage.removeItem("user-lastName");
+            window.localStorage.removeItem("user-position");
+        },
+        setUser(state: IAuthState) {
+            const userId: string | null = window.localStorage.getItem("user-id");
+            if (userId?.length) state.user._id = userId;
+            const email: string | null = window.localStorage.getItem("user-email");
+            if (email?.length) state.user.email = email;
+            const firstName: string | null = window.localStorage.getItem("user-firstName");
+            if (firstName?.length) state.user.firstName = firstName;
+            const lastName: string | null = window.localStorage.getItem("user-lastName");
+            if (lastName?.length) state.user.lastName = lastName;
+            const position: string | null = window.localStorage.getItem("user-position");
+            if (position?.length) state.user.position = position;
         }
     },
     extraReducers: (builder) => {
@@ -64,18 +65,23 @@ const authSlice = createSlice({
             state.user = action.payload;
             state.isAuth = true;
             state.isAuthError = false;
+            if (action.payload._id) window.localStorage.setItem("user-id", action.payload._id)
+            if (action.payload.email) window.localStorage.setItem("user-email", action.payload.email)
+            if (action.payload.firstName) window.localStorage.setItem("user-firstName", action.payload.firstName)
+            if (action.payload.lastName) window.localStorage.setItem("user-lastName", action.payload.lastName)
+            if (action.payload.position) window.localStorage.setItem("user-position", action.payload.position)
         })
-        builder.addCase(signIn.rejected, (state, action) => {
+        builder.addCase(signIn.rejected, (state: IAuthState) => {
             state.isAuthError = true;
         })
-        builder.addCase(signUp.fulfilled, (state, action) => {
+        builder.addCase(signUp.fulfilled, (state: IAuthState) => {
             state.isSuccessMessage = true;
         })
-        builder.addCase(signUp.rejected, (state, action) => {
+        builder.addCase(signUp.rejected, (state: IAuthState, action: PayloadAction<any>) => {
             state.isSignUpError = true;
-            state.signUpErrorMessage = action.payload as string
+            state.signUpErrorMessage = action.payload
         })
-        builder.addCase(checkAuth.fulfilled, (state, action) => {
+        builder.addCase(checkAuth.fulfilled, (state: IAuthState, action: PayloadAction<boolean>) => {
             state.isAuth = action.payload;
         })
     },
@@ -95,11 +101,14 @@ export const signUp = createAsyncThunk(
         try {
             const response = await userAPI.signUp(email, password, firstName, lastName, position);
             return response.data.message
-        } catch (error: any) {
-            return thunkAPI.rejectWithValue(error.response.statusText)
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return thunkAPI.rejectWithValue(error.response?.statusText)
+            }
         }
     }
 )
+
 export const checkAuth = createAsyncThunk(
     'auth/checkAuth',
     async (id: string) => {
@@ -108,5 +117,5 @@ export const checkAuth = createAsyncThunk(
     }
 )
 
-export const { hideAuthSuccessMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
+export const { hideAuthSuccessMessage, clearSignUpErrorMessage, signOut, setUser } = authSlice.actions
 export default authSlice.reducer;

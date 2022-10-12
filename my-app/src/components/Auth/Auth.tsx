@@ -8,7 +8,6 @@ import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { compose } from 'redux';
-import { withAuthRedirect } from '../HOC/withAuthRedirect';
 import { withDashboardRedirect } from '../HOC/withDashboardRedirect';
 
 export interface IAuthValues {
@@ -16,24 +15,23 @@ export interface IAuthValues {
     password: string;
 }
 
-type MyProps = {
+type AuthProps = {
     signIn: ({ email, password }: IAuthValues) => void;
     isAuthError: boolean;
     isAuth: boolean;
 }
 
-class Auth extends React.Component<MyProps> {
+class Auth extends React.Component<AuthProps> {
     state: {
         isAuthError: boolean
     }
-    constructor(props: any) {
+    constructor(props: AuthProps) {
         super(props);
-
         this.state = {
             isAuthError: false
         }
     }
-    componentDidUpdate(prevProps: any) {
+    componentDidUpdate(prevProps: AuthProps) {
         if (this.props.isAuthError !== prevProps.isAuthError) {
             this.setAuthError(this.props.isAuthError);
         }
