@@ -146,23 +146,27 @@
         border: 0;
         background-position: center;
         background-size: cover;
-        background-repeat: noRepeat;
+        background-repeat: no-repeat;
         transition: all 0.2s;
     }
 
     .edit__btns__del {
-        background-image: url(../../assets/img/png/del-icon.png);
+        background-image: url(../../assets/img/png/bin-icon.png);
         width: 34px;
-        height: 34px;
+        height: 30px;
         top: -16px;
         left: 30px;
+        background-position: center;
+        background-size: 30px;
+        background-repeat: no-repeat;
 
         &:hover {
             cursor: pointer;
-            width: 37px;
-            height: 37px;
-            top: -17.5px;
-            left: 28.5px;
+            background-size: 32px;
+            width: 36px;
+            height: 32px;
+            top: -17px;
+            left: 29px;
         }
     }
 

@@ -1,13 +1,11 @@
 import s from './Dashboard.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../store/store';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../HOC/withAuthRedirect';
 import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
 import { useEffect, useState } from 'react';
-import AircraftFile from './AircraftFile/AircraftFile';
 import AircraftForm from './AircraftForm/AircraftForm';
 import Header from '../Header/Header';
 import cross from './../../assets/img/png/cross.png'
@@ -20,7 +18,6 @@ export interface IAircraftFile {
 const Dashboard = () => {
     const dispatch = useDispatch<AppDispatch>();
     const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
-    const navigate = useNavigate();
     const [aircraftFile, setAircraftFile] = useState<IAircraftFile>({ show: false, msn: '' })
     const [addForm, setAddForm] = useState<boolean>(false)
     useEffect(() => {

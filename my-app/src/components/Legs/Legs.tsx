@@ -14,12 +14,14 @@ import withSuccessMessage from "../HOC/messageHoc";
 import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import EditLegForm from "./EditLegForm/EditLegForm";
 import Print from "./Print/Print";
+import DeleteMessage from "../../common/messages/DeleteMessage/DeleteMessage";
 
 type ILegsProps = {
     aircraft: IAircraft;
     setPage: (isPage: boolean) => void
 
 }
+
 interface IFilterValues {
     from: string;
     to: string;
@@ -51,6 +53,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const [legsEditMode, setlegsEditMode] = useState(false);
     const [editLegForm, setEditLegForm] = useState(false);
     const [print, setPrint] = useState(false);
+    const [delMess, setDelMess] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         dispatch(getLegs({ msn, from, to, page }))
@@ -64,13 +67,15 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
         }
     }
 
-    const deleteLeg = (legId: string) => {
+
+    const deleteLeg = (legId: string): void => {
         dispatch(delLeg({ msn: aircraft.msn, legId: legId }))
     }
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
+                {delMess && <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} />}
                 {editLegForm && <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} />}
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
@@ -87,7 +92,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                 {legsEditMode
                     && <div className={s.edit__btns} >
                         <button className={s.edit__btns__edit} onClick={() => setEditLegForm(true)}></button>
-                        <button className={s.edit__btns__del} onClick={() => deleteLeg(leg._id)} ></button>
+                        <button className={s.edit__btns__del} onClick={() => setDelMess(true)} ></button>
                     </div>}
             </div>
 

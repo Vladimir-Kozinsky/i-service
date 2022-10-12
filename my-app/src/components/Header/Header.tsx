@@ -23,6 +23,7 @@ const Header = ({ theme }: HeaderProps) => {
         <div className={s.header}>
             <div className={s.header__logo}>
                 <img src={logo} />
+                <h2 className={s.header__logo__title} >I-Service</h2>
             </div>
             <div className={s.header__nav} >
                 <span>{`${user.firstName} ${user.lastName}`}</span>

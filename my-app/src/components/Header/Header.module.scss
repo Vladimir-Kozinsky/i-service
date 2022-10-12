@@ -1,15 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
+
 .header {
     position: relative;
-    padding-top: 20px ;
+    padding-top: 20px;
     height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .header__logo {
-    width: 80px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+
     img {
-        width: 100%;
+        width: 160px;
+    }
+
+    .header__logo__title {
+        color: #ffffff;
+        font-family: Manrope;
+        margin-left: 30px;
+        font-size: 24px;
     }
 }
 
