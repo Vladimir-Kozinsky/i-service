@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { checkAuth, IAuthState } from "../../store/reducers/authReducer";
+import { checkAuth } from "../../store/reducers/authReducer";
+import { IAuthState } from "../../types/types";
 
 type MyProps = {
     isAuth: boolean;

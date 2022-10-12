@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { IAircraftState } from "../../store/reducers/aircraftReducer";
-import { checkAuth, IAuthState, setUser } from "../../store/reducers/authReducer";
+import { checkAuth, setUser } from "../../store/reducers/authReducer";
+import { IAuthState } from "../../types/types";
 
 type MyProps = {
     isAuth: boolean;
