@@ -44,4 +44,16 @@
             background-color: #65e4a3;
         }
     }
+
+    &.button__red {
+        background-color: #d5393a;
+        border: #d5393a 2px solid;
+        color: #ffffff;
+
+        &:hover {
+            background-color: #ffffff;;
+            border: #d5393a 2px solid;
+            color: #d5393a;
+        }
+    }
 }

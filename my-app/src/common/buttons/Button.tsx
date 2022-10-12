@@ -3,7 +3,7 @@ import s from "./Button.module.scss"
 
 type ButtonProps = {
     text: string;
-    color: "white" | "green" | "white__dark";
+    color: "white" | "green" | "white__dark" | "red";
     btnType: "button" | "submit" | "reset";
     handler?: (value?: any) => void;
     state?: any 

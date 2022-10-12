@@ -20,7 +20,7 @@ const DeleteMessage = ({ handleSubmit, handleBack }: DeleteMessageProps) => {
             <span>The leg will be permanently deleted</span>
             <div className={s.deleteMessage__btns} >
                 <Button text="Cancel" handler={handleBack} color='white' btnType="button" />
-                <Button text="Delete" handler={handleSubmit} color='white' btnType="submit" />
+                <Button text="Delete" handler={handleSubmit} color='red' btnType="submit" />
             </div>
         </div>
     )

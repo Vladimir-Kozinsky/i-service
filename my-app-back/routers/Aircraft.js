@@ -61,7 +61,6 @@ router.post('/aircraft/edit', async (req, res) => {
         const aircraft = await Aircraft.findOne({ _id: id }).exec();
         const newFH = culcFH(aircraft.legs, aircraft.initFh)
         const newFC = culcFC(aircraft.legs, aircraft.initFc)
-        console.log(aircraft.legs, aircraft.initFh);
         const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
         if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
         const aircraftUpdated = await Aircraft.findOne({ id: id }).exec();
