@@ -12,7 +12,7 @@ import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import withSuccessMessage from '../../HOC/messageHoc';
 
-type propsAircraftEditForm = {
+type AircraftEditFormProps = {
     aircraft: IAircraft
     showArcraftEditForm: () => void
 }
@@ -35,7 +35,7 @@ interface IOption {
     value: string | null;
     label: string | null;
 }
-const options = [
+const options: IOption[] = [
     { value: 'IL-76T', label: 'IL-76T' },
     { value: 'IL-76TD', label: 'IL-76TD' },
     { value: 'Boeing 737-300', label: 'Boeing 737-300' },
@@ -46,7 +46,7 @@ const options = [
     { value: 'Boeing 757-200', label: 'Boeing 757-200' }
 ]
 
-const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditForm) => {
+const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type ? aircraft.type : null);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
@@ -119,9 +119,9 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: propsAircraftEditFo
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.initFh) errors.initFh = 'Initial FH is required';
+                    if (!checkFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.initFc) errors.initFc = 'Initial FC is required';
                     if (!values.fh) errors.fh = 'FH is required';
-                    if (!checkFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
                     if (!values.eng1) errors.eng1 = 'Serial number is required';
                     if (!values.eng2) errors.eng2 = 'Serial number is required';

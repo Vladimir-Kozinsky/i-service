@@ -17,10 +17,10 @@
 }
 
 .main__header {
-    margin-top: 30px;
     text-align: center;
+    margin-bottom: 20px;
     color: #0a2640;
-    font-size: 34px;
+    font-size: 28px;
     font-family: "Manrope";
     font-style: normal;
     font-weight: 700;
@@ -43,28 +43,31 @@
 .aircraftInfo {
     margin: 10px auto 30px;
     width: 430px;
-
-    display: grid;
-    grid-template-columns: 180px 180px;
-    grid-template-rows: 30px 30px 30px;
-    grid-column-gap: 50px;
-
 }
 
-.aircraftInfo__block {
-    width: 200px;
+.aircraftInfo__section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.aircraftInfo__section__block {}
+
+.infoItem {
     height: 30px;
     color: #0a2640;
     font-size: 16px;
     font-family: "Manrope";
     font-style: normal;
     font-weight: 700;
+    margin-right: 20px;
 
-    .aircraftInfo__block__title {
+    .infoItem__title {
         margin-right: 10px;
+        width: 45px;
     }
 
-    .aircraftInfo__block__title {
+    .infoItem__title {
         width: 40px;
     }
 }
