@@ -57,6 +57,23 @@ const authSlice = createSlice({
                 lastName: null,
                 position: null,
             }
+            window.localStorage.removeItem("user-id");
+            window.localStorage.removeItem("user-email");
+            window.localStorage.removeItem("user-firstName");
+            window.localStorage.removeItem("user-lastName");
+            window.localStorage.removeItem("user-position");
+        },
+        setUser(state) {
+            const userId = window.localStorage.getItem("user-id");
+            if (userId?.length) state.user._id = userId;
+            const email = window.localStorage.getItem("user-email");
+            if (email?.length) state.user.email = email;
+            const firstName = window.localStorage.getItem("user-firstName");
+            if (firstName?.length) state.user.firstName = firstName;
+            const lastName = window.localStorage.getItem("user-lastName");
+            if (lastName?.length) state.user.lastName = lastName;
+            const position = window.localStorage.getItem("user-position");
+            if (position?.length) state.user.position = position;
         }
     },
     extraReducers: (builder) => {
@@ -64,6 +81,11 @@ const authSlice = createSlice({
             state.user = action.payload;
             state.isAuth = true;
             state.isAuthError = false;
+            if (action.payload._id) window.localStorage.setItem("user-id", action.payload._id)
+            if (action.payload.email) window.localStorage.setItem("user-email", action.payload.email)
+            if (action.payload.firstName) window.localStorage.setItem("user-firstName", action.payload.firstName)
+            if (action.payload.lastName) window.localStorage.setItem("user-lastName", action.payload.lastName)
+            if (action.payload.position) window.localStorage.setItem("user-position", action.payload.position)
         })
         builder.addCase(signIn.rejected, (state, action) => {
             state.isAuthError = true;
@@ -108,5 +130,5 @@ export const checkAuth = createAsyncThunk(
     }
 )
 
-export const { hideAuthSuccessMessage, clearSignUpErrorMessage, signOut } = authSlice.actions
+export const { hideAuthSuccessMessage, clearSignUpErrorMessage, signOut, setUser } = authSlice.actions
 export default authSlice.reducer;

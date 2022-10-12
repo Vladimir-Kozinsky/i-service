@@ -2,29 +2,38 @@ import React from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { IAircraftState } from "../../store/reducers/aircraftReducer";
-import { IAuthState } from "../../store/reducers/authReducer";
+import { checkAuth, IAuthState, setUser } from "../../store/reducers/authReducer";
 
 type MyProps = {
     isAuth: boolean;
+    userId: string | null;
+    checkAuth: (id: string) => void
+    setUser: () => void
 }
 interface IState {
     auth: IAuthState;
-    aircraftL: IAircraftState
+    aircraft: IAircraftState
 }
 
 const mapStateToProps = (state: IState) => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        userId: state.auth.user._id
     }
 }
 
 export const withDashboardRedirect = (Component: any) => {
     class RedirectComponent extends React.Component<MyProps> {
+        async componentDidMount(): Promise<void> {
+            await this.props.setUser();
+            if (this.props.userId) this.props.checkAuth(this.props.userId)
+        }
         render() {
             if (this.props.isAuth) return <Navigate to="/dashboard" replace={true} />
             return <Component {...this.props} />
         }
     }
-    let ConnectedAuthRedirectComponent = connect(mapStateToProps)(RedirectComponent);
+    const mapDispatchToProps = { checkAuth, setUser };
+    let ConnectedAuthRedirectComponent = connect(mapStateToProps, mapDispatchToProps)(RedirectComponent);
     return ConnectedAuthRedirectComponent
 }
