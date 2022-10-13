@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const proxy = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: "https://i-service-backend.herokuapp.com"
+   // baseURL: "http://localhost:5000"
 })
 
 const userAPI = {
