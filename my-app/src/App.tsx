@@ -8,6 +8,7 @@ function App() {
   return (
     <div className={s.container}>
       <Routes>
+        <Route path='/' element={<Auth />} />
         <Route path='/auth' element={<Auth />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/dashboard' element={<Dashboard />} />
