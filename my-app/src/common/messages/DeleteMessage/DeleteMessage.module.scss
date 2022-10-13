@@ -1,0 +1,71 @@
+.deleteMessage {
+    background-color: #ffffff;
+    width: 300px;
+    height: 400px;
+    border-radius: 25px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -200px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: #0a2640 1px solid;
+
+    span {
+        text-align: center;
+        font-family: Manrope;
+        font-size: 12px;
+        color: gray;
+        margin-bottom: 20px;
+    }
+}
+
+.deleteMessage__icon {
+    margin: 40px 0px 40px;
+    width: 150px;
+    opacity: 0.8;
+}
+
+.deleteMessage__header {
+    font-family: Manrope;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.deleteMessage__btns {
+    display: flex;
+    width: 85%;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.deleteMessage__btn {
+    margin-top: 20px;
+    text-decoration: none;
+    font-family: Manrope;
+    background-color: #ffffff;
+    border-radius: 24px;
+    height: 38px;
+    width: 120px;
+    color: #0a2640;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    border: none;
+    transition: all 0.3s;
+    background-color: #65e4a3;
+    border: #65e4a3 2px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        background-color: #ffffff;
+        border: #0a2640 2px solid;
+        cursor: pointer;
+    }
+}

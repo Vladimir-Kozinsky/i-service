@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
+
+.widget {
+    position: relative;
+    width: 290px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255, 0.3);
+    }
+
+    .widget__plane__img {
+        width: 180px;
+        height: 200px;
+        opacity: 0.15;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -90px;
+        margin-left: -90px;
+    }
+}
+
+.widget__btns {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+
+    button {
+        width: 30px;
+        height: 34px;
+        position: absolute;
+        background: none;
+        margin: 0;
+        padding: 0;
+        border: none;
+        transition: all 0.3s;
+        background-image: url(./../../../assets/img/png/setting_icon.png);
+        background-position: center;
+        background-size: cover;
+        background-repeat: noRepeat;
+    }
+
+    .widget__btns__set {
+        top: 7px;
+        left: 290px;
+        width: 30px;
+        &:hover {
+            cursor: pointer;
+            width: 34px;
+            height: 36px;
+            top: 5px;
+            left: 288px;
+        }
+        :active {
+            width: 30px;
+        }
+    }
+
+    .widget__btns__del {
+        left: 60px;
+    }
+}
+
+.widget__cross__img {
+    margin-top: 45px;
+    margin-left: 95px;
+
+    width: 100px;
+    height: 100px;
+}
+
+.widget__data__value {
+    text-align: center;
+    color: rgb(255, 255, 255, 0.8);
+    font-family: Manrope;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.widget__data__engines {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    justify-content: center;
+}
+
+.engine {
+    height: 45px;
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 40px;
+        height: 30px;
+        opacity: 1;
+    }
+
+    span {
+        color: rgb(255, 255, 255, 0.8);
+        font-family: Manrope;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 28px;
+        margin-left: 10px;
+    }
+}

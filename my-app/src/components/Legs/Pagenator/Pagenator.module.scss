@@ -1,0 +1,51 @@
+.pagenator {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+
+    button {
+        width: 60px;
+        height: 30px;
+        font-size: 14px;
+    }
+}
+
+.pagenator__pages {
+    margin: 0 10px 0 5px;
+    display: flex;
+}
+
+.page {
+    color: #0A2640;
+    font-size: 15px;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 700;
+    margin: 0 2px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    transition: all 0.2s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #0A2640;
+        color: white;
+    }
+
+    &.active {
+        background-color: #0A2640;
+        color: white;
+    }
+}
+
+.page__dot {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 25px;
+    margin: 0 2px;
+}

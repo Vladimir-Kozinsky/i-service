@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
+
+.dashboard {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -2;
+    background-color: #0a2640;
+}
+
+.background__circle {
+    background-color: #1c3d5b;
+    width: 1200px;
+    height: 1200px;
+    border-radius: 1000px;
+    position: absolute;
+    top: -600px;
+    right: -600px;
+    z-index: -1;
+}
+
+.dashboard__container {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.main__aircrafts {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+
+.widget {
+    position: relative;
+    width: 290px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255, 0.3);
+    }
+
+    .widget__cross__img {
+        margin-top: 45px;
+        margin-left: 95px;
+        width: 100px;
+        height: 100px;
+    }
+}

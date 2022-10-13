@@ -1,0 +1,213 @@
+.legs__contaiter {
+    background-color: white;
+    position: fixed;
+    width: 1200px;
+    height: 90vh;
+    left: 50%;
+    top: 50%;
+    margin-top: -45vh;
+    margin-left: -600px;
+    border-radius: 25px;
+}
+
+.background__circle {
+    background-color: rgb(28, 61, 91, 0.05);
+    width: 1200px;
+    height: 1200px;
+    border-radius: 1000px;
+    position: absolute;
+    top: -600px;
+    right: -600px;
+    z-index: -1;
+}
+
+.print__btn {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    background: none;
+    border: none;
+    background-image: url(./../../assets/img/png/print-icon.png);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    top: 90px;
+    right: 70px;
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        top: 89px;
+        right: 69px;
+        width: 82px;
+        height: 82px;
+    }
+
+    &:active {
+        width: 78px;
+        height: 78px;
+    }
+
+
+}
+
+.aircraftInfo {
+    margin: 20px auto 0px;
+    width: 90%;
+    display: grid;
+    display: flex;
+    justify-content: space-between;
+
+    .aircraftInfo__block {
+        height: 30px;
+        color: #0a2640;
+        font-size: 16px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+
+        .aircraftInfo__block__title {
+            margin-right: 10px;
+        }
+
+        .aircraftInfo__block__title {
+            width: 40px;
+        }
+    }
+}
+
+.legs__filter {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto 0;
+
+    label {
+        margin-right: 8px;
+        color: #0a2640;
+        font-size: 16px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .value__wrap {
+        input {
+            width: 125px;
+            height: 34px;
+        }
+    }
+}
+
+.legs {
+    margin-top: 0px;
+    max-height: 60%;
+    overflow-y: auto;
+}
+
+.leg__title,
+.leg {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 8px;
+    display: flex;
+    width: 1000px;
+    justify-content: space-between;
+    background: #d0e8ff;
+    height: 30px;
+    border-radius: 24px;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.leg__title__value {
+    width: 70px;
+    color: #0a2640;
+    font-size: 12px;
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+}
+
+.edit__btns {
+    position: absolute;
+    right: -55px;
+    width: 50px;
+    background-color: #d0e8ff;
+
+    button {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: none;
+        padding: 0;
+        border: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: all 0.2s;
+    }
+
+    .edit__btns__del {
+        background-image: url(../../assets/img/png/bin-icon.png);
+        width: 34px;
+        height: 30px;
+        top: -16px;
+        left: 30px;
+        background-position: center;
+        background-size: 30px;
+        background-repeat: no-repeat;
+
+        &:hover {
+            cursor: pointer;
+            background-size: 32px;
+            width: 36px;
+            height: 32px;
+            top: -17px;
+            left: 29px;
+        }
+    }
+
+    .edit__btns__edit {
+        background-image: url(../../assets/img/png/edit-icon.png);
+        top: -15px;
+
+        &:hover {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            top: -16px;
+            left: -1px;
+        }
+    }
+}
+
+.edit__btn {
+    position: absolute;
+    right: -36px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    background-image: url(../../assets/img/png/edit-icon.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: noRepeat;
+    transition: all 0.2s;
+
+    &:hover {
+        cursor: pointer;
+        width: -32px;
+        height: 32px;
+        right: -36px;
+    }
+}
+
+.buttons {
+    margin: 30px auto 0;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+}
