@@ -5,7 +5,7 @@ import apu from './../../../assets/img/png/apu.png'
 import { IAircraft, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
-import { IAircraftFile } from '../Dashboard';
+import { IAircraftFile } from '../Aircrafts';
 import AircraftFile from '../AircraftFile/AircraftFile';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
