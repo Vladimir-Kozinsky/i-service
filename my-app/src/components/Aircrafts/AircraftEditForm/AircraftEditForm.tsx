@@ -7,7 +7,7 @@ import Select, { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { addAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
+import { IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import withSuccessMessage from '../../HOC/messageHoc';
@@ -17,19 +17,19 @@ type AircraftEditFormProps = {
     showArcraftEditForm: () => void
 }
 
-interface IAircraftFormValues {
-    type: string;
-    msn: string;
-    initFh: string;
-    initFc: string;
-    fh: string;
-    fc: string;
-    eng1: string;
-    eng2: string;
-    eng3?: string;
-    rng4?: string;
-    apu: string;
-}
+// interface IAircraftFormValues {
+//     type: string;
+//     msn: string;
+//     initFh: string;
+//     initFc: string;
+//     fh: string;
+//     fc: string;
+//     eng1: string;
+//     eng2: string;
+//     eng3?: string;
+//     rng4?: string;
+//     apu: string;
+// }
 
 interface IOption {
     value: string | null;

@@ -3,9 +3,7 @@ import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
 import ErrorMessage from "../../../common/messages/ErrorMessage";
-import AircraftEditForm from "../../Aircrafts/AircraftEditForm/AircraftEditForm";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
-import aircraftAPI from "../../../API/aircraftAPI";
 import s from "./AddLegForm.module.scss"
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";

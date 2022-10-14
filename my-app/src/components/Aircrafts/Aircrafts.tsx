@@ -7,7 +7,6 @@ import { withAuthRedirect } from '../HOC/withAuthRedirect';
 import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
 import { useEffect, useState } from 'react';
 import AircraftForm from './AircraftForm/AircraftForm';
-import Header from '../Header/Header';
 import cross from './../../assets/img/png/cross.png'
 import Button from '../../common/buttons/Button';
 import { useNavigate } from 'react-router-dom';
@@ -37,25 +36,20 @@ const Aircrafts = () => {
     }
 
     return (
-        <div className={s.aircrafts}>
-            <div className={s.background__circle}></div>
-            <div className={s.aircrafts__container}>
-                <Header />
-                <div className={s.main}>
-                    <div className={s.main__aircrafts} >
-                        {aircraftsWidgets()}
-                        {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
-                        <div className={s.widget} onClick={() => setAddForm(true)} >
-
-                            <div className={s.widget__btns} >
-                            </div>
-                            <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
-                        </div>
+        <>
+            <div className={s.aircrafts}>
+                {aircraftsWidgets()}
+                {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
+                <div className={s.widget} onClick={() => setAddForm(true)} >
+                    <div className={s.widget__btns} >
                     </div>
-                    <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
+                    <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
                 </div>
+
             </div>
-        </div>
+            <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
+        </>
+
     )
 }
 

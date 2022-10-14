@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import s from "./AircraftFile.module.scss";
 import AircraftFileWidget from "./AircraftFileWdget/AircraftFileWidget";
 import legsIcon from "./../../../assets/img/png/legs-icon.png";

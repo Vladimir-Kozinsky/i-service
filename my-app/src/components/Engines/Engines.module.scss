@@ -1,24 +1,7 @@
 .engines {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -2;
-    background-color: #0a2640;
+   max-width: 1200px;
+   height: 70vh;
+   margin: 60px auto 20px;
 }
 
-.background__circle {
-    background-color: #1c3d5b;
-    width: 1200px;
-    height: 1200px;
-    border-radius: 1000px;
-    position: absolute;
-    top: -600px;
-    right: -600px;
-    z-index: -1;
-}
 
-.dashboard__container {
-    margin: 0 auto;
-    max-width: 1200px;
-}

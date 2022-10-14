@@ -25,11 +25,14 @@
     max-width: 1200px;
 }
 
-.main {
+
+.dashboard__widgets {
     margin-top: 60px;
     display: flex;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 20px;
+    height: 70vh;
+    overflow-y: auto;
 }
 
 .dashboard__widget {
