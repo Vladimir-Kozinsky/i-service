@@ -21,6 +21,7 @@ const culcFC = (legs, initFC) => {
 }
 
 const router = new Router();
+
 router.post('/aircraft/add', async (req, res) => {
     try {
         const newAircraftData = req.body;
