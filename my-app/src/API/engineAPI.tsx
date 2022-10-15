@@ -5,6 +5,11 @@ const proxy = axios.create({
 })
 
 const engineAPI = {
+    async getEngines() {
+        const response = await proxy.get(`/engines`);
+        return response;
+    },
+
     async getEngine(msn: string) {
         const response = await proxy.get(`/engine?msn=${msn}`);
         return response;

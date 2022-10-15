@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/buttons/Button';
 import s from './Engines.module.scss';
 import EngineWidget from './EngineWidget/EngineWidget';
 import addEngineImg from '../../assets/img/png/cross.png'
-
-const fakeEngines = [
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-    { _id: 'sdfsdf', msn: '25897', fh: '2569:33', fc: '45859', lastRepData: '25-05-1989', lastRepFh: '2323:33', lastRepFc: "51465" },
-]
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { getEngines } from '../../store/reducers/engineReducer';
+import { IEngine } from '../../types/types';
+import EngineAddForm from './EngineAddForm/EngineAddForm';
 
 const Engines: React.FC = () => {
     const navigate = useNavigate();
-    const engines = fakeEngines.map((engine: any) => {
-        return <EngineWidget engine={engine} />
+    const dispatch = useDispatch<AppDispatch>();
+    const enginesArr = useSelector((state: RootState) => state.engine.engines);
+    const engines = enginesArr.map((engine: IEngine) => {
+        return <EngineWidget engine={engine} key={engine._id} />
     })
+    const [engAddForm, setEngAddForm] = useState<boolean>(false);
+    useEffect(() => {
+        dispatch(getEngines())
+    }, [])
+
     return (
         <>
             <div className={s.engines}>
+                {engAddForm && <EngineAddForm setEngAddForm={setEngAddForm} />}
                 {engines}
-                <div className={s.widget}>
+                <div className={s.widget} onClick={() => setEngAddForm(true)}>
                     <img className={s.widget__img} src={addEngineImg} alt="" />
                 </div>
             </div>
