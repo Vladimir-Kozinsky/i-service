@@ -10,8 +10,8 @@ import s from "./EngineAddForm.module.scss"
 import ErrorMessage from "../../../common/messages/ErrorMessage"
 import Input from "../../../common/Input"
 import { addEngine } from "../../../store/reducers/engineReducer"
-import { IEngine } from "../../../types/types"
 import withSuccessMessage from "../../HOC/messageHoc"
+import { checkFHFormat } from "../../../utils/forms"
 
 type EngineAddFormProps = {
     setEngAddForm: (form: boolean) => void;
@@ -97,16 +97,20 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.manufDate) errors.manufDate = 'Manufacture date is required';
                     if (!values.hsn) errors.hsn = 'FH is required';
+                    if (!checkFHFormat(values.hsn)) errors.hsn = 'Invalid format, the format should be like "123456:22"';
                     if (!values.csn) errors.csn = 'FC si required';
                     if (!values.overhaulNum) errors.overhaulNum = 'Overhaul numbers is required';
                     if (!values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul date is required';
                     if (!values.hsnAtlastOverhaul) errors.hsnAtlastOverhaul = 'Hours at overhaul is required';
+                    if (!checkFHFormat(values.hsnAtlastOverhaul)) errors.hsnAtlastOverhaul = 'Invalid format, the format should be like "123456:22"';
                     if (!values.csnAtlastOverhaul) errors.csnAtlastOverhaul = 'Cycles at overhaul is required';
                     if (!values.totalLifeTime) errors.totalLifeTime = 'Total life time is required';
                     if (!values.totalLifeHours) errors.totalLifeHours = 'Total life hours is required';
+                    if (!checkFHFormat(values.totalLifeHours)) errors.totalLifeHours = 'Invalid format, the format should be like "123456:22"';
                     if (!values.totalLifeCycles) errors.totalLifeCycles = 'Total life cycles is required';
                     if (!values.tbo) errors.tbo = 'Time between overhaul is required';
                     if (!values.hbo) errors.hbo = 'Hours between overhaul is required';
+                    if (!checkFHFormat(values.hbo)) errors.hbo = 'Invalid format, the format should be like "123456:22"';
                     if (!values.cbo) errors.cbo = 'Cycles between overhaul is required';
                     return errors;
                 }}

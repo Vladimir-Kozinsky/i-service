@@ -11,6 +11,7 @@ import { IAircraft, updateAircraft } from '../../../store/reducers/aircraftReduc
 import { compose } from 'redux';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import withSuccessMessage from '../../HOC/messageHoc';
+import { checkFHFormat } from '../../../utils/forms';
 
 type AircraftEditFormProps = {
     aircraft: IAircraft
@@ -103,23 +104,13 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                         apu?: string;
                     }
                     const errors: IErrors = {};
-                    const checkFormat = (str = '') => {
-                        let count = 0;
-                        for (let char of str) {
-                            if (char === ':') count += 1
-                        }
-                        if (count !== 1) return false;
-                        if (str[str.length - 3] !== ':') return false;
-                        if (str[str.length - 2] > '5') return false;
-                        if (str.length > 9) return false;
-                        return true
-                    }
+                   
 
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.initFh) errors.initFh = 'Initial FH is required';
-                    if (!checkFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
+                    if (!checkFHFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.initFc) errors.initFc = 'Initial FC is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!values.fc) errors.fc = 'FC si required';
