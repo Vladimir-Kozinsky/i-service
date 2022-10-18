@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
 
-.aircraftFile {
-    padding: 0px 20px;
+.engineFile {
+    padding: 0 20px 15px 20px;
     position: fixed;
     border: #0a2640 2px solid;
     background-color: #ffffff;
@@ -12,15 +12,15 @@
     top: 50%;
     margin-left: -600px;
     margin-top: -46vh;
-    padding-bottom: 15px;
     z-index: 1;
 }
+
 
 .main__header {
     text-align: center;
     margin-bottom: 20px;
     color: #0a2640;
-    font-size: 28px;
+    font-size: 20px;
     font-family: "Manrope";
     font-style: normal;
     font-weight: 700;
@@ -33,28 +33,29 @@
     margin-top: 30px;
 }
 
-.aircraftData {
+.engineData {
     height: 75vh;
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     border-radius: 15px;
     padding: 10px;
 }
 
-.aircraftInfo {
+.engineInfo {
     margin: 10px auto 30px;
     width: 430px;
 }
 
-.aircraftInfo__section {
+.engineInfo__section {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
 .infoItem {
-    height: 30px;
+    height: 22px;
     color: #0a2640;
-    font-size: 16px;
+    font-size: 14px;
     font-family: "Manrope";
     font-style: normal;
     font-weight: 700;

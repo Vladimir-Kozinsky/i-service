@@ -9,3 +9,71 @@ export const checkFHFormat = (str = ''): boolean => {
     if (str.length > 9) return false;
     return true
 }
+
+export const subtractFH = (from: string | null, to: string | null): string => {
+    const strToMM = (timeStr: string): number => {
+        const tempArr = timeStr.split(":");
+        const hh: number = +tempArr[0] * 60;
+        const mm: number = +tempArr[1];
+        return hh + mm
+    }
+    const mmToStr = (value: number): string => {
+        const hh: number = Math.floor(value / 60);
+        const mm: number = value % 60;
+        return `${hh}:${mm}`
+    }
+    if (from && to) {
+        const tsnNum = strToMM(from);
+        const tsnAtlastOverhaulNum = strToMM(to);
+        return mmToStr(tsnNum - tsnAtlastOverhaulNum);
+    } else {
+        return '00:00'
+    }
+}
+
+export const summFH = (value1: string | null, value2: string | null): string => {
+    const strToMM = (timeStr: string): number => {
+        const tempArr = timeStr.split(":");
+        const hh: number = +tempArr[0] * 60;
+        const mm: number = +tempArr[1];
+        return hh + mm
+    }
+    const mmToStr = (value: number): string => {
+        const hh: number = Math.floor(value / 60);
+        const mm: number = value % 60;
+        return `${hh}:${mm}`
+    }
+
+    if (value1 && value2) {
+        const value1MM = strToMM(value1);
+        const value2MM = strToMM(value2);
+        return mmToStr(value1MM + value2MM);
+    }
+    return "00"
+}
+
+export const summFC = (value1: string | null, value2: string | null) => {
+    if (value1 && value2) {
+        return (+value1 + +value2).toString();
+    }
+    return '00'
+}
+
+export const subtractFC = (from: string | null, to: string | null): string => {
+    if (from && to) {
+        return `${+from - +to}`
+    }
+    return '00';
+}
+
+export const subtractDates = (from: string | null): string => {
+    if (from) {
+        const fromDate = new Date(from);
+        const currentDate = new Date();
+        const ms = +fromDate - +currentDate;
+        const days = Math.ceil(ms / 1000 / 3600 / 24);
+        return `${days}`;
+    }
+    return '00'
+}
+

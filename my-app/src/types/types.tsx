@@ -21,16 +21,22 @@ export interface IEngine {
     type: string | null;
     msn: string | null;
     manufDate: string | null;
-    hsn: string | null;
+    tsn: string | null;
     csn: string | null;
+    onAircraft: string | null;
+    installDate: string | null;
+    aircraftTsn: string | null;
+    aircraftCsn: string | null;
+    engTsn: string | null;
+    engCsn: string | null;
     overhaulNum: number | null;
     lastOverhaulDate: string | null;
-    hsnAtlastOverhaul: string | null;
+    tsnAtlastOverhaul: string | null;
     csnAtlastOverhaul: string | null;
-    totalLifeTime: string | null;
-    totalLifeHours: string | null;
-    totalLifeCycles: string | null;
+    tlp: string | null;
+    tlt: string | null;
+    tlc: string | null;
+    pbo: string | null;
     tbo: string | null;
-    hbo: string | null;
     cbo: string | null;
 }
