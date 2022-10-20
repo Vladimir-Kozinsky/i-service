@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FormValues } from "../components/Aircrafts/InstallEngine/InstallEngine";
 
 const proxy = axios.create({
     baseURL: "http://localhost:5000"
@@ -7,6 +8,10 @@ const proxy = axios.create({
 const engineAPI = {
     async getEngines() {
         const response = await proxy.get(`/engines`);
+        return response;
+    },
+    async getAvailEngines() {
+        const response = await proxy.get(`/engines/available`);
         return response;
     },
 
@@ -27,6 +32,11 @@ const engineAPI = {
 
     async delEngine(msn: string) {
         const response = await proxy.post('/engine/del', msn);
+        return response;
+    },
+
+    async installEngine(instData: FormValues) {
+        const response = await proxy.post('/engine/install', instData);
         return response;
     }
 }

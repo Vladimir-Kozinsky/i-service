@@ -24,6 +24,7 @@ export interface IEngine {
     tsn: string | null;
     csn: string | null;
     onAircraft: string | null;
+    position: number | null;
     installDate: string | null;
     aircraftTsn: string | null;
     aircraftCsn: string | null;

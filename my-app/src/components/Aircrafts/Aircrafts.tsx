@@ -2,8 +2,6 @@ import s from './Aircrafts.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
-import { compose } from 'redux';
-import { withAuthRedirect } from '../HOC/withAuthRedirect';
 import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
 import { useEffect, useState } from 'react';
 import AircraftForm from './AircraftForm/AircraftForm';
@@ -55,4 +53,4 @@ const Aircrafts = () => {
 
 
 
-export default compose(withAuthRedirect)(Aircrafts);
+export default Aircrafts;

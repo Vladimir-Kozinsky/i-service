@@ -1,3 +1,5 @@
+import { IInstEngine } from "../store/reducers/aircraftReducer";
+
 export const checkFHFormat = (str = ''): boolean => {
     let count = 0;
     for (let char of str) {
@@ -75,5 +77,13 @@ export const subtractDates = (from: string | null): string => {
         return `${days}`;
     }
     return '00'
+}
+
+export const setEngine = (pos: number, engines: IInstEngine[]): string | undefined => {
+    if (pos && engines.length > 0) {
+        const eng = engines.find(e => e.pos === pos);
+        if (eng) return eng.msn.toString();
+    }
+    return undefined;
 }
 

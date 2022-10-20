@@ -1,7 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
+import engineAPI from "../../API/engineAPI";
+import { FormValues } from "../../components/Aircrafts/InstallEngine/InstallEngine";
 
-interface IEngine {
+export interface IInstEngine {
     _id: string;
     pos: number;
     msn: string;
@@ -27,12 +29,13 @@ export interface IAircraft {
     _id: string;
     type: string;
     msn: string;
+    manufDate: string;
     regNum: string;
     initFh: string;
     initFc: string;
     fh: string;
     fc: string;
-    engines: IEngine[];
+    engines: IInstEngine[];
     apu: string;
     legs?: ILeg[];
 }
@@ -43,6 +46,7 @@ export interface IAircraftState {
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
     isSuccessMessage: boolean;
+    errorMessage: string;
 }
 
 const initialState = {
@@ -52,7 +56,8 @@ const initialState = {
     addAicraftErrorMessage: '',
     isSuccessMessage: false,
     legsTotalPages: 1,
-    legsCurrentPage: 1
+    legsCurrentPage: 1,
+    errorMessage: ''
 }
 
 const aircraftSlice = createSlice({
@@ -144,6 +149,32 @@ const aircraftSlice = createSlice({
                     state.choosedAircraft.legs[legIndex] = action.payload.updatedLeg;
             }
         })
+        builder.addCase(installEngine.fulfilled, (state: IAircraftState, action: PayloadAction<IInstEngine>) => {
+            const udatedEng: IInstEngine = action.payload;
+            const index = state.choosedAircraft.engines.findIndex((eng) => {
+                return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
+            });
+            if (index >= 0) {
+                state.choosedAircraft.engines.splice(index, 1, udatedEng)
+            } else {
+                state.choosedAircraft.engines.push(udatedEng);
+            }
+            const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
+            if (aircraft) {
+                const i = aircraft.engines.findIndex((eng) => {
+                    return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
+                })
+                if (i >= 0) {
+                    aircraft.engines.splice(i, 1, udatedEng)
+                } else {
+                    aircraft.engines.push(udatedEng);
+                }
+            }
+            state.isSuccessMessage = true;
+        })
+        builder.addCase(installEngine.rejected, (state: IAircraftState, action) => {
+            state.errorMessage = action.payload as string;
+        })
     },
 })
 
@@ -225,6 +256,14 @@ export const editLeg = createAsyncThunk(
         } catch (error: any) {
             console.log(error)
         }
+    }
+)
+
+export const installEngine = createAsyncThunk(
+    'aircraft/installEngine',
+    async (instData: FormValues) => {
+        const response = await engineAPI.installEngine(instData);
+        return response.data
     }
 )
 

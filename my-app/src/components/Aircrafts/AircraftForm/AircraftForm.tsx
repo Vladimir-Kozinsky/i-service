@@ -16,6 +16,7 @@ import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur
 interface IAircraftFormValues {
     type: string;
     msn: string;
+    manufDate: string;
     regNum: string;
     fh: string;
     fc: string;
@@ -73,6 +74,7 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                 initialValues={{
                     type: '',
                     msn: '',
+                    manufDate: '',
                     regNum: '',
                     fh: '',
                     fc: '',
@@ -86,6 +88,7 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                     interface IErrors {
                         type?: string;
                         msn?: string;
+                        manufDate?: string;
                         regNum?: string;
                         fh?: string;
                         fc?: string;
@@ -99,11 +102,10 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
 
                     if (!selectedOption) errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
+                    if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!values.fc) errors.fc = 'FC si required';
-                    if (!values.eng1) errors.eng1 = 'Serial number is required';
-                    if (!values.eng2) errors.eng2 = 'Serial number is required';
                     if (!values.apu) errors.apu = 'Serial number is required';
                     return errors;
                 }}
@@ -114,18 +116,14 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                     const payload = {
                         type: selectedOption,
                         msn: values.msn,
+                        manufDate: values.manufDate,
                         regNum: values.regNum,
                         initFh: values.fh,
                         initFc: values.fc,
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,
-                        engines: [
-                            { pos: '1', msn: values.eng1 },
-                            { pos: '2', msn: values.eng2 },
-                            { pos: '3', msn: values.eng3 },
-                            { pos: '4', msn: values.eng4 },
-                        ],
+                        engines: [],
                         legs: []
                     }
                     dispatch(addAircraft(payload));
@@ -141,6 +139,11 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
+                                <label>Manufacture Date<span>*</span></label>
+                                <Input type="date" id="manufDate" name="manufDate" placeholder="Enter Manufacture Date" />
+                            </div>
+                            <div className={s.aircraft__form__link}>
+                                {errors.manufDate ? <ErrorMessage message={errors.manufDate} /> : null}
                                 <label>MSN <span>*</span></label>
                                 <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
                             </div>
@@ -160,26 +163,6 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                                 <Input type="text" id="fc" name="fc" placeholder="Enter FC" />
                             </div>
                             <div className={s.aircraft__form__link}>
-                                {errors.eng1 ? <ErrorMessage message={errors.eng1} /> : null}
-                                <label>ENG #1 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng1" name="eng1" placeholder="Enter serial number" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng2 ? <ErrorMessage message={errors.eng2} /> : null}
-                                <label>ENG #2 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng2" name="eng2" placeholder="Enter serial number" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng3 ? <ErrorMessage message={errors.eng3} /> : null}
-                                <label>ENG #3 Serial Number</label>
-                                <Input type="text" id="eng3" name="eng3" placeholder="Enter serial number" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng4 ? <ErrorMessage message={errors.eng4} /> : null}
-                                <label>ENG #4 Serial Number</label>
-                                <Input type="text" id="eng4" name="eng4" placeholder="Enter serial number" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
                                 {errors.apu ? <ErrorMessage message={errors.apu} /> : null}
                                 <label>APU Serial Number</label>
                                 <Input type="text" id="apu" name="apu" placeholder="Enter serial number" />
@@ -196,4 +179,4 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage, withAuthRedirect)(AircraftForm);
+export default compose(withContainerBlur, withSuccessMessage)(AircraftForm);

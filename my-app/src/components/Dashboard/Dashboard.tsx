@@ -36,7 +36,6 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                     } />
-
                 </Routes>
             </div>
 

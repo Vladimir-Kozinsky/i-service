@@ -35,11 +35,13 @@ const EngineFile: React.FC<EngineFileProps> = ({ engine, setEngineFile }) => {
                         <div className={s.engineInfo__section}>
                             <div className={s.engineInfo__section__block} >
                                 <DataBlock title="A/C" value={engine.onAircraft} />
+                                <DataBlock title="Pos." value={engine.position} />
                                 <DataBlock title="In. Date" value={engine.installDate} />
-                                <DataBlock title="A/C TSN" value={engine.aircraftTsn} />
-                                <DataBlock title="A/C CSN" value={engine.aircraftCsn} />
+
                             </div>
                             <div className={s.engineInfo__section__block} >
+                                <DataBlock title="A/C TSN" value={engine.aircraftTsn} />
+                                <DataBlock title="A/C CSN" value={engine.aircraftCsn} />
                                 <DataBlock title="ENG TSN" value={engine.engTsn} />
                                 <DataBlock title="ENG CSN" value={engine.engCsn} />
                             </div>

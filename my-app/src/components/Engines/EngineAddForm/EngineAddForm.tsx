@@ -53,33 +53,7 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
     }
 
     const [selectedAircraftOption, setsSelectedAircraftOption] = useState<string | null>(null);
-    const [aircraftsOptions, setAircraftsOptions] = useState([]);
-    const aircraftSelectOnChange = async (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
-        if (option?.value) {
-            setsSelectedAircraftOption(option.value);
-        }
-    }
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const responce = await aircraftAPI.getAircrafts();
-                if (responce.data.length) {
-                    const optopns = responce.data.map((aircraft: IAircraft) => {
-                        return {
-                            value: aircraft.msn,
-                            label: `${aircraft.type} MSN: ${aircraft.msn}`
-                        }
-                    })
-                    setAircraftsOptions(optopns);
-                }
-
-            } catch (error) {
-                console.log(error)
-            }
-        })()
-
-    }, [])
+    
     return (
         <div className={s.addEngineForm}>
             <h3 className={s.addEngineForm__header} >Engine</h3>
@@ -93,6 +67,7 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                     csn: '',
                     //Installation
                     onAircraft: '',
+                    position: 0,
                     installDate: '',
                     aircraftTsn: '',
                     aircraftCsn: '',
@@ -119,15 +94,8 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                         manufDate?: string | null;
                         tsn?: string | null;
                         csn?: string | null;
-                        //Installation
-                        onAircraft?: string | null;
-                        installDate?: string | null;
-                        aircraftTsn?: string | null;
-                        aircraftCsn?: string | null;
-                        engTsn?: string | null;
-                        engCsn?: string | null;
                         //Overhaul
-                        overhaulNum: string | null;
+                        overhaulNum?: string | null;
                         lastOverhaulDate?: string | null;
                         tsnAtlastOverhaul?: string | null;
                         csnAtlastOverhaul?: string | null;
@@ -148,15 +116,6 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                     if (!values.tsn) errors.tsn = 'TSN is required';
                     if (!checkFHFormat(values.tsn)) errors.tsn = 'Invalid format, the format should be like "123456:22"';
                     if (!values.csn) errors.csn = 'CSN si required';
-                    //Installation
-                    if (!selectedAircraftOption) errors.onAircraft = 'Aircraft is required';
-                    if (!values.installDate) errors.installDate = 'Installayion Date is required';
-                    if (!values.aircraftTsn) errors.aircraftTsn = 'Aircraft TSN is required';
-                    if (!checkFHFormat(values.aircraftTsn)) errors.aircraftTsn = 'Invalid format, the format should be like "123456:22"';
-                    if (!values.aircraftCsn) errors.aircraftCsn = 'Aircraft CSN is required';
-                    if (!values.engTsn) errors.engTsn = 'Engine TSN is required';
-                    if (!checkFHFormat(values.engTsn)) errors.engTsn = 'Invalid format, the format should be like "123456:22"';
-                    if (!values.engCsn) errors.engCsn = 'Engine CSN is required';
                     //Overhaul
                     if (!values.overhaulNum) errors.overhaulNum = 'Overhaul numbers is required';
                     if (!values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul date is required';
@@ -176,7 +135,7 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                 }}
                 onSubmit={(values, actions) => {
                     if (selectedOption) values.type = selectedOption
-                    if (selectedAircraftOption) values.onAircraft = selectedAircraftOption
+                    // if (selectedAircraftOption) values.onAircraft = selectedAircraftOption
                     dispatch(addEngine(values))
                 }}
             >
@@ -215,40 +174,8 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                                     <Input type="text" id="csn" name="csn" placeholder="Enter Cycles Since New" />
                                 </div>
                             </div>
-                            {/* Installation */}
-                            <h3 className={s.addEngineForm__wrap__header}>Installation</h3>
-                            <div className={s.addEngineForm__wrap__block}>
-                                <div className={s.addEngineForm__form__link}>
-                                    {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
-                                    <label>Aircraft<span>*</span></label>
-                                    <Select options={aircraftsOptions} onChange={aircraftSelectOnChange} styles={customStyles} />
-                                </div>
-                                <div className={s.addEngineForm__form__link}>
-                                    {errors.installDate ? <ErrorMessage message={errors.installDate} /> : null}
-                                    <label>Installation Date <span>*</span></label>
-                                    <Input type="date" id="installDate" name="installDate" placeholder="Enter installation Date" />
-                                </div>
-                                <div className={s.addEngineForm__form__link}>
-                                    {errors.aircraftTsn ? <ErrorMessage message={errors.aircraftTsn} /> : null}
-                                    <label>Aircraft TSN <span>*</span></label>
-                                    <Input type="text" id="aircraftTsn" name="aircraftTsn" placeholder="Enter Aircrfat TSN" />
-                                </div>
-                                <div className={s.addEngineForm__form__link}>
-                                    {errors.aircraftCsn ? <ErrorMessage message={errors.aircraftCsn} /> : null}
-                                    <label>Aircraft CSN <span>*</span></label>
-                                    <Input type="text" id="aircraftCsn" name="aircraftCsn" placeholder="Enter Aircrfat CSN" />
-                                </div>
-                                <div className={s.addEngineForm__form__link}>
-                                    {errors.engTsn ? <ErrorMessage message={errors.engTsn} /> : null}
-                                    <label>Engine TSN <span>*</span></label>
-                                    <Input type="text" id="engTsn" name="engTsn" placeholder="Enter Engine TSN" />
-                                </div>
-                                <div className={s.addEngineForm__form__link}>
-                                    {errors.engCsn ? <ErrorMessage message={errors.engCsn} /> : null}
-                                    <label>Engine CSN <span>*</span></label>
-                                    <Input type="text" id="engCsn" name="engCsn" placeholder="Enter Engine CSN" />
-                                </div>
-                            </div>
+                            
+
                             {/* Overhaul */}
                             <h3 className={s.addEngineForm__wrap__header}>Overhaul</h3>
                             <div className={s.addEngineForm__wrap__block}>

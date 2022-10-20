@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const aircraftSchema = new mongoose.Schema({
     type: { type: String },
+    manufDate: {type: String},
     msn: { type: String },
     regNum: { type: String },
     initFh: { type: String },
@@ -10,7 +11,7 @@ const aircraftSchema = new mongoose.Schema({
     fc: { type: String },
     engines: [
         {
-            pos: { type: String },
+            pos: { type: Number },
             msn: { type: String }
         }
     ],

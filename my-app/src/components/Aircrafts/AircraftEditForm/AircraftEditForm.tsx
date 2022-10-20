@@ -76,37 +76,32 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
             <Formik
                 initialValues={{
                     type: aircraft.type,
+                    manufDate: aircraft.manufDate,
                     msn: aircraft.msn,
                     regNum: aircraft.regNum,
                     initFh: aircraft.initFh,
                     initFc: aircraft.initFc,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
-                    eng1: aircraft.engines[0].msn,
-                    eng2: aircraft.engines[1].msn,
-                    eng3: aircraft.engines[2].msn,
-                    eng4: aircraft.engines[3].msn,
                     apu: aircraft.apu
                 }}
                 validate={values => {
                     interface IErrors {
                         type?: string;
+                        manufDate?: string;
                         msn?: string;
                         regNum?: string;
                         initFh?: string;
                         initFc?: string;
                         fh?: string;
                         fc?: string;
-                        eng1?: string;
-                        eng2?: string;
-                        eng3?: string;
-                        eng4?: string;
                         apu?: string;
                     }
                     const errors: IErrors = {};
-                   
+
 
                     if (!selectedOption) errors.type = 'Type is required';
+                    if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.initFh) errors.initFh = 'Initial FH is required';
@@ -114,8 +109,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                     if (!values.initFc) errors.initFc = 'Initial FC is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!values.fc) errors.fc = 'FC si required';
-                    if (!values.eng1) errors.eng1 = 'Serial number is required';
-                    if (!values.eng2) errors.eng2 = 'Serial number is required';
                     if (!values.apu) errors.apu = 'Serial number is required';
                     return errors;
                 }}
@@ -126,6 +119,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                     const payload = {
                         id: aircraft._id,
                         type: selectedOption,
+                        manufDate: values.manufDate,
                         msn: values.msn,
                         regNum: values.regNum,
                         initFh: values.initFh,
@@ -133,12 +127,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                         fh: values.fh,
                         fc: values.fc,
                         apu: values.apu,
-                        engines: [
-                            { pos: '1', msn: values.eng1 },
-                            { pos: '2', msn: values.eng2 },
-                            { pos: '3', msn: values.eng3 },
-                            { pos: '4', msn: values.eng4 },
-                        ],
+                        engines: [],
                         legs: []
                     }
                     dispatch(updateAircraft(payload));
@@ -157,13 +146,18 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                                 } options={options} onChange={onChange} styles={customStyles} />
                             </div>
                             <div className={s.aircraft__form__link}>
+                                {errors.manufDate ? <ErrorMessage message={errors.manufDate} /> : null}
+                                <label>Manufacture Date<span>*</span></label>
+                                <Input type="date" id="manufDate" name="manufDate" placeholder={aircraft.manufDate} />
+                            </div>
+                            <div className={s.aircraft__form__link}>
                                 {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
                                 <label>MSN <span>*</span></label>
                                 <Input type="text" id="msn" name="msn" placeholder={aircraft.msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
-                                <label>Reg: <span>*</span></label>
+                                <label>Reg:<span>*</span></label>
                                 <Input type="text" id="regNum" name="regNum" placeholder={aircraft.regNum} />
                             </div>
                             <div className={s.aircraft__form__link}>
@@ -185,26 +179,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                                 {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
                                 <label>FC <span>*</span></label>
                                 <Input type="text" id="fc" name="fc" placeholder={aircraft.fc} disabled />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng1 ? <ErrorMessage message={errors.eng1} /> : null}
-                                <label>ENG #1 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng1" name="eng1" placeholder={aircraft.engines[0].msn} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng2 ? <ErrorMessage message={errors.eng2} /> : null}
-                                <label>ENG #2 Serial Number <span>*</span></label>
-                                <Input type="text" id="eng2" name="eng2" placeholder={aircraft.engines[1].msn} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng3 ? <ErrorMessage message={errors.eng3} /> : null}
-                                <label>ENG #3 Serial Number</label>
-                                <Input type="text" id="eng3" name="eng3" placeholder={aircraft.engines[2].msn} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.eng4 ? <ErrorMessage message={errors.eng4} /> : null}
-                                <label>ENG #4 Serial Number</label>
-                                <Input type="text" id="eng4" name="eng4" placeholder={aircraft.engines[3].msn} />
                             </div>
                             <div className={s.aircraft__form__link}>
                                 {errors.apu ? <ErrorMessage message={errors.apu} /> : null}
