@@ -2,6 +2,7 @@ import s from "./AircraftFile.module.scss";
 import AircraftFileWidget from "./AircraftFileWdget/AircraftFileWidget";
 import legsIcon from "./../../../assets/img/png/legs-icon.png";
 import instEngIcon from "./../../../assets/img/png/installEng-icon.png";
+import remEngIcon from "./../../../assets/img/jpeg/engine-removal.jpg";
 
 import { IAircraft } from "../../../store/reducers/aircraftReducer";
 import { compose } from "redux";
@@ -88,6 +89,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                 <div className={s.widget__container} >
                     <AircraftFileWidget text='LEGS' img={legsIcon} aircraft={aircraftData} />
                     <AircraftFileWidget text='INSTALL ENGINE' img={instEngIcon} aircraft={aircraftData} />
+                    <AircraftFileWidget text='REMOVE ENGINE' img={remEngIcon} aircraft={aircraftData} />
                 </div>
             </div>
             <div className={s.buttons} >

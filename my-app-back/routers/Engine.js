@@ -133,6 +133,39 @@ EngineRouter.post('/engine/install', async (req, res) => {
     }
 })
 
+EngineRouter.post('/engine/remove', async (req, res) => {
+    try {
+        const { msn, position, engineMSN } = req.body;
+        const updateAircraft = await Aircraft.updateOne({ msn: msn }, {
+            $pull: {
+                engines: { msn: engineMSN }
+            }
+        });
+        if (!updateAircraft.modifiedCount) throw new Error("An engine has not been removed");
+        const updateEngine = await Engine.updateOne({ msn: engineMSN }, {
+            $set: {
+                onAircraft: '',
+                position: 0,
+                installDate: '',
+                aircraftTsn: '',
+                aircraftCsn: '',
+                engTsn: '',
+                engCsn: ''
+            }
+        });
+        if (!updateEngine.modifiedCount) throw new Error("An engine data has not been updated");
+        const engine = await Engine.findOne({ msn: engineMSN });
+        if (!engine) throw new Error("Updated engine has not been found");
+        res.statusMessage = "Engine successfully removed";
+        res.json(engine);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
+
 
 
 export default EngineRouter;

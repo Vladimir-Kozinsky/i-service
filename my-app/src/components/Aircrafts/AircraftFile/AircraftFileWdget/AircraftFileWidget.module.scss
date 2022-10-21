@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     transition: all 0.3s;
 
     &:hover {
@@ -27,5 +28,10 @@
         z-index: -1;
         width: 110px;
         opacity: 0.7;
+    }
+
+    .widget__img__rem {
+        width: 120%;
+        height: 100%;
     }
 }

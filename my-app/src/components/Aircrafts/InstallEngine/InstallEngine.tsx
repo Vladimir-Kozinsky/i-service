@@ -11,6 +11,7 @@ import { IAircraft, installEngine } from "../../../store/reducers/aircraftReduce
 import { AppDispatch } from "../../../store/store";
 import { IEngine } from "../../../types/types";
 import { checkFHFormat } from "../../../utils/forms";
+import withSuccessMessage from "../../HOC/messageHoc";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./InstallEngine.module.scss";
 
@@ -194,4 +195,4 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
     )
 }
 
-export default compose(withContainerBlur)(InstallEngine);
+export default compose(withContainerBlur, withSuccessMessage)(InstallEngine);

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
 import engineAPI from "../../API/engineAPI";
 import { FormValues } from "../../components/Aircrafts/InstallEngine/InstallEngine";
+import { RemEngFormDataType } from "../../components/Aircrafts/RemovalEngine/RemovalEngine";
 
 export interface IInstEngine {
     _id: string;
@@ -175,6 +176,25 @@ const aircraftSlice = createSlice({
         builder.addCase(installEngine.rejected, (state: IAircraftState, action) => {
             state.errorMessage = action.payload as string;
         })
+        builder.addCase(removeEngine.fulfilled, (state: IAircraftState, action: PayloadAction<IInstEngine>) => {
+            const udatedEng: IInstEngine = action.payload;
+            const index = state.choosedAircraft.engines.findIndex((eng) => {
+                return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
+            });
+            if (index >= 0) state.choosedAircraft.engines.splice(index, 1)
+
+            const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
+            if (aircraft) {
+                const i = aircraft.engines.findIndex((eng) => {
+                    return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
+                })
+                if (i >= 0) aircraft.engines.splice(i, 1, udatedEng)
+            }
+            state.isSuccessMessage = true;
+        })
+        builder.addCase(removeEngine.rejected, (state: IAircraftState, action) => {
+            state.errorMessage = action.payload as string;
+        })
     },
 })
 
@@ -263,6 +283,14 @@ export const installEngine = createAsyncThunk(
     'aircraft/installEngine',
     async (instData: FormValues) => {
         const response = await engineAPI.installEngine(instData);
+        return response.data
+    }
+)
+
+export const removeEngine = createAsyncThunk(
+    'aircraft/removeEngine',
+    async (removalData: RemEngFormDataType) => {
+        const response = await engineAPI.removeEngine(removalData);
         return response.data
     }
 )
