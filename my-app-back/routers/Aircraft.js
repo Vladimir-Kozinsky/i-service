@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Aircraft from "../models/aircraft.js";
+import Engine from "../models/engine.js";
 
 const culcFH = (legs, initFH) => {
     const toMins = (str) => {
@@ -33,7 +34,6 @@ router.post('/aircraft/add', async (req, res) => {
             if (!newAircraft) throw new Error(`Aircraft has not been added`);
 
             if (!newAircraft) throw new Error(`Account has not been created`);
-            console.log(newAircraft);
             res.statusMessage = "Aircraft successfully added";
             res.json(newAircraft);
         }
@@ -182,17 +182,20 @@ router.post('/aircraft/legs/add', async (req, res) => {
     try {
         const { leg, msn } = req.body;
         const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
-
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
         const aircraftWithLeg = await Aircraft.findOne({ msn: msn }).exec();
         const newFH = culcFH(aircraftWithLeg.legs, aircraftWithLeg.initFh)
-        console.log(newFH)
         const newFC = culcFC(aircraftWithLeg.legs, aircraftWithLeg.initFc)
         const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
         if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
-
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
         const addedLeg = aircraft.legs[aircraft.legs.length - 1];
+        //engines update
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully added";
         res.json({ addedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
@@ -211,6 +214,12 @@ router.post('/aircraft/legs/del', async (req, res) => {
             }
         });
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully deleted";
         res.json({ message: "Leg successfully deleted", legId: legId });
     } catch (error) {
@@ -225,8 +234,13 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         const { msn, legId, leg } = req.body;
         const aircraft = await Aircraft.findOne({ msn });
         const updatedLeg = aircraft.editLeg(legId, leg)
-        aircraft.reculcFhFc();
-        aircraft.save();
+        await aircraft.reculcFhFc();
+        await aircraft.save();
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully updated";
         res.json({ updatedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
@@ -235,7 +249,5 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         res.json({ message: error.message })
     }
 })
-
-
 
 export default router;
