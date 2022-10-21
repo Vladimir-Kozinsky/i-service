@@ -10,6 +10,7 @@ import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur
 import Button from "../../../common/buttons/Button";
 import { useEffect, useState } from "react";
 import { setEngine } from "../../../utils/forms";
+import AircraftPrintForm from "./AircraftPrintForm/AircraftPrintForm";
 
 type IAircraftFileProps = {
     aircraft: IAircraft
@@ -20,14 +21,15 @@ type IAircraftFileProps = {
 
 const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     const [aircraftData, setAircraftData] = useState(aircraft);
+    const [printForm, setPrintForm] = useState<boolean>(false);
     useEffect(() => {
         setAircraftData(aircraft);
     }, [aircraft])
     return (
         <div className={s.aircraftFile} >
+            {printForm && <AircraftPrintForm setPrintForm={setPrintForm} aircraft={aircraft} />}
             <div className={s.main}>
                 <div className={s.aircraftData} >
-
                     <div className={s.aircraftInfo} >
                         <h2 className={s.main__header}>Aircraft</h2>
                         <div className={s.aircraftInfo__section}>
@@ -84,6 +86,9 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                             </div>
                         </div>
 
+                    </div>
+                    <div className={s.aircraftData__buttons} >
+                        <Button text="Print Report" btnType="button" color="green" handler={() => setPrintForm(true)} />
                     </div>
                 </div>
                 <div className={s.widget__container} >

@@ -189,8 +189,6 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                     </Form>
                 )}
             </Formik>
-
-
         </div>
     )
 }
