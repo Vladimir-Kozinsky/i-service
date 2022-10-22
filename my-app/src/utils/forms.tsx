@@ -12,7 +12,7 @@ export const checkFHFormat = (str = ''): boolean => {
     return true
 }
 
-export const subtractFH = (from: string | null, to: string | null): string => {
+export const subtractFH = (from: string | null | undefined, to: string | null | undefined): string => {
     const strToMM = (timeStr: string): number => {
         const tempArr = timeStr.split(":");
         const hh: number = +tempArr[0] * 60;
