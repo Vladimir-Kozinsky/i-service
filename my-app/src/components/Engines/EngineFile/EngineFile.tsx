@@ -1,7 +1,7 @@
 import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
 import { IEngine } from "../../../types/types";
-import { subtractDates, subtractFC, subtractFH, summFC, summFH } from "../../../utils/forms";
+import {  subtractDatesFromNow, subtractFC, subtractFH, summFC, summFH } from "../../../utils/forms";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import DataBlock from "./DataBlock/DataBlock";
 import s from "./EngineFile.module.scss";
@@ -73,12 +73,12 @@ const EngineFile: React.FC<EngineFileProps> = ({ engine, setEngineFile }) => {
                         <h2 className={s.main__header} >Remains</h2>
                         <div className={s.engineInfo__section}>
                             <div className={s.engineInfo__section__block} >
-                                <DataBlock title="LL Rem." value={`${subtractDates(engine.tlp)} days`} />
+                                <DataBlock title="LL Rem." value={`${subtractDatesFromNow(engine.tlp)} days`} />
                                 <DataBlock title="LLT Rem." value={subtractFH(engine.tlt, engine.tsn)} />
                                 <DataBlock title="LLC Rem." value={subtractFC(engine.tlc, engine.csn)} />
                             </div>
                             <div className={s.engineInfo__section__block} >
-                                <DataBlock title="LLBO" value={`${subtractDates(engine.pbo)} days`} />
+                                <DataBlock title="LLBO" value={`${subtractDatesFromNow(engine.pbo)} days`} />
                                 <DataBlock title="LLTBO" value={subtractFH(summFH(engine.tsnAtlastOverhaul, engine.tbo), engine.tsn)} />
                                 <DataBlock title="LLCBO" value={subtractFC(summFC(engine.csnAtlastOverhaul, engine.cbo), engine.csn)} />
                             </div>

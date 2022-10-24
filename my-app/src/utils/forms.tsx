@@ -33,7 +33,7 @@ export const subtractFH = (from: string | null | undefined, to: string | null | 
     }
 }
 
-export const summFH = (value1: string | null, value2: string | null): string => {
+export const summFH = (value1: string | null | undefined, value2: string | null | undefined): string => {
     const strToMM = (timeStr: string): number => {
         const tempArr = timeStr.split(":");
         const hh: number = +tempArr[0] * 60;
@@ -61,18 +61,28 @@ export const summFC = (value1: string | null, value2: string | null) => {
     return '00'
 }
 
-export const subtractFC = (from: string | null, to: string | null): string => {
+export const subtractFC = (from: string | null | undefined, to: string | null | undefined): string => {
     if (from && to) {
         return `${+from - +to}`
     }
     return '00';
 }
 
-export const subtractDates = (from: string | null): string => {
+export const subtractDatesFromNow = (from: string | null | undefined): string => {
     if (from) {
         const fromDate = new Date(from);
         const currentDate = new Date();
         const ms = +fromDate - +currentDate;
+        const days = Math.ceil(ms / 1000 / 3600 / 24);
+        return `${days}`;
+    }
+    return '00'
+}
+export const subtractDatesNowFrom = (from: string | null | undefined): string => {
+    if (from) {
+        const fromDate = new Date(from);
+        const currentDate = new Date();
+        const ms = +currentDate - +fromDate;
         const days = Math.ceil(ms / 1000 / 3600 / 24);
         return `${days}`;
     }
