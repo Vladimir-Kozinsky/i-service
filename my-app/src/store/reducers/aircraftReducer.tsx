@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
 import engineAPI from "../../API/engineAPI";
+import { IAircraftFormValues } from "../../components/Aircrafts/AircraftForm/AircraftForm";
 import { FormValues } from "../../components/Aircrafts/InstallEngine/InstallEngine";
 import { RemEngFormDataType } from "../../components/Aircrafts/RemovalEngine/RemovalEngine";
 
@@ -36,6 +37,16 @@ export interface IAircraft {
     initFc: string;
     fh: string;
     fc: string;
+    overhaulNum: number;
+    lastOverhaulDate: string;
+    tsnAtlastOverhaul: string;
+    csnAtlastOverhaul: string;
+    tlp: string;
+    tlt: string;
+    tlc: string;
+    pbo: string;
+    tbo: string;
+    cbo: string;
     engines: IInstEngine[];
     apu: string;
     legs?: ILeg[];
@@ -200,7 +211,7 @@ const aircraftSlice = createSlice({
 
 export const addAircraft = createAsyncThunk(
     'aircraft/addAircraft',
-    async (aircraftData: any, thunkAPI) => {
+    async (aircraftData: IAircraftFormValues, thunkAPI) => {
         try {
             const response = await aircraftAPI.addAircraft(aircraftData);
             return response.data;

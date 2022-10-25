@@ -6,7 +6,7 @@ type InputProps = {
     id: string;
     name: string;
     placeholder: string;
-    value?: string;
+    value?: string | number;
     disabled?: boolean;
     min?: string,
     max?: string,
@@ -18,7 +18,10 @@ const Input = ({ type, id, name, placeholder, value, disabled, min, max }: Input
             id={id} name={name}
             placeholder={placeholder}
             className={s.input}
-            value={value} disabled={disabled} min={min} max={max} />
+            value={value}
+            disabled={disabled}
+            min={min} max={max}
+        />
     )
 }
 

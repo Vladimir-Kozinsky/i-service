@@ -27,7 +27,7 @@
     max-width: 800px;
     position: relative;
     top: 50%;
-    margin: -260px auto;
+    margin: -360px auto;
     padding-bottom: 15px;
 }
 
@@ -57,6 +57,7 @@
         margin-left: 20px;
         font-family: Manrope;
         color: #1c3d5b;
+
         span {
             color: red;
         }
@@ -68,4 +69,29 @@
     width: 270px;
     display: flex;
     justify-content: space-between;
+}
+
+
+.input {
+    width: 190px;
+    height: 38px;
+    border: #0A2640 2px solid;
+    border-radius: 24px;
+    background-color: #FFFFFF;
+    padding: 0 20px;
+    color: #0A2640;
+    font-size: 16px;
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+
+    &:hover {
+        border: #2e6497 2px solid;
+    }
+
+    &:focus {
+        outline: none;
+        border: #2e6497 2px solid;
+    }
 }

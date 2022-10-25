@@ -29,7 +29,7 @@ export const subtractFH = (from: string | null | undefined, to: string | null | 
         const tsnAtlastOverhaulNum = strToMM(to);
         return mmToStr(tsnNum - tsnAtlastOverhaulNum);
     } else {
-        return '00:00'
+        return '';
     }
 }
 
@@ -51,21 +51,21 @@ export const summFH = (value1: string | null | undefined, value2: string | null 
         const value2MM = strToMM(value2);
         return mmToStr(value1MM + value2MM);
     }
-    return "00"
+    return '';
 }
 
 export const summFC = (value1: string | null, value2: string | null) => {
     if (value1 && value2) {
         return (+value1 + +value2).toString();
     }
-    return '00'
+    return '';
 }
 
 export const subtractFC = (from: string | null | undefined, to: string | null | undefined): string => {
     if (from && to) {
         return `${+from - +to}`
     }
-    return '00';
+    return '';
 }
 
 export const subtractDatesFromNow = (from: string | null | undefined): string => {
@@ -76,7 +76,7 @@ export const subtractDatesFromNow = (from: string | null | undefined): string =>
         const days = Math.ceil(ms / 1000 / 3600 / 24);
         return `${days}`;
     }
-    return '00'
+    return '';
 }
 export const subtractDatesNowFrom = (from: string | null | undefined): string => {
     if (from) {
@@ -86,7 +86,7 @@ export const subtractDatesNowFrom = (from: string | null | undefined): string =>
         const days = Math.ceil(ms / 1000 / 3600 / 24);
         return `${days}`;
     }
-    return '00'
+    return '';
 }
 
 export const setEngine = (pos: number, engines: IInstEngine[]): string | undefined => {
