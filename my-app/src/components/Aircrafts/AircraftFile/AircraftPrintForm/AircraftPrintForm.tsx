@@ -6,13 +6,18 @@ import engineAPI from "../../../../API/engineAPI";
 import Button from "../../../../common/buttons/Button";
 import { IAircraft } from "../../../../store/reducers/aircraftReducer";
 import { IEngine } from "../../../../types/types";
-import { subtractDatesFromNow, subtractDatesNowFrom, subtractFC, subtractFH } from "../../../../utils/forms";
+import { subtractDatesFromNow, subtractDatesFromTo, subtractDatesNowFrom, subtractFC, subtractFH } from "../../../../utils/forms";
 import { withContainerBlur } from "../../../HOC/withContainerBlur/withContainerBlur";
 import s from "./AircraftPrintForm.module.scss";
 
 type AircraftPrintFormProps = {
     setPrintForm: (printForm: boolean) => void;
     aircraft: IAircraft;
+}
+
+const daysToYYMM = (days: number): string => {
+    if (!days) return '';
+    return `${Math.floor(days / 365)} лет ${Math.floor((days % 365) / 30)} мес`;
 }
 
 const AircraftPrintForm: React.FC<AircraftPrintFormProps> = ({ setPrintForm, aircraft }) => {
@@ -33,7 +38,6 @@ const AircraftPrintForm: React.FC<AircraftPrintFormProps> = ({ setPrintForm, air
         </div>
     )
 }
-
 
 type ComponentToPrintProps = {
     aircraft: IAircraft;
@@ -154,7 +158,7 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                         <td>{eng2?.type}</td>
                         <td>{eng3?.type}</td>
                         <td>{eng4?.type}</td>
-                        <td>TA-6A</td>
+                        <td>-</td>
                     </tr>
                     <tr>
                         <td>Заводской (серийный) №<br />Manufacturer Serial Number (MSN)</td>
@@ -263,20 +267,20 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                     </tr>
                     <tr>
                         <td>Назначенный срок службы, лет-мес<br />Total calendar, years-month</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(aircraft?.tlp, aircraft?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng1?.tlp, eng1?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng2?.tlp, eng2?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng3?.tlp, eng3?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng4?.tlp, eng4?.manufDate))}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td>Cрок службы СНЭ, лет-мес<br />Сalendar since new, years-month</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(aircraft.manufDate) / 365)} лет ${+subtractDatesNowFrom(aircraft.manufDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng1?.manufDate) / 365)} лет ${+subtractDatesNowFrom(eng1?.manufDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng2?.manufDate) / 365)} лет ${+subtractDatesNowFrom(eng2?.manufDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng3?.manufDate) / 365)} лет ${+subtractDatesNowFrom(eng3?.manufDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng4?.manufDate) / 365)} лет ${+subtractDatesNowFrom(eng4?.manufDate) % 12} мес `}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(aircraft.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng1?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng2?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng3?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng4?.manufDate))}</td>
                         <td>-</td>
                     </tr>
                     <tr className={s.row__bold}>
@@ -305,20 +309,20 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                     </tr>
                     <tr>
                         <td>Наработка ППР, час<br />TSO, hrs</td>
-                        <td>{subtractFH(aircraft.fh, aircraft.tsnAtlastOverhaul)}</td>
-                        <td>{subtractFH(eng1?.tsn, eng1?.tsnAtlastOverhaul)}</td>
-                        <td>{subtractFH(eng2?.tsn, eng2?.tsnAtlastOverhaul)}</td>
-                        <td>{subtractFH(eng3?.tsn, eng3?.tsnAtlastOverhaul)}</td>
-                        <td>{subtractFH(eng4?.tsn, eng4?.tsnAtlastOverhaul)}</td>
+                        <td>{aircraft.overhaulNum ? subtractFH(aircraft.fh, aircraft.tsnAtlastOverhaul) : aircraft.fh}</td>
+                        <td>{eng1?.overhaulNum ? subtractFH(eng1?.tsn, eng1?.tsnAtlastOverhaul) : eng1?.tsn}</td>
+                        <td>{eng2?.overhaulNum ? subtractFH(eng2?.tsn, eng2?.tsnAtlastOverhaul) : eng2?.tsn}</td>
+                        <td>{eng3?.overhaulNum ? subtractFH(eng3?.tsn, eng3?.tsnAtlastOverhaul) : eng3?.tsn}</td>
+                        <td>{eng4?.overhaulNum ? subtractFH(eng4?.tsn, eng4?.tsnAtlastOverhaul) : eng4?.tsn}</td>
                         <td>-</td>
                     </tr>
                     <tr className={s.row__bold}>
                         <td>Остаток межремонтного ресурса, час<br />TBO remaning, hrs</td>
-                        <td>{subtractFH(aircraft?.tbo, subtractFH(aircraft?.fh, aircraft?.tsnAtlastOverhaul))}</td>
-                        <td>{subtractFH(eng1?.tbo, subtractFH(eng1?.tsn, eng1?.tsnAtlastOverhaul))}</td>
-                        <td>{subtractFH(eng2?.tbo, subtractFH(eng2?.tsn, eng2?.tsnAtlastOverhaul))}</td>
-                        <td>{subtractFH(eng3?.tbo, subtractFH(eng3?.tsn, eng3?.tsnAtlastOverhaul))}</td>
-                        <td>{subtractFH(eng4?.tbo, subtractFH(eng4?.tsn, eng4?.tsnAtlastOverhaul))}</td>
+                        <td>{subtractFH(aircraft?.tbo, aircraft.overhaulNum ? subtractFH(aircraft?.fh, aircraft?.tsnAtlastOverhaul) : aircraft.fh)}</td>
+                        <td>{subtractFH(eng1?.tbo, eng1?.overhaulNum ? subtractFH(eng1?.tsn, eng1?.tsnAtlastOverhaul) : eng1?.tsn)}</td>
+                        <td>{subtractFH(eng2?.tbo, eng2?.overhaulNum ? subtractFH(eng2?.tsn, eng2?.tsnAtlastOverhaul) : eng2?.tsn)}</td>
+                        <td>{subtractFH(eng3?.tbo, eng3?.overhaulNum ? subtractFH(eng3?.tsn, eng3?.tsnAtlastOverhaul) : eng3?.tsn)}</td>
+                        <td>{subtractFH(eng4?.tbo, eng4?.overhaulNum ? subtractFH(eng4?.tsn, eng4?.tsnAtlastOverhaul) : eng4?.tsn)}</td>
                         <td>-</td>
                     </tr>
                     <tr>
@@ -332,20 +336,20 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                     </tr>
                     <tr>
                         <td>Наработка ППР, цикл<br />CSN, cycles</td>
-                        <td>{subtractFC(aircraft?.fc, aircraft?.csnAtlastOverhaul)}</td>
-                        <td>{subtractFC(eng1?.csn, eng1?.csnAtlastOverhaul)}</td>
-                        <td>{subtractFC(eng2?.csn, eng2?.csnAtlastOverhaul)}</td>
-                        <td>{subtractFC(eng3?.csn, eng3?.csnAtlastOverhaul)}</td>
-                        <td>{subtractFC(eng4?.csn, eng4?.csnAtlastOverhaul)}</td>
+                        <td>{aircraft.overhaulNum ? subtractFC(aircraft?.fc, aircraft?.csnAtlastOverhaul) : aircraft.fc}</td>
+                        <td>{eng1?.overhaulNum ? subtractFC(eng1?.csn, eng1?.csnAtlastOverhaul) : eng1?.csn}</td>
+                        <td>{eng2?.overhaulNum ? subtractFC(eng2?.csn, eng2?.csnAtlastOverhaul) : eng2?.csn}</td>
+                        <td>{eng3?.overhaulNum ? subtractFC(eng3?.csn, eng3?.csnAtlastOverhaul) : eng3?.csn}</td>
+                        <td>{eng4?.overhaulNum ? subtractFC(eng4?.csn, eng4?.csnAtlastOverhaul) : eng4?.csn}</td>
                         <td>-</td>
                     </tr>
                     <tr className={s.row__bold}>
                         <td>Остаток межремонтного ресурса, цикл<br />CBO remaning, cycles</td>
-                        <td>{subtractFC(aircraft.cbo, subtractFC(aircraft.fc, aircraft?.csnAtlastOverhaul))}</td>
-                        <td>{subtractFC(eng1?.cbo, subtractFC(eng1?.csn, eng1?.csnAtlastOverhaul))}</td>
-                        <td>{subtractFC(eng2?.cbo, subtractFC(eng2?.csn, eng2?.csnAtlastOverhaul))}</td>
-                        <td>{subtractFC(eng3?.cbo, subtractFC(eng3?.csn, eng3?.csnAtlastOverhaul))}</td>
-                        <td>{subtractFC(eng4?.cbo, subtractFC(eng4?.csn, eng4?.csnAtlastOverhaul))}</td>
+                        <td>{subtractFC(aircraft.cbo, aircraft.overhaulNum ? subtractFC(aircraft.fc, aircraft?.csnAtlastOverhaul) : aircraft.fc)}</td>
+                        <td>{subtractFC(eng1?.cbo, eng1?.overhaulNum ? subtractFC(eng1?.csn, eng1?.csnAtlastOverhaul) : eng1?.csn)}</td>
+                        <td>{subtractFC(eng2?.cbo, eng2?.overhaulNum ? subtractFC(eng2?.csn, eng2?.csnAtlastOverhaul) : eng2?.csn)}</td>
+                        <td>{subtractFC(eng3?.cbo, eng3?.overhaulNum ? subtractFC(eng3?.csn, eng3?.csnAtlastOverhaul) : eng3?.csn)}</td>
+                        <td>{subtractFC(eng4?.cbo, eng4?.overhaulNum ? subtractFC(eng4?.csn, eng4?.csnAtlastOverhaul) : eng4?.csn)}</td>
                         <td>-</td>
                     </tr>
                     <tr>
@@ -359,20 +363,20 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                     </tr>
                     <tr>
                         <td>Межремонтный срок службы, лет-мес<br />Calendar between overhaul, years-month</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(aircraft.pbo, aircraft?.overhaulNum ? aircraft?.lastOverhaulDate : aircraft.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng1?.pbo, eng1?.overhaulNum ? eng1?.lastOverhaulDate : eng1?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng2?.pbo, eng2?.overhaulNum ? eng2?.lastOverhaulDate : eng2?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng3?.pbo, eng3?.overhaulNum ? eng3?.lastOverhaulDate : eng3?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesFromTo(eng4?.pbo, eng4?.overhaulNum ? eng4?.lastOverhaulDate : eng4?.manufDate))}</td>
                         <td>-</td>
                     </tr>
                     <tr>
                         <td>Cрок службы ППР, лет-мес<br />Сalendar since overhaul, years-month</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(aircraft?.lastOverhaulDate) / 365)} лет ${+subtractDatesNowFrom(aircraft?.lastOverhaulDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng1?.lastOverhaulDate) / 365)} лет ${+subtractDatesNowFrom(eng1?.lastOverhaulDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng2?.lastOverhaulDate) / 365)} лет ${+subtractDatesNowFrom(eng2?.lastOverhaulDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng3?.lastOverhaulDate) / 365)} лет ${+subtractDatesNowFrom(eng3?.lastOverhaulDate) % 12} мес `}</td>
-                        <td>{`${Math.floor(+subtractDatesNowFrom(eng4?.lastOverhaulDate) / 365)} лет ${+subtractDatesNowFrom(eng4?.lastOverhaulDate) % 12} мес `}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(aircraft.overhaulNum ? aircraft?.lastOverhaulDate : aircraft.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng1?.overhaulNum ? eng1?.lastOverhaulDate : eng1?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng2?.overhaulNum ? eng2?.lastOverhaulDate : eng2?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng3?.overhaulNum ? eng3?.lastOverhaulDate : eng3?.manufDate))}</td>
+                        <td>{daysToYYMM(+subtractDatesNowFrom(eng4?.overhaulNum ? eng4?.lastOverhaulDate : eng4?.manufDate))}</td>
                         <td>-</td>
                     </tr>
                     <tr className={s.row__bold}>
@@ -390,7 +394,5 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
         </div >
     )
 })
-
-
 
 export default compose(withContainerBlur)(AircraftPrintForm);

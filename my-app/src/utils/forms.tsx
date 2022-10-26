@@ -21,7 +21,7 @@ export const subtractFH = (from: string | null | undefined, to: string | null | 
     }
     const mmToStr = (value: number): string => {
         const hh: number = Math.floor(value / 60);
-        const mm: number = value % 60;
+        const mm: number = Math.abs(value % 60);
         return `${hh}:${mm}`
     }
     if (from && to) {
@@ -42,7 +42,7 @@ export const summFH = (value1: string | null | undefined, value2: string | null 
     }
     const mmToStr = (value: number): string => {
         const hh: number = Math.floor(value / 60);
-        const mm: number = value % 60;
+        const mm: number = Math.abs(value % 60);
         return `${hh}:${mm}`
     }
 
@@ -83,6 +83,16 @@ export const subtractDatesNowFrom = (from: string | null | undefined): string =>
         const fromDate = new Date(from);
         const currentDate = new Date();
         const ms = +currentDate - +fromDate;
+        const days = Math.ceil(ms / 1000 / 3600 / 24);
+        return `${days}`;
+    }
+    return '';
+}
+export const subtractDatesFromTo = (from: string | null | undefined, to: string | null | undefined): string => {
+    if (from && to) {
+        const fromDate = new Date(from);
+        const toDate = new Date(to);
+        const ms = +fromDate - +toDate;
         const days = Math.ceil(ms / 1000 / 3600 / 24);
         return `${days}`;
     }
