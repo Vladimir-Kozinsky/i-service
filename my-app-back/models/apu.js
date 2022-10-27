@@ -11,8 +11,8 @@ const apuSchema = new mongoose.Schema({
     installDate: { type: String },
     aircraftTsn: { type: String },
     aircraftCsn: { type: String },
-    engTsn: { type: String },
-    engCsn: { type: String },
+    apuTsn: { type: String },
+    apuCsn: { type: String },
 
     overhaulNum: { type: Number, required: true },
     lastOverhaulDate: { type: String, required: true },

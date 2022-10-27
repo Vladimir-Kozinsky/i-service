@@ -103,8 +103,6 @@ const RemovalEngine: React.FC<RemovalEngineProps> = ({ setPage, aircraft }) => {
                                 <Input type="text" name='msn' id="msn" placeholder='MSN' value={engineMSN} disabled />
                             </div>
                         </div>
-
-
                         <div className={s.buttons} >
                             <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
                             <Button text="Remove" btnType="submit" color="green" />

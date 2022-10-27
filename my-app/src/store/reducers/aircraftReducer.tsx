@@ -1,9 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import aircraftAPI from "../../API/aircraftAPI";
+import apuAPI from "../../API/apuAPI";
 import engineAPI from "../../API/engineAPI";
 import { IAircraftFormValues } from "../../components/Aircrafts/AircraftForm/AircraftForm";
+import { ApuInstallValues } from "../../components/Aircrafts/InstallApu/InstallApu";
 import { FormValues } from "../../components/Aircrafts/InstallEngine/InstallEngine";
+import { RemApuFormDataType } from "../../components/Aircrafts/RemovalApu/RemovalApu";
 import { RemEngFormDataType } from "../../components/Aircrafts/RemovalEngine/RemovalEngine";
+import { IApu } from "../../types/types";
 
 export interface IInstEngine {
     _id: string;
@@ -48,7 +52,7 @@ export interface IAircraft {
     tbo: string;
     cbo: string;
     engines: IInstEngine[];
-    apu: string;
+    apu?: IApu;
     legs?: ILeg[];
 }
 
@@ -206,6 +210,74 @@ const aircraftSlice = createSlice({
         builder.addCase(removeEngine.rejected, (state: IAircraftState, action) => {
             state.errorMessage = action.payload as string;
         })
+        builder.addCase(installApu.fulfilled, (state: IAircraftState, action: PayloadAction<IApu>) => {
+            const udatedApu: IApu = action.payload;
+            state.choosedAircraft.apu = udatedApu;
+            const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
+            if (aircraft) {
+                aircraft.apu = udatedApu;
+            }
+            state.isSuccessMessage = true;
+        })
+        builder.addCase(installApu.rejected, (state: IAircraftState, action) => {
+            state.errorMessage = action.payload as string;
+        })
+
+        builder.addCase(removeApu.fulfilled, (state: IAircraftState, action: PayloadAction<IApu>) => {
+            const udatedApu: IApu = action.payload;
+
+            state.choosedAircraft.apu = {
+                type: '',
+                msn: '',
+                manufDate: '',
+                tsn: '',
+                csn: '',
+                onAircraft: '',
+                installDate: '',
+                aircraftTsn: '',
+                aircraftCsn: '',
+                engTsn: '',
+                engCsn: '',
+                overhaulNum: 0,
+                lastOverhaulDate: '',
+                tsnAtlastOverhaul: '',
+                csnAtlastOverhaul: '',
+                tlp: '',
+                tlt: '',
+                tlc: '',
+                pbo: '',
+                tbo: '',
+                cbo: '',
+            }
+
+            const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
+            if (aircraft) {
+                aircraft.apu = {
+                    type: '',
+                    msn: '',
+                    manufDate: '',
+                    tsn: '',
+                    csn: '',
+                    onAircraft: '',
+                    installDate: '',
+                    aircraftTsn: '',
+                    aircraftCsn: '',
+                    engTsn: '',
+                    engCsn: '',
+                    overhaulNum: 0,
+                    lastOverhaulDate: '',
+                    tsnAtlastOverhaul: '',
+                    csnAtlastOverhaul: '',
+                    tlp: '',
+                    tlt: '',
+                    tlc: '',
+                    pbo: '',
+                    tbo: '',
+                    cbo: '',
+                }
+                state.isSuccessMessage = true;
+            }
+        })
     },
 })
 
@@ -302,6 +374,23 @@ export const removeEngine = createAsyncThunk(
     'aircraft/removeEngine',
     async (removalData: RemEngFormDataType) => {
         const response = await engineAPI.removeEngine(removalData);
+        return response.data
+    }
+)
+
+
+export const installApu = createAsyncThunk(
+    'aircraft/installApu',
+    async (instData: ApuInstallValues) => {
+        const response = await apuAPI.installApu(instData);
+        return response.data
+    }
+)
+
+export const removeApu = createAsyncThunk(
+    'aircraft/removeApu',
+    async (removalData: RemApuFormDataType) => {
+        const response = await apuAPI.removeApu(removalData);
         return response.data
     }
 )

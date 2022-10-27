@@ -19,7 +19,7 @@ type propsAircraftWidget = {
 const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
     const dispatch = useDispatch<AppDispatch>();
     const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
-    const cutData = (str: string | undefined) => {
+    const cutData = (str: string | undefined | null) => {
         if (!str) return 'N/A'
         if (str.length <= 5) return str;
         const cutStr = str.slice(str.length - 3, str.length)
@@ -82,7 +82,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
                         </div>
                         <div className={s.engine}>
                             <img src={apu} alt="engine-icon" />
-                            <span>{`APU: ${cutData(aircraft?.apu)}`}</span>
+                            <span>{`APU: ${cutData( aircraft?.apu ? aircraft?.apu.msn : '')}`}</span>
                         </div>
                     </div >
                 </div>

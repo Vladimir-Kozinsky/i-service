@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FormValues } from "../components/Aircrafts/InstallEngine/InstallEngine";
+import { RemApuFormDataType } from "../components/Aircrafts/RemovalApu/RemovalApu";
 import { RemEngFormDataType } from "../components/Aircrafts/RemovalEngine/RemovalEngine";
 import { IApu } from "../types/types";
 
@@ -42,7 +43,7 @@ const apuAPI = {
         return response;
     },
 
-    async removeEngine(remData: any) {
+    async removeApu(remData: RemApuFormDataType) {
         const response = await proxy.post('/apu/remove', remData);
         return response;
     }

@@ -3,6 +3,8 @@ import AircraftFileWidget from "./AircraftFileWdget/AircraftFileWidget";
 import legsIcon from "./../../../assets/img/png/legs-icon.png";
 import instEngIcon from "./../../../assets/img/png/installEng-icon.png";
 import remEngIcon from "./../../../assets/img/jpeg/engine-removal.jpg";
+import apuIcon from "./../../../assets/img/png/apu.png";
+
 
 import { IAircraft } from "../../../store/reducers/aircraftReducer";
 import { compose } from "redux";
@@ -82,7 +84,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                             </div>
                             <div className={s.infoItem}>
                                 <span className={s.infoItem__title}>APU:</span>
-                                <span className={s.infoItem__value}>{aircraftData.apu}</span>
+                                <span className={s.infoItem__value}>{aircraftData.apu?.msn}</span>
                             </div>
                         </div>
 
@@ -95,6 +97,8 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                     <AircraftFileWidget text='LEGS' img={legsIcon} aircraft={aircraftData} />
                     <AircraftFileWidget text='INSTALL ENGINE' img={instEngIcon} aircraft={aircraftData} />
                     <AircraftFileWidget text='REMOVE ENGINE' img={remEngIcon} aircraft={aircraftData} />
+                    <AircraftFileWidget text='INSTALL APU' img={apuIcon} aircraft={aircraftData} />
+                    <AircraftFileWidget text='REMOVE APU' img={apuIcon} aircraft={aircraftData} />
                 </div>
             </div>
             <div className={s.buttons} >

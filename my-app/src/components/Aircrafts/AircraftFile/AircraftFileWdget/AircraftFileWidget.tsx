@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { IAircraft } from "../../../../store/reducers/aircraftReducer";
 import Legs from "../../../Legs/Legs";
+import InstallApu from "../../InstallApu/InstallApu";
 import InstallEngine from "../../InstallEngine/InstallEngine";
+import RemovalApu from "../../RemovalApu/RemovalApu";
 import RemovalEngine from "../../RemovalEngine/RemovalEngine";
 import s from "./AircraftFileWidget.module.scss"
 
 type IAircraftFileWidgetProps = {
-    text: "LEGS" | "INSTALL ENGINE" | "REMOVE ENGINE";
+    text: string;
     img: string;
     aircraft: IAircraft;
 }
@@ -21,6 +23,10 @@ const AircraftFileWidget = ({ text, img, aircraft }: IAircraftFileWidgetProps) =
                 return <InstallEngine setPage={setPage} aircraft={aircraft} />
             case "REMOVE ENGINE":
                 return <RemovalEngine setPage={setPage} aircraft={aircraft} />
+            case "INSTALL APU":
+                return <InstallApu setPage={setPage} aircraft={aircraft} />
+            case "REMOVE APU":
+                return <RemovalApu setPage={setPage} aircraft={aircraft} />
             default:
                 break;
         }

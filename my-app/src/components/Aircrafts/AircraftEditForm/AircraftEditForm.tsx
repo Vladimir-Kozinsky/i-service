@@ -18,20 +18,6 @@ type AircraftEditFormProps = {
     showArcraftEditForm: () => void
 }
 
-// interface IAircraftFormValues {
-//     type: string;
-//     msn: string;
-//     initFh: string;
-//     initFc: string;
-//     fh: string;
-//     fc: string;
-//     eng1: string;
-//     eng2: string;
-//     eng3?: string;
-//     rng4?: string;
-//     apu: string;
-// }
-
 interface IOption {
     value: string | null;
     label: string | null;
@@ -83,7 +69,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                     initFc: aircraft.initFc,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
-                    apu: aircraft.apu
                 }}
                 validate={values => {
                     interface IErrors {
@@ -109,7 +94,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                     if (!values.initFc) errors.initFc = 'Initial FC is required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!values.fc) errors.fc = 'FC si required';
-                    if (!values.apu) errors.apu = 'Serial number is required';
                     return errors;
                 }}
                 onSubmit={(
@@ -126,7 +110,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                         initFc: values.initFc,
                         fh: values.fh,
                         fc: values.fc,
-                        apu: values.apu,
+                        apu: {},
                         engines: [],
                         legs: []
                     }
@@ -179,11 +163,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
                                 {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
                                 <label>FC <span>*</span></label>
                                 <Input type="text" id="fc" name="fc" placeholder={aircraft.fc} disabled />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.apu ? <ErrorMessage message={errors.apu} /> : null}
-                                <label>APU Serial Number</label>
-                                <Input type="text" id="apu" name="apu" placeholder={aircraft.apu} />
                             </div>
                         </div>
                         <div className={s.aircraft__form__btns} >
