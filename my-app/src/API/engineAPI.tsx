@@ -1,9 +1,10 @@
 import axios from "axios";
 import { FormValues } from "../components/Aircrafts/InstallEngine/InstallEngine";
 import { RemEngFormDataType } from "../components/Aircrafts/RemovalEngine/RemovalEngine";
+import generalAPIData from "./generalData";
 
 const proxy = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: generalAPIData.baseURL
 })
 
 const engineAPI = {

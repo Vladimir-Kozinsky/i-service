@@ -59,7 +59,7 @@ const RemovalEngine: React.FC<RemovalEngineProps> = ({ setPage, aircraft }) => {
             return { value: { pos: engine.pos.toString(), msn: engine.msn }, label: `Pos.: ${engine.pos} MSN: ${engine.msn}` };
         })
         setPosOptions(options)
-    }, [])
+    }, [aircraft.engines])
     return (
         <div className={s.removalEngine} >
             <h2 className={s.removalEngine__header}>Engine Removal</h2>

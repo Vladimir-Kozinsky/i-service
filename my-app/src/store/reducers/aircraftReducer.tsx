@@ -224,8 +224,6 @@ const aircraftSlice = createSlice({
         })
 
         builder.addCase(removeApu.fulfilled, (state: IAircraftState, action: PayloadAction<IApu>) => {
-            const udatedApu: IApu = action.payload;
-
             state.choosedAircraft.apu = {
                 type: '',
                 msn: '',

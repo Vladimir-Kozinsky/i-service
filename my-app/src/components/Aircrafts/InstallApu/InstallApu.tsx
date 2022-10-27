@@ -4,13 +4,12 @@ import { useDispatch } from "react-redux";
 import Select, { ActionMeta, SingleValue } from "react-select";
 import { compose } from "redux";
 import apuAPI from "../../../API/apuAPI";
-import engineAPI from "../../../API/engineAPI";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
 import ErrorMessage from "../../../common/messages/ErrorMessage";
-import { IAircraft, installApu, installEngine } from "../../../store/reducers/aircraftReducer";
+import { IAircraft, installApu } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
-import { IApu, IEngine } from "../../../types/types";
+import { IApu } from "../../../types/types";
 import { checkFHFormat } from "../../../utils/forms";
 import withSuccessMessage from "../../HOC/messageHoc";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
@@ -29,11 +28,6 @@ export type ApuInstallValues = {
     aircraftCsn: string;
     apuTsn: string;
     apuCsn: string;
-}
-
-interface IOption {
-    value: number | null;
-    label: string | null;
 }
 
 interface IApuOption {
@@ -86,7 +80,7 @@ const InstallApu: React.FC<InstallApuProps> = ({ setPage, aircraft }) => {
         })()
     }, [])
     return (
-        <div className={s.installEngine}>
+        <div className={s.installApu}>
             <Formik
                 initialValues={{
                     ACmsn: '',
@@ -133,7 +127,7 @@ const InstallApu: React.FC<InstallApuProps> = ({ setPage, aircraft }) => {
                     <Form className={s.installEngine__form}>
                         <div className={s.installEngine__form__wrap}>
                             <div className={s.installEngine__form__link}>
-                                <label>Apu:<span>*</span></label>
+                                <label>APU:<span>*</span></label>
                                 <Select options={apus} onChange={onChangeApu} styles={customStyles} />
                             </div>
 
@@ -154,12 +148,12 @@ const InstallApu: React.FC<InstallApuProps> = ({ setPage, aircraft }) => {
                             </div>
                             <div className={s.installEngine__form__link}>
                                 {errors.apuTsn ? <ErrorMessage message={errors.apuTsn} /> : null}
-                                <label>Apu TSN <span>*</span></label>
+                                <label>APU TSN <span>*</span></label>
                                 <Input type="text" id="apuTsn" name="apuTsn" placeholder="Enter Engine TSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
                                 {errors.apuCsn ? <ErrorMessage message={errors.apuCsn} /> : null}
-                                <label>Apu CSN <span>*</span></label>
+                                <label>APU CSN <span>*</span></label>
                                 <Input type="text" id="apuCsn" name="apuCsn" placeholder="Enter Engine CSN" />
                             </div>
                         </div>

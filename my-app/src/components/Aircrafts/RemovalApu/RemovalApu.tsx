@@ -54,9 +54,9 @@ const RemovalApu: React.FC<RemovalApuProps> = ({ setPage, aircraft }) => {
             >
                 {({ errors, touched }) => (
                     <Form className={s.removalEngine__form}>
-                        <div className={s.removalEngine__form__wrap}>
+                        <div className={s.removalApu__form__wrap}>
                             <div className={s.removalEngine__form__link}>
-                                <label>Apu MSN:<span>*</span></label>
+                                <label>APU MSN:<span>*</span></label>
                                 <Input type="text" name='msn' id="msn" placeholder='MSN' value={aircraft.apu?.msn ? aircraft.apu?.msn : ''} disabled />
                             </div>
                         </div>

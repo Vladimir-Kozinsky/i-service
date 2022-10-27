@@ -76,7 +76,7 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                 console.log(error)
             }
         })
-    }, [])
+    }, [aircraft.engines])
     return (
         <div className={s.componentToPrint} ref={ref}>
             <h3 className={s.componentToPrint__header} >СВЕДЕНИЯ О НАРАБОТКЕ АВИАЦИОННОЙ ТЕХНИКИ<br />AIRCRAFT ELAOSED TIME INFORMATION</h3>

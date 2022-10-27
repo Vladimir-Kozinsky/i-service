@@ -3,7 +3,7 @@ import s from './DataBlock.module.scss';
 
 type DataBlockProps = {
     title: string;
-    value: string | number | null;
+    value: string | number | null | undefined;
 }
 
 const DataBlock: React.FC<DataBlockProps> = ({ title, value }) => {

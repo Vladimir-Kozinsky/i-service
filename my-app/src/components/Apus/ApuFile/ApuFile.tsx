@@ -1,9 +1,9 @@
 import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
-import { IApu, IEngine } from "../../../types/types";
+import { IApu } from "../../../types/types";
 import { subtractDatesFromNow, subtractFC, subtractFH, summFC, summFH } from "../../../utils/forms";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
-import DataBlock from "./DataBlock/DataBlock";
+import DataBlock from "../../../common/DataBlock/DataBlock";
 import s from "./ApuFile.module.scss";
 
 type ApuFileProps = {
