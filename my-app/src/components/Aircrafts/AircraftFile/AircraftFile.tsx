@@ -8,7 +8,7 @@ import { IAircraft } from "../../../store/reducers/aircraftReducer";
 import { compose } from "redux";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import Button from "../../../common/buttons/Button";
-import { useEffect, useState } from "react";
+import { DragEvent, MouseEvent, useEffect, useState } from "react";
 import { setEngine, subtractDatesFromNow, subtractFC, subtractFH } from "../../../utils/forms";
 import AircraftPrintForm from "./AircraftPrintForm/AircraftPrintForm";
 import DataBlock from "../../../common/DataBlock/DataBlock";
@@ -21,6 +21,79 @@ type IAircraftFileProps = {
 const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     const [aircraftData, setAircraftData] = useState(aircraft);
     const [printForm, setPrintForm] = useState<boolean>(false);
+    const [currentWidget, setCurrentWidget] = useState<HTMLDivElement | null>(null);
+    const [overWidget, setOverWidget] = useState<HTMLDivElement | null>(null);
+    const [widgets, setWidgets] = useState([
+        { pos: '0', text: '', img: '' },
+        { pos: '1', text: 'LEGS', img: legsIcon },
+        { pos: '2', text: 'INSTALL ENGINE', img: instEngIcon },
+        { pos: '3', text: 'REMOVE ENGINE', img: remEngIcon },
+        { pos: '4', text: 'INSTALL APU', img: apuIcon },
+        { pos: '5', text: 'REMOVE APU', img: apuIcon },
+        { pos: '6', text: '', img: '' },
+        { pos: '7', text: '', img: '' },
+        { pos: '8', text: '', img: '' },
+        { pos: '9', text: '', img: '' },
+        { pos: '10', text: '', img: '' },
+        { pos: '11', text: '', img: '' },
+        { pos: '12', text: '', img: '' },
+        { pos: '13', text: '', img: '' },
+        { pos: '14', text: '', img: '' },
+        { pos: '15', text: '', img: '' },
+        { pos: '16', text: '', img: '' },
+        { pos: '17', text: '', img: '' },
+        { pos: '18', text: '', img: '' },
+        { pos: '19', text: '', img: '' },
+        { pos: '20', text: '', img: '' },
+        { pos: '21', text: '', img: '' },
+        { pos: '22', text: '', img: '' },
+        { pos: '23', text: '', img: '' },
+        { pos: '24', text: '', img: '' },
+    ])
+
+    const onDragHandler = (e: DragEvent<HTMLDivElement>) => {
+
+    }
+    const onDragStartHandler = (e: DragEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        const el = e.target as HTMLDivElement;
+        setCurrentWidget(el);
+    }
+
+    const onDragOverHandler = async (e: DragEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        const el = e.target as HTMLDivElement;
+        setOverWidget(el);
+    }
+
+    const onMouseUpHandler = (e: MouseEvent<HTMLDivElement>) => {
+    }
+
+    const onMouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
+    }
+
+    const onDragEndHandler = async (e: MouseEvent<HTMLDivElement>) => {
+        if (!currentWidget || !overWidget) return;
+
+        await setWidgets((prevState) => {
+            const newArr = prevState.map(item => {
+                if (item.pos === currentWidget.style.order) {
+                    console.log('currentWidget')
+                    return { ...item, pos: overWidget.style.order }
+                }
+                if (item.pos === overWidget.style.order) {
+                    console.log('overWidget')
+                    return { ...item, pos: currentWidget.style.order }
+                }
+                return item
+            })
+
+
+            console.log(newArr)
+            return newArr
+        })
+    }
+
     useEffect(() => {
         setAircraftData(aircraft);
     }, [aircraft])
@@ -88,11 +161,28 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                     </div>
                 </div>
                 <div className={s.widget__container} >
-                    <AircraftFileWidget text='LEGS' img={legsIcon} aircraft={aircraftData} />
-                    <AircraftFileWidget text='INSTALL ENGINE' img={instEngIcon} aircraft={aircraftData} />
-                    <AircraftFileWidget text='REMOVE ENGINE' img={remEngIcon} aircraft={aircraftData} />
-                    <AircraftFileWidget text='INSTALL APU' img={apuIcon} aircraft={aircraftData} />
-                    <AircraftFileWidget text='REMOVE APU' img={apuIcon} aircraft={aircraftData} />
+                    {
+                        widgets.map((widget, index) => {
+                            if (widget.text) {
+                                return <AircraftFileWidget
+                                    text={widget.text}
+                                    img={widget.img}
+                                    order={widget.pos}
+                                    onDragStartHandler={onDragStartHandler}
+                                    onDragEndHandler={onDragEndHandler}
+                                    onMouseDownHandler={onMouseDownHandler}
+                                    onMouseUpHandler={onMouseUpHandler}
+                                    onDragHandler={onDragHandler}
+                                    onDragOverHandler={onDragOverHandler}
+                                    aircraft={aircraftData} />
+                            } else {
+                                return (
+                                    <div className={s.emptyWidget} style={{ order: widget.pos }}></div>
+                                )
+                            }
+
+                        })
+                    }
                 </div>
             </div>
             <div className={s.buttons} >
