@@ -24,7 +24,6 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     const [currentWidget, setCurrentWidget] = useState<HTMLDivElement | null>(null);
     const [overWidget, setOverWidget] = useState<HTMLDivElement | null>(null);
     const [widgets, setWidgets] = useState([
-        { pos: '0', text: '', img: '' },
         { pos: '1', text: 'LEGS', img: legsIcon },
         { pos: '2', text: 'INSTALL ENGINE', img: instEngIcon },
         { pos: '3', text: 'REMOVE ENGINE', img: remEngIcon },
@@ -49,6 +48,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
         { pos: '22', text: '', img: '' },
         { pos: '23', text: '', img: '' },
         { pos: '24', text: '', img: '' },
+        { pos: '25', text: '', img: '' },
     ])
 
     const onDragHandler = (e: DragEvent<HTMLDivElement>) => {
@@ -57,13 +57,14 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     const onDragStartHandler = (e: DragEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const el = e.target as HTMLDivElement;
-        setCurrentWidget(el);
+        if (el.parentElement?.id === 'widget__container') setCurrentWidget(el);
     }
 
     const onDragOverHandler = async (e: DragEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const el = e.target as HTMLDivElement;
-        setOverWidget(el);
+        console.log(el)
+        if (el.parentElement?.id === 'widget__container' && el.nodeName === 'DIV') setOverWidget(el);
     }
 
     const onMouseUpHandler = (e: MouseEvent<HTMLDivElement>) => {
@@ -74,22 +75,19 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
 
     const onDragEndHandler = async (e: MouseEvent<HTMLDivElement>) => {
         if (!currentWidget || !overWidget) return;
+        console.log(currentWidget.style.order, overWidget.style.order)
 
         await setWidgets((prevState) => {
             const newArr = prevState.map(item => {
+                console.log(item.pos, overWidget.style.order)
                 if (item.pos === currentWidget.style.order) {
-                    console.log('currentWidget')
                     return { ...item, pos: overWidget.style.order }
                 }
                 if (item.pos === overWidget.style.order) {
-                    console.log('overWidget')
                     return { ...item, pos: currentWidget.style.order }
                 }
                 return item
             })
-
-
-            console.log(newArr)
             return newArr
         })
     }
@@ -160,7 +158,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                         <Button text="Print Report" btnType="button" color="green" handler={() => setPrintForm(true)} />
                     </div>
                 </div>
-                <div className={s.widget__container} >
+                <div id='widget__container' className={s.widget__container} >
                     {
                         widgets.map((widget, index) => {
                             if (widget.text) {
@@ -174,10 +172,17 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                                     onMouseUpHandler={onMouseUpHandler}
                                     onDragHandler={onDragHandler}
                                     onDragOverHandler={onDragOverHandler}
-                                    aircraft={aircraftData} />
+                                    aircraft={aircraftData}
+                                />
                             } else {
                                 return (
-                                    <div className={s.emptyWidget} style={{ order: widget.pos }}></div>
+                                    <div className={s.emptyWidget} draggable style={{ order: widget.pos }}
+                                        onDragStart={onDragStartHandler}
+                                        onDragEnd={onDragEndHandler}
+                                        onMouseDown={onMouseDownHandler}
+                                        onMouseUp={onMouseUpHandler}
+                                        onDrag={onDragHandler}
+                                        onDragOver={onDragOverHandler}></div>
                                 )
                             }
 
