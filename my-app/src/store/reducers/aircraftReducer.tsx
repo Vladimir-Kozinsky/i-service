@@ -32,7 +32,7 @@ interface ILeg {
 }
 
 export interface IAircraft {
-    _id: string;
+    _id?: string;
     type: string;
     msn: string;
     manufDate: string;
@@ -106,19 +106,11 @@ const aircraftSlice = createSlice({
             state.aircrafts = action.payload;
         })
         builder.addCase(updateAircraft.fulfilled, (state, action) => {
-            const aircraft = state.aircrafts.find((aircraft: IAircraft) => aircraft.msn === action.payload.msn) as IAircraft | undefined;
-            if (aircraft) {
-                aircraft.msn = action.payload.msn;
-                aircraft._id = action.payload._id;
-                aircraft.type = action.payload.type;
-                aircraft.regNum = action.payload.regNum;
-                aircraft.initFh = action.payload.initFh;
-                aircraft.initFc = action.payload.initFc;
-                aircraft.fh = action.payload.fh;
-                aircraft.fc = action.payload.fc;
-                aircraft.engines = action.payload.engines;
-                aircraft.apu = action.payload.apu;
+            const aircraftIndex = state.aircrafts.findIndex((aircraft: IAircraft) => aircraft.msn === action.payload.msn);
+            if (aircraftIndex >= 0) {
+                state.aircrafts[aircraftIndex] = { ...action.payload }
             }
+            state.choosedAircraft = { ...action.payload };
             state.isSuccessMessage = true;
         })
         builder.addCase(getLegs.fulfilled, (state, action) => {
@@ -167,23 +159,23 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(installEngine.fulfilled, (state: IAircraftState, action: PayloadAction<IInstEngine>) => {
             const udatedEng: IInstEngine = action.payload;
-            const index = state.choosedAircraft.engines.findIndex((eng) => {
+            const index = state.choosedAircraft.engines?.findIndex((eng) => {
                 return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
             });
-            if (index >= 0) {
-                state.choosedAircraft.engines.splice(index, 1, udatedEng)
+            if (index && index >= 0) {
+                state.choosedAircraft.engines?.splice(index, 1, udatedEng)
             } else {
-                state.choosedAircraft.engines.push(udatedEng);
+                state.choosedAircraft.engines?.push(udatedEng);
             }
             const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
             if (aircraft) {
-                const i = aircraft.engines.findIndex((eng) => {
+                const i = aircraft.engines?.findIndex((eng) => {
                     return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
                 })
-                if (i >= 0) {
-                    aircraft.engines.splice(i, 1, udatedEng)
+                if (i && i >= 0) {
+                    aircraft.engines?.splice(i, 1, udatedEng)
                 } else {
-                    aircraft.engines.push(udatedEng);
+                    aircraft.engines?.push(udatedEng);
                 }
             }
             state.isSuccessMessage = true;
@@ -193,17 +185,17 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(removeEngine.fulfilled, (state: IAircraftState, action: PayloadAction<IInstEngine>) => {
             const udatedEng: IInstEngine = action.payload;
-            const index = state.choosedAircraft.engines.findIndex((eng) => {
+            const index = state.choosedAircraft.engines?.findIndex((eng) => {
                 return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
             });
-            if (index >= 0) state.choosedAircraft.engines.splice(index, 1)
+            if (index && index >= 0) state.choosedAircraft.engines?.splice(index, 1)
 
             const aircraft: IAircraft | undefined = state.aircrafts.find((a: IAircraft) => a.msn === state.choosedAircraft.msn);
             if (aircraft) {
-                const i = aircraft.engines.findIndex((eng) => {
+                const i = aircraft.engines?.findIndex((eng) => {
                     return eng.msn === udatedEng.msn || eng.pos === udatedEng.pos
                 })
-                if (i >= 0) aircraft.engines.splice(i, 1, udatedEng)
+                if (i && i >= 0) aircraft.engines?.splice(i, 1, udatedEng)
             }
             state.isSuccessMessage = true;
         })

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Apu from './apu.js';
 
 const aircraftSchema = new mongoose.Schema({
     type: { type: String },
@@ -27,11 +26,11 @@ const aircraftSchema = new mongoose.Schema({
         }
     ],
     apu: {
-        type: { type: String, required: true },
-        msn: { type: String, required: true },
-        manufDate: { type: String, required: true },
-        tsn: { type: String, required: true },
-        csn: { type: String, required: true },
+        type: { type: String },
+        msn: { type: String },
+        manufDate: { type: String },
+        tsn: { type: String },
+        csn: { type: String },
 
         onAircraft: { type: String },
         installDate: { type: String },
@@ -40,16 +39,16 @@ const aircraftSchema = new mongoose.Schema({
         apuTsn: { type: String },
         apuCsn: { type: String },
 
-        overhaulNum: { type: Number, required: true },
-        lastOverhaulDate: { type: String, required: true },
-        tsnAtlastOverhaul: { type: String, required: true },
-        csnAtlastOverhaul: { type: String, required: true },
-        tlp: { type: String, required: true },
-        tlt: { type: String, required: true },
-        tlc: { type: String, required: true },
-        pbo: { type: String, required: true },
-        tbo: { type: String, required: true },
-        cbo: { type: String, required: true },
+        overhaulNum: { type: Number },
+        lastOverhaulDate: { type: String },
+        tsnAtlastOverhaul: { type: String },
+        csnAtlastOverhaul: { type: String },
+        tlp: { type: String },
+        tlt: { type: String },
+        tlc: { type: String },
+        pbo: { type: String },
+        tbo: { type: String },
+        cbo: { type: String },
     },
     legs: [
         {

@@ -2,7 +2,7 @@ import s from './AircraftWidget.module.scss';
 import plane from './../../../assets/img/png/plane.png'
 import engine from './../../../assets/img/png/engine.png'
 import apu from './../../../assets/img/png/apu.png'
-import { IAircraft, IInstEngine, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
+import { IAircraft, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
 import { IAircraftFile } from '../Aircrafts';
@@ -32,6 +32,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
 
     const showArcraftEditForm = () => {
         arcraftEditForm ? setArcraftEditForm(false) : setArcraftEditForm(true);
+        dispatch(setChoosedAircraft(aircraft));
     }
 
     const widgetOnClick = (event: React.MouseEvent<HTMLElement>) => {

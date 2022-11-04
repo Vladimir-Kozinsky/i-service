@@ -4,10 +4,10 @@ import { AppDispatch } from '../../store/store';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
 import { useEffect, useState } from 'react';
-import AircraftForm from './AircraftForm/AircraftForm';
 import cross from './../../assets/img/png/cross.png'
 import Button from '../../common/buttons/Button';
 import { useNavigate } from 'react-router-dom';
+import AircraftForm from './AircraftForm/AircraftForm';
 
 export interface IAircraftFile {
     show: boolean;
@@ -43,9 +43,11 @@ const Aircrafts = () => {
                     </div>
                     <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
                 </div>
-
             </div>
-            <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
+            <div className={s.aircrafts__buttons} >
+                <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
+            </div>
+
         </>
 
     )

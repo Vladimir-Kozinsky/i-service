@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
 import Input from '../../../common/Input';
 import ErrorMessage from '../../../common/messages/ErrorMessage';
@@ -18,6 +18,8 @@ export interface IAircraftFormValues {
     msn: string;
     manufDate: string;
     regNum: string;
+    initFh: string;
+    initFc: string;
     fh: string;
     fc: string;
     overhaulNum: number;
@@ -52,15 +54,12 @@ interface IAddFormProps {
 const AircraftForm = ({ setAddForm }: IAddFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [numOfOverhauls, setNumOfOverhauls] = useState<number>(0);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) {
             setSelectedOption(option.value);
         }
     }
-    const numOverhaulOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNumOfOverhauls(+e.target.value)
-    }
+
     const customStyles = {
         option: (provided: any) => ({
             ...provided,
@@ -84,6 +83,8 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                     msn: '',
                     manufDate: '',
                     regNum: '',
+                    initFh: '',
+                    initFc: '',
                     fh: '',
                     fc: '',
                     overhaulNum: 0,
@@ -103,6 +104,8 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                         msn?: string;
                         manufDate?: string;
                         regNum?: string;
+                        initFh?: string;
+                        initFc?: string;
                         fh?: string;
                         fc?: string;
                         overhaulNum?: string;
@@ -122,14 +125,16 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
+                    if (!values.initFh) errors.initFh = 'Initial FH is required';
+                    if (!checkFHFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
+                    if (!values.initFc) errors.initFc = 'FC si required';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!checkFHFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
-                    // if (values.overhaulNum < 0) errors.overhaulNum = 'Number of overhaul is required';
-                    if (numOfOverhauls > 0 && !values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul Date is required';
-                    if (numOfOverhauls > 0 && !values.tsnAtlastOverhaul) errors.tsnAtlastOverhaul = 'FH at last overhaul is required';
-                    if (numOfOverhauls > 0 && !checkFHFormat(values.tsnAtlastOverhaul)) errors.tsnAtlastOverhaul = 'Invalid format, the format should be like "123456:22"';
-                    if (numOfOverhauls > 0 && !values.csnAtlastOverhaul) errors.csnAtlastOverhaul = 'FC at last overhaul is required';
+                    if (values.overhaulNum > 0 && !values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul Date is required';
+                    if (values.overhaulNum > 0 && !values.tsnAtlastOverhaul) errors.tsnAtlastOverhaul = 'FH at last overhaul is required';
+                    if (values.overhaulNum > 0 && !checkFHFormat(values.tsnAtlastOverhaul)) errors.tsnAtlastOverhaul = 'Invalid format, the format should be like "123456:22"';
+                    if (values.overhaulNum > 0 && !values.csnAtlastOverhaul) errors.csnAtlastOverhaul = 'FC at last overhaul is required';
                     if (!values.tlp) errors.tlp = 'Total Life Period is required';
                     if (!values.tlt) errors.tlt = 'Total Life Time is required';
                     if (!checkFHFormat(values.tlt)) errors.tlt = 'Invalid format, the format should be like "123456:22"';
@@ -145,11 +150,10 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
                     if (selectedOption) values.type = selectedOption;
-                    if (numOfOverhauls) values.overhaulNum = numOfOverhauls;
                     dispatch(addAircraft(values));
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, values, touched, handleChange }) => (
                     <Form className={s.aircraft__form}>
                         <div className={s.aircraft__form__wrap}>
                             <div className={s.aircraft__form__link}>
@@ -157,82 +161,83 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                                 <label>Type <span>*</span></label>
                                 <Select options={options} onChange={onChange} styles={customStyles} />
                             </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.manufDate ? <ErrorMessage message={errors.manufDate} /> : null}
-                                <label>Manufacture Date<span>*</span></label>
-                                <Input type="date" id="manufDate" name="manufDate" placeholder="Enter Manufacture Date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
-                                <label>MSN <span>*</span></label>
-                                <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
-                                <label>Reg. <span>*</span></label>
-                                <Input type="text" id="regNum" name="regNum" placeholder="Enter Reg. No" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
-                                <label>FH <span>*</span></label>
-                                <Input type="text" id="fh" name="fh" placeholder="Enter FH" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
-                                <label>FC <span>*</span></label>
-                                <Input type="text" id="fc" name="fc" placeholder="Enter FC" />
-                            </div>
-
-                            <div className={s.aircraft__form__link}>
-                                {errors.overhaulNum ? <ErrorMessage message={errors.overhaulNum} /> : null}
-                                <label>Number of Overhaul <span>*</span></label>
-                                <input className={s.input} value={numOfOverhauls} type="number" id="overhaulNum" name="overhaulNum" onChange={numOverhaulOnchange} min='0' />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.lastOverhaulDate ? <ErrorMessage message={errors.lastOverhaulDate} /> : null}
-                                <label>Last Overhaul Date<span>*</span></label>
-                                <Input type="date" id="lastOverhaulDate" name="lastOverhaulDate" placeholder="Enter last overhaul date" disabled={numOfOverhauls ? false : true} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.tsnAtlastOverhaul ? <ErrorMessage message={errors.tsnAtlastOverhaul} /> : null}
-                                <label>FH at Last Overhaul<span>*</span></label>
-                                <Input type="text" id="tsnAtlastOverhaul" name="tsnAtlastOverhaul" placeholder="Enter last overhaul date" disabled={numOfOverhauls ? false : true} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.csnAtlastOverhaul ? <ErrorMessage message={errors.csnAtlastOverhaul} /> : null}
-                                <label>FC at Last Overhaul<span>*</span></label>
-                                <Input type="text" id="csnAtlastOverhaul" name="csnAtlastOverhaul" placeholder="Enter last overhaul date" disabled={numOfOverhauls ? false : true} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.tlp ? <ErrorMessage message={errors.tlp} /> : null}
-                                <label>Total Life Period<span>*</span></label>
-                                <Input type="date" id="tlp" name="tlp" placeholder="Enter last overhaul date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.tlt ? <ErrorMessage message={errors.tlt} /> : null}
-                                <label>Total Life Time<span>*</span></label>
-                                <Input type="text" id="tlt" name="tlt" placeholder="Enter last overhaul date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.tlc ? <ErrorMessage message={errors.tlc} /> : null}
-                                <label>Total Life Cycles<span>*</span></label>
-                                <Input type="text" id="tlc" name="tlc" placeholder="Enter last overhaul date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.pbo ? <ErrorMessage message={errors.pbo} /> : null}
-                                <label>Period Between Overhaul<span>*</span></label>
-                                <Input type="date" id="pbo" name="pbo" placeholder="Enter last overhaul date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.tbo ? <ErrorMessage message={errors.tbo} /> : null}
-                                <label>Time Between Overhaul<span>*</span></label>
-                                <Input type="text" id="tbo" name="tbo" placeholder="Enter last overhaul date" />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.cbo ? <ErrorMessage message={errors.cbo} /> : null}
-                                <label>Cycles Between Overhaul<span>*</span></label>
-                                <Input type="text" id="cbo" name="cbo" placeholder="Enter last overhaul date" />
-                            </div>
+                            {[
+                                {
+                                    label: "Manufacture Date", type: "date", id: "manufDate", name: "manufDate",
+                                    value: values.manufDate, error: errors.manufDate, placeholder: "Choose Manufacture Date"
+                                },
+                                {
+                                    label: "MSN", type: "text", id: "msn", name: "msn",
+                                    value: values.msn, error: errors.msn, placeholder: "Enter MSN"
+                                },
+                                {
+                                    label: "Reg.", type: "text", id: "regNum", name: "regNum",
+                                    value: values.regNum, error: errors.regNum, placeholder: "Enter Reg. No"
+                                },
+                                {
+                                    label: "Initial FH", type: "text", id: "initFh", name: "initFh",
+                                    value: values.initFh, error: errors.initFh, placeholder: "Enter Initial FH"
+                                },
+                                {
+                                    label: "Initial FC", type: "text", id: "initFc", name: "initFc",
+                                    value: values.initFc, error: errors.initFc, placeholder: "Enter Initial FC"
+                                },
+                                {
+                                    label: "FH", type: "text", id: "fh", name: "fh",
+                                    value: values.fh, error: errors.fh, placeholder: "Enter FH"
+                                },
+                                {
+                                    label: "FC", type: "text", id: "fc", name: "fc",
+                                    value: values.fc, error: errors.fc, placeholder: "Enter FC"
+                                },
+                                { label: "Number of Overhaul", type: "number", id: "overhaulNum", name: "overhaulNum", value: values.overhaulNum, error: errors.overhaulNum },
+                                {
+                                    label: "Last Overhaul Date", type: "date", id: "lastOverhaulDate", name: "lastOverhaulDate",
+                                    value: values.lastOverhaulDate, error: errors.lastOverhaulDate, placeholder: "Choose last overhaul date", disabled: values.overhaulNum === 0 ? true : false
+                                },
+                                {
+                                    label: "FH at Last Overhaul", type: "text", id: "tsnAtlastOverhaul", name: "tsnAtlastOverhaul",
+                                    value: values.tsnAtlastOverhaul, error: errors.tsnAtlastOverhaul, placeholder: "Enter FH at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
+                                },
+                                {
+                                    label: "FC at Last Overhaul", type: "text", id: "csnAtlastOverhaul", name: "csnAtlastOverhaul",
+                                    value: values.csnAtlastOverhaul, error: errors.csnAtlastOverhaul, placeholder: "Enter FC at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
+                                },
+                                {
+                                    label: "Total Life Period", type: "date", id: "tlp", name: "tlp",
+                                    value: values.tlp, error: errors.tlp, placeholder: "Enter Total Life Period"
+                                },
+                                {
+                                    label: "Total Life Time", type: "text", id: "tlt", name: "tlt",
+                                    value: values.tlt, error: errors.tlt, placeholder: "Enter Total Life Time"
+                                },
+                                {
+                                    label: "Total Life Cycles", type: "text", id: "tlc", name: "tlc",
+                                    value: values.tlc, error: errors.tlc, placeholder: "Enter Total Life Cycles"
+                                },
+                                {
+                                    label: "Period Between Overhaul", type: "date", id: "pbo", name: "pbo",
+                                    value: values.pbo, error: errors.pbo, placeholder: "Choose Period Between Overhaul"
+                                },
+                                {
+                                    label: "Time Between Overhaul", type: "text", id: "tbo", name: "tbo",
+                                    value: values.tbo, error: errors.tbo, placeholder: "Enter Time Between Overhaul"
+                                },
+                                {
+                                    label: "Cycles Between Overhaul", type: "text", id: "cbo", name: "cbo",
+                                    value: values.cbo, error: errors.cbo, placeholder: "Enter Cycles Between Overhaul"
+                                },
+                            ].map((field: any) => {
+                                return (
+                                    <div key={field.label} className={s.aircraft__form__link}>
+                                        {field.error ? <ErrorMessage message={field.error} /> : null}
+                                        <label>{field.label}<span>*</span></label>
+                                        <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                            disabled={field.disabled} placeholder={field.placeholder} min="0" />
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                         <div className={s.aircraft__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => setAddForm(false)} />

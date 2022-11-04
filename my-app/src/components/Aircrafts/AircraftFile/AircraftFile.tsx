@@ -63,7 +63,6 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     const onDragOverHandler = async (e: DragEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const el = e.target as HTMLDivElement;
-        console.log(el)
         if (el.parentElement?.id === 'widget__container' && el.nodeName === 'DIV') setOverWidget(el);
     }
 
@@ -75,11 +74,8 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
 
     const onDragEndHandler = async (e: MouseEvent<HTMLDivElement>) => {
         if (!currentWidget || !overWidget) return;
-        console.log(currentWidget.style.order, overWidget.style.order)
-
         await setWidgets((prevState) => {
             const newArr = prevState.map(item => {
-                console.log(item.pos, overWidget.style.order)
                 if (item.pos === currentWidget.style.order) {
                     return { ...item, pos: overWidget.style.order }
                 }
@@ -154,15 +150,13 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                             </div>
                         </div>
                     </div>
-                    <div className={s.aircraftData__buttons} >
-                        <Button text="Print Report" btnType="button" color="green" handler={() => setPrintForm(true)} />
-                    </div>
+
                 </div>
                 <div id='widget__container' className={s.widget__container} >
                     {
                         widgets.map((widget, index) => {
                             if (widget.text) {
-                                return <AircraftFileWidget
+                                return <AircraftFileWidget key={widget.text}
                                     text={widget.text}
                                     img={widget.img}
                                     order={widget.pos}
@@ -176,22 +170,23 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                                 />
                             } else {
                                 return (
-                                    <div className={s.emptyWidget} draggable style={{ order: widget.pos }}
+                                    <div key={widget.text + index.toString()} className={s.emptyWidget} draggable style={{ order: widget.pos }}
                                         onDragStart={onDragStartHandler}
                                         onDragEnd={onDragEndHandler}
                                         onMouseDown={onMouseDownHandler}
                                         onMouseUp={onMouseUpHandler}
                                         onDrag={onDragHandler}
-                                        onDragOver={onDragOverHandler}></div>
+                                        onDragOver={onDragOverHandler}>
+                                    </div>
                                 )
                             }
-
                         })
                     }
                 </div>
             </div>
             <div className={s.buttons} >
                 <Button text="Back" btnType="button" color="white" handler={() => setArcraftFile(false)} />
+                <Button text="Print Report" btnType="button" color="green" handler={() => setPrintForm(true)} />
             </div>
 
         </div >

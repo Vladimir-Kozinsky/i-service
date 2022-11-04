@@ -46,24 +46,38 @@ router.post('/aircraft/add', async (req, res) => {
 
 router.post('/aircraft/edit', async (req, res) => {
     try {
-        const { id, manufDate, msn, initFh, initFc, apu } = req.body;
-        const update = await Aircraft.updateOne({ _id: id }, {
-            manufDate: manufDate,
-            msn: msn,
-            initFh: initFh,
-            initFc: initFc,
-            apu: apu
+        const data = req.body;
+        if (!data) throw new Error("An updated aircraft has not been recieved");
+        const update = await Aircraft.updateOne({ _id: data._id }, {
+            type: data.type,
+            msn: data.msn,
+            manufDate: data.manufDate,
+            regNum: data.regNum,
+            initFh: data.initFh,
+            initFc: data.initFc,
+            fh: data.fh,
+            fc: data.fc,
+            overhaulNum: data.overhaulNum,
+            lastOverhaulDate: data.lastOverhaulDate,
+            tsnAtlastOverhaul: data.tsnAtlastOverhaul,
+            csnAtlastOverhaul: data.csnAtlastOverhaul,
+            tlp: data.tlp,
+            tlt: data.tlt,
+            tlc: data.tlc,
+            pbo: data.pbo,
+            tbo: data.tbo,
+            cbo: data.cbo,
         });
-
+        console.log(update)
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
-        const aircraft = await Aircraft.findOne({ _id: id }).exec();
-        if (initFh !== aircraft.initFh || initFc !== aircraft.initFc) {
+        const aircraft = await Aircraft.findOne({ _id: data._id }).exec();
+        if (data.initFh !== aircraft.initFh || data.initFc !== aircraft.initFc) {
             const newFH = culcFH(aircraft.legs, aircraft.initFh)
             const newFC = culcFC(aircraft.legs, aircraft.initFc)
             const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
             if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
         }
-        const aircraftUpdated = await Aircraft.findOne({ id: id }).exec();
+        const aircraftUpdated = await Aircraft.findOne({ id: data._id }).exec();
         res.statusMessage = "Aircraft successfully updated";
         res.json(aircraftUpdated);
     } catch (error) {

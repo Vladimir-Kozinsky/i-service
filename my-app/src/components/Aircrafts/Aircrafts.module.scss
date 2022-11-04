@@ -3,11 +3,11 @@
 .aircrafts {
     margin-top: 60px;
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
     height: 70vh;
     overflow-y: auto;
+    align-content: flex-start;
 }
 
 .widget {
@@ -30,5 +30,15 @@
         margin-left: 95px;
         width: 100px;
         height: 100px;
+    }
+}
+
+.aircrafts__buttons {
+    padding: 0 20px ;
+}
+
+@media (max-width: 1200px) {
+    .aircrafts {
+        justify-content: center;
     }
 }

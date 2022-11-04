@@ -27,12 +27,13 @@
 
 
 .dashboard__widgets {
-    margin-top: 60px;
+    margin: 60px 20px 0px; 
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     height: 70vh;
     overflow-y: auto;
+    align-content: flex-start;
 }
 
 .dashboard__widget {
@@ -73,3 +74,10 @@
 
     }
 }
+
+@media (max-width: 1200px) {
+    .dashboard__widgets {
+        justify-content: center;
+    }
+}
+

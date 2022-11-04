@@ -1,28 +1,44 @@
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
-import Input from '../../../common/Input';
 import ErrorMessage from '../../../common/messages/ErrorMessage';
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Select, { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
+import { addAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
-import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import withSuccessMessage from '../../HOC/messageHoc';
+import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFHFormat } from '../../../utils/forms';
+import Input from '../../../common/inputs/Input';
 
-type AircraftEditFormProps = {
-    aircraft: IAircraft
-    showArcraftEditForm: () => void
+export interface IAircraftFormValues {
+    type: string;
+    msn: string;
+    manufDate: string;
+    regNum: string;
+    initFh: string;
+    initFc: string;
+    fh: string;
+    fc: string;
+    overhaulNum: number;
+    lastOverhaulDate: string;
+    tsnAtlastOverhaul: string;
+    csnAtlastOverhaul: string;
+    tlp: string;
+    tlt: string;
+    tlc: string;
+    pbo: string;
+    tbo: string;
+    cbo: string;
 }
 
 interface IOption {
     value: string | null;
     label: string | null;
 }
-const options: IOption[] = [
+const options = [
     { value: 'IL-76T', label: 'IL-76T' },
     { value: 'IL-76TD', label: 'IL-76TD' },
     { value: 'Boeing 737-300', label: 'Boeing 737-300' },
@@ -33,9 +49,13 @@ const options: IOption[] = [
     { value: 'Boeing 757-200', label: 'Boeing 757-200' }
 ]
 
-const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormProps) => {
+interface IEditFormProps {
+    aircraft: IAircraft
+    showArcraftEditForm: (isForm: boolean) => void
+}
+const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type ? aircraft.type : null);
+    const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) {
             setSelectedOption(option.value);
@@ -58,115 +78,123 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: AircraftEditFormPro
     }
     return (
         <div className={s.aircraftForm}>
-            <h3 className={s.aircraftForm__header}>Update an Aircraft</h3>
+            <h3 className={s.aircraftForm__header}>Edit an Aircraft</h3>
             <Formik
                 initialValues={{
+                    _id: aircraft._id,
                     type: aircraft.type,
-                    manufDate: aircraft.manufDate,
                     msn: aircraft.msn,
+                    manufDate: aircraft.manufDate,
                     regNum: aircraft.regNum,
-                    initFh: aircraft.initFh,
-                    initFc: aircraft.initFc,
+                    initFh:aircraft.initFh,
+                    initFc:aircraft.initFc,
                     fh: aircraft.fh,
                     fc: aircraft.fc,
+                    overhaulNum: aircraft.overhaulNum,
+                    lastOverhaulDate: aircraft.lastOverhaulDate,
+                    tsnAtlastOverhaul: aircraft.tsnAtlastOverhaul,
+                    csnAtlastOverhaul: aircraft.csnAtlastOverhaul,
+                    tlp: aircraft.tlp,
+                    tlt: aircraft.tlt,
+                    tlc: aircraft.tlc,
+                    pbo: aircraft.pbo,
+                    tbo: aircraft.tbo,
+                    cbo: aircraft.cbo,
                 }}
                 validate={values => {
                     interface IErrors {
                         type?: string;
-                        manufDate?: string;
                         msn?: string;
+                        manufDate?: string;
                         regNum?: string;
                         initFh?: string;
                         initFc?: string;
                         fh?: string;
                         fc?: string;
-                        apu?: string;
+                        overhaulNum?: string;
+                        lastOverhaulDate?: string;
+                        tsnAtlastOverhaul?: string;
+                        csnAtlastOverhaul?: string;
+                        tlp?: string;
+                        tlt?: string;
+                        tlc?: string;
+                        pbo?: string;
+                        tbo?: string;
+                        cbo?: string;
                     }
                     const errors: IErrors = {};
-
-
                     if (!selectedOption) errors.type = 'Type is required';
-                    if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.msn) errors.msn = 'MSN is required';
+                    if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.initFh) errors.initFh = 'Initial FH is required';
                     if (!checkFHFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
-                    if (!values.initFc) errors.initFc = 'Initial FC is required';
+                    if (!values.initFc) errors.initFc = 'Initial FC si required';
                     if (!values.fh) errors.fh = 'FH is required';
+                    if (!checkFHFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
+                    if (values.overhaulNum > 0 && !values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul Date is required';
+                    if (values.overhaulNum > 0 && !values.tsnAtlastOverhaul) errors.tsnAtlastOverhaul = 'FH at last overhaul is required';
+                    if (values.overhaulNum > 0 && !checkFHFormat(values.tsnAtlastOverhaul)) errors.tsnAtlastOverhaul = 'Invalid format, the format should be like "123456:22"';
+                    if (values.overhaulNum > 0 && !values.csnAtlastOverhaul) errors.csnAtlastOverhaul = 'FC at last overhaul is required';
+                    if (!values.tlp) errors.tlp = 'Total Life Period is required';
+                    if (!values.tlt) errors.tlt = 'Total Life Time is required';
+                    if (!checkFHFormat(values.tlt)) errors.tlt = 'Invalid format, the format should be like "123456:22"';
+                    if (!values.tlc) errors.tlc = 'Total Life Cycles is required';
+                    if (!values.pbo) errors.pbo = 'Period between overhaul is required';
+                    if (!values.tbo) errors.tbo = 'Time between overhaul is required';
+                    if (!checkFHFormat(values.tbo)) errors.tbo = 'Invalid format, the format should be like "123456:22"';
+                    if (!values.cbo) errors.cbo = 'Cycles between overhaul is required';
                     return errors;
                 }}
                 onSubmit={(
-                    values: any,
+                    values: IAircraftFormValues,
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
-                    const payload = {
-                        id: aircraft._id,
-                        type: selectedOption,
-                        manufDate: values.manufDate,
-                        msn: values.msn,
-                        regNum: values.regNum,
-                        initFh: values.initFh,
-                        initFc: values.initFc,
-                        fh: values.fh,
-                        fc: values.fc,
-                        apu: {},
-                        engines: [],
-                        legs: []
-                    }
-                    dispatch(updateAircraft(payload));
+                    if (selectedOption) values.type = selectedOption;
+                    dispatch(updateAircraft(values));
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, values, handleChange }) => (
                     <Form className={s.aircraft__form}>
                         <div className={s.aircraft__form__wrap}>
                             <div className={s.aircraft__form__link}>
                                 {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
                                 <label>Type <span>*</span></label>
-                                <Select value={
-                                    options.filter((option: IOption) =>
-                                        option.label === aircraft.type
-                                    )
-                                } options={options} onChange={onChange} styles={customStyles} />
+                                <Select value={{ label: selectedOption, value: selectedOption }} options={options} onChange={onChange} styles={customStyles} />
                             </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.manufDate ? <ErrorMessage message={errors.manufDate} /> : null}
-                                <label>Manufacture Date<span>*</span></label>
-                                <Input type="date" id="manufDate" name="manufDate" placeholder={aircraft.manufDate} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
-                                <label>MSN <span>*</span></label>
-                                <Input type="text" id="msn" name="msn" placeholder={aircraft.msn} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.regNum ? <ErrorMessage message={errors.regNum} /> : null}
-                                <label>Reg:<span>*</span></label>
-                                <Input type="text" id="regNum" name="regNum" placeholder={aircraft.regNum} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.initFh ? <ErrorMessage message={errors.initFh} /> : null}
-                                <label>Initial FH <span>*</span></label>
-                                <Input type="text" id="initFh" name="initFh" placeholder={aircraft.initFh} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.initFc ? <ErrorMessage message={errors.initFc} /> : null}
-                                <label>Initial FC <span>*</span></label>
-                                <Input type="text" id="initFc" name="initFc" placeholder={aircraft.initFc} />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
-                                <label>FH <span>*</span></label>
-                                <Input type="text" id="fh" name="fh" placeholder={aircraft.fh} disabled />
-                            </div>
-                            <div className={s.aircraft__form__link}>
-                                {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
-                                <label>FC <span>*</span></label>
-                                <Input type="text" id="fc" name="fc" placeholder={aircraft.fc} disabled />
-                            </div>
+                            {[
+                                { label: "Manufacture Date", type: "date", id: "manufDate", name: "manufDate", value: values.manufDate, error: errors.manufDate },
+                                { label: "MSN", type: "text", id: "msn", name: "msn", value: values.msn, error: errors.msn },
+                                { label: "Reg.", type: "text", id: "regNum", name: "regNum", value: values.regNum, error: errors.regNum },
+                                { label: "Initial FH", type: "text", id: "initFh", name: "initFh", value: values.initFh, error: errors.initFh },
+                                { label: "Initial FC", type: "text", id: "initFc", name: "initFc", value: values.initFc, error: errors.initFc },
+                                { label: "FH", type: "text", id: "fh", name: "fh", value: values.fh, error: errors.fh },
+                                { label: "FC", type: "text", id: "fc", name: "fc", value: values.fc, error: errors.fc },
+                                { label: "Number of Overhaul", type: "number", id: "overhaulNum", name: "overhaulNum", value: values.overhaulNum, error: errors.overhaulNum },
+                                { label: "Last Overhaul Date", type: "date", id: "lastOverhaulDate", name: "lastOverhaulDate", value: values.lastOverhaulDate, error: errors.lastOverhaulDate, disabled: values.overhaulNum === 0 ? true : false },
+                                { label: "FH at Last Overhaul", type: "text", id: "tsnAtlastOverhaul", name: "tsnAtlastOverhaul", value: values.tsnAtlastOverhaul, error: errors.tsnAtlastOverhaul, disabled: values.overhaulNum === 0 ? true : false },
+                                { label: "FC at Last Overhaul", type: "text", id: "csnAtlastOverhaul", name: "csnAtlastOverhaul", value: values.csnAtlastOverhaul, error: errors.csnAtlastOverhaul, disabled: values.overhaulNum === 0 ? true : false },
+                                { label: "Total Life Period", type: "date", id: "tlp", name: "tlp", value: values.tlp, error: errors.tlp },
+                                { label: "Total Life Time", type: "text", id: "tlt", name: "tlt", value: values.tlt, error: errors.tlt },
+                                { label: "Total Life Cycles", type: "text", id: "tlc", name: "tlc", value: values.tlc, error: errors.tlc },
+                                { label: "Period Between Overhaul", type: "text", id: "pbo", name: "pbo", value: values.pbo, error: errors.pbo },
+                                { label: "Time Between Overhaul", type: "text", id: "tbo", name: "tbo", value: values.tbo, error: errors.tbo },
+                                { label: "Cycles Between Overhaul", type: "text", id: "cbo", name: "cbo", value: values.cbo, error: errors.cbo },
+                            ].map((field: any) => {
+                                return (
+                                    <div key={field.label} className={s.aircraft__form__link}>
+                                        {field.error ? <ErrorMessage message={field.error} /> : null}
+                                        <label>{field.label}<span>*</span></label>
+                                        <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                            disabled={field.disabled} min="0" />
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                         <div className={s.aircraft__form__btns} >
-                            <Button text="Cancel" color="white" btnType="button" handler={showArcraftEditForm} />
+                            <Button text="Cancel" color="white" btnType="button" handler={() => showArcraftEditForm(false)} />
                             <Button text="Add" color="green" btnType="submit" />
                         </div>
                     </Form>

@@ -49,6 +49,7 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
     const [eng3, setEng3] = useState<IEngine | null>(null);
     const [eng4, setEng4] = useState<IEngine | null>(null);
     useEffect(() => {
+        if (!aircraft.engines) return
         aircraft.engines.forEach(async (engine) => {
             try {
                 const response = await engineAPI.getEngine(engine.msn);
