@@ -9,7 +9,6 @@ type MyProps = {
     isAuth: boolean;
     userId: string | null;
     checkAuth: (id: string) => void
-    setUser: () => void
 }
 interface IState {
     auth: IAuthState;
@@ -26,7 +25,6 @@ const mapStateToProps = (state: IState) => {
 export const withDashboardRedirect = (Component: any) => {
     class RedirectComponent extends React.Component<MyProps> {
         async componentDidMount(): Promise<void> {
-            await this.props.setUser();
             if (this.props.userId) this.props.checkAuth(this.props.userId)
         }
         render() {
@@ -34,7 +32,7 @@ export const withDashboardRedirect = (Component: any) => {
             return <Component {...this.props} />
         }
     }
-    const mapDispatchToProps = { checkAuth, setUser };
+    const mapDispatchToProps = { checkAuth };
     let ConnectedAuthRedirectComponent = connect(mapStateToProps, mapDispatchToProps)(RedirectComponent);
     return ConnectedAuthRedirectComponent
 }

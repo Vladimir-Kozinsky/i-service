@@ -4,6 +4,7 @@ import router from './routers/Auth.js';
 import Aircraftrouter from './routers/Aircraft.js';
 import cors from 'cors';
 import EngineRouter from './routers/Engine.js';
+import ApuRouter from './routers/Apu.js';
 
 const PORT = 5000;
 const URI = "mongodb+srv://user1:user1@cluster0.lswt8ul.mongodb.net/new-way?retryWrites=true&w=majority"
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('', router);
 app.use('', Aircraftrouter);
 app.use('', EngineRouter);
+app.use('', ApuRouter);
 
 mongoose.connect(URI, {
     useNewUrlParser: true,

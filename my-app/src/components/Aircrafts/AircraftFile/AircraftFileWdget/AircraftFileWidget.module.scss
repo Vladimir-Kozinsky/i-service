@@ -1,0 +1,38 @@
+.widget {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+    background-color: rgba(1, 81, 155, 0.5);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background-color 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(1, 81, 155, 0.6);
+    }
+
+    h3 {
+        color: white;
+        font-size: 24px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+        text-align: center;
+    }
+    img {
+        position: absolute;
+        z-index: -1;
+        width: 110px;
+        opacity: 0.7;
+    }
+
+    .widget__img__rem {
+        width: 120%;
+        height: 100%;
+    }
+}

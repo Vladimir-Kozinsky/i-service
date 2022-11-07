@@ -1,7 +1,8 @@
 import axios from "axios";
+import generalAPIData from "./generalData";
 
 const proxy = axios.create({
-    baseURL: "http://localhost:5000"
+    baseURL: generalAPIData.baseURL
 })
 
 const aircraftAPI = {

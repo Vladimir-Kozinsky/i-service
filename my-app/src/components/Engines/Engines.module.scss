@@ -1,0 +1,34 @@
+.engines {
+   max-width: 1200px;
+   height: 70vh;
+   margin: 60px auto 20px;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 20px;
+   height: 70vh;
+   overflow-y: auto;
+   justify-content: center;
+   align-content: flex-start;
+}
+
+.widget {
+   position: relative;
+   width: 250px;
+   height: 180px;
+   background-color: rgb(255, 255, 255, 0.2);
+   border-radius: 15px;
+   display: flex;
+   justify-content: center;
+   transition: all 0.3s;
+
+   &:hover {
+      cursor: pointer;
+      background-color: rgb(255, 255, 255, 0.3);
+   }
+
+   .widget__img {
+      width: 100px;
+      height: 100px;
+      margin-top: 40px;
+   }
+}

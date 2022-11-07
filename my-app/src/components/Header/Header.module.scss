@@ -3,8 +3,9 @@
 .header {
     position: relative;
     padding-top: 20px;
-    height: 40px;
+    min-height: 60px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
@@ -15,23 +16,35 @@
     align-items: center;
 
     img {
-        width: 160px;
+        width: 100px;
     }
 
     .header__logo__title {
         color: #ffffff;
         font-family: Manrope;
-        margin-left: 30px;
+        margin-left: 20px;
         font-size: 24px;
     }
 }
 
 .header__nav {
+    margin-right: 20px;
+
     span {
         margin-right: 20px;
         color: #ffffff;
         font-family: Manrope;
         font-size: 16px;
         font-weight: 600;
+    }
+}
+
+@media (max-width: 620px) {
+    .header {
+        justify-content: center;
+        flex-direction: column;
+    }
+    .header__nav {
+       margin-top: 30px;
     }
 }

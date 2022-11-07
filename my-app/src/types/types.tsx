@@ -15,3 +15,53 @@ export interface IAuthState {
     isSignUpError: boolean;
     signUpErrorMessage: string;
 }
+
+export interface IEngine {
+    _id?: string | null;
+    type: string | null;
+    msn: string | null;
+    manufDate: string | null;
+    tsn: string | null;
+    csn: string | null;
+    onAircraft: string | null;
+    position: number | null;
+    installDate: string | null;
+    aircraftTsn: string | null;
+    aircraftCsn: string | null;
+    engTsn: string | null;
+    engCsn: string | null;
+    overhaulNum: number | null;
+    lastOverhaulDate: string | null;
+    tsnAtlastOverhaul: string | null;
+    csnAtlastOverhaul: string | null;
+    tlp: string | null;
+    tlt: string | null;
+    tlc: string | null;
+    pbo: string | null;
+    tbo: string | null;
+    cbo: string | null;
+}
+export interface IApu {
+    _id?: string | null;
+    type: string | null;
+    msn: string | null;
+    manufDate: string | null;
+    tsn: string | null;
+    csn: string | null;
+    onAircraft: string | null;
+    installDate: string | null;
+    aircraftTsn: string | null;
+    aircraftCsn: string | null;
+    engTsn: string | null;
+    engCsn: string | null;
+    overhaulNum: number | null;
+    lastOverhaulDate: string | null;
+    tsnAtlastOverhaul: string | null;
+    csnAtlastOverhaul: string | null;
+    tlp: string | null;
+    tlt: string | null;
+    tlc: string | null;
+    pbo: string | null;
+    tbo: string | null;
+    cbo: string | null;
+}

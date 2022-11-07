@@ -6,17 +6,22 @@ type InputProps = {
     id: string;
     name: string;
     placeholder: string;
-    value?: string;
+    value?: string | number;
     disabled?: boolean;
+    min?: string,
+    max?: string,
 }
 
-const Input = ({ type, id, name, placeholder, value, disabled }: InputProps) => {
+const Input = ({ type, id, name, placeholder, value, disabled, min, max }: InputProps) => {
     return (
         <Field type={type}
             id={id} name={name}
             placeholder={placeholder}
             className={s.input}
-            value={value} disabled={disabled} />
+            value={value}
+            disabled={disabled}
+            min={min} max={max}
+        />
     )
 }
 

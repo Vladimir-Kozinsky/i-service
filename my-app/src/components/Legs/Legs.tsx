@@ -188,4 +188,4 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage, withAuthRedirect)(Legs); 
+export default compose(withContainerBlur, withSuccessMessage)(Legs); 

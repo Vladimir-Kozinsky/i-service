@@ -25,25 +25,26 @@
     max-width: 1200px;
 }
 
-.main__aircrafts {
-    margin-top: 60px;
+
+.dashboard__widgets {
+    margin: 60px 20px 0px; 
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
-    height: 80vh;
+    height: 70vh;
     overflow-y: auto;
+    align-content: flex-start;
 }
 
-
-.widget {
+.dashboard__widget {
     position: relative;
-    width: 290px;
-    height: 200px;
-    padding: 20px;
+    width: 250px;
+    height: 180px;
     background-color: rgb(255, 255, 255, 0.2);
     border-radius: 15px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     transition: all 0.3s;
 
     &:hover {
@@ -51,10 +52,32 @@
         background-color: rgb(255, 255, 255, 0.3);
     }
 
-    .widget__cross__img {
-        margin-top: 45px;
-        margin-left: 95px;
-        width: 100px;
-        height: 100px;
+    .dashboard__widget__header {
+        padding: 0;
+        margin: 0;
+        color: white;
+        font-size: 34px;
+        font-family: "Manrope";
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .dashboard__widget__img {
+        position: absolute;
+        z-index: -1;
+        width: 230px;
+        opacity: 0.5;
+    }
+
+    .dashboard__widget__engine {
+        width: 200px;
+
     }
 }
+
+@media (max-width: 1200px) {
+    .dashboard__widgets {
+        justify-content: center;
+    }
+}
+

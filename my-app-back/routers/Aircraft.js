@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Aircraft from "../models/aircraft.js";
+import Engine from "../models/engine.js";
 
 const culcFH = (legs, initFH) => {
     const toMins = (str) => {
@@ -33,7 +34,6 @@ router.post('/aircraft/add', async (req, res) => {
             if (!newAircraft) throw new Error(`Aircraft has not been added`);
 
             if (!newAircraft) throw new Error(`Account has not been created`);
-            console.log(newAircraft);
             res.statusMessage = "Aircraft successfully added";
             res.json(newAircraft);
         }
@@ -46,25 +46,38 @@ router.post('/aircraft/add', async (req, res) => {
 
 router.post('/aircraft/edit', async (req, res) => {
     try {
-        const { id, msn, initFh, initFc, eng1, eng2, eng3, eng4, apu } = req.body;
-        const update = await Aircraft.updateOne({ _id: id }, {
-            msn: msn,
-            initFh: initFh,
-            initFc: initFc,
-            eng1: eng1,
-            eng2: eng2,
-            eng3: eng3,
-            eng4: eng4,
-            apu: apu
+        const data = req.body;
+        if (!data) throw new Error("An updated aircraft has not been recieved");
+        const update = await Aircraft.updateOne({ _id: data._id }, {
+            type: data.type,
+            msn: data.msn,
+            manufDate: data.manufDate,
+            regNum: data.regNum,
+            initFh: data.initFh,
+            initFc: data.initFc,
+            fh: data.fh,
+            fc: data.fc,
+            overhaulNum: data.overhaulNum,
+            lastOverhaulDate: data.lastOverhaulDate,
+            tsnAtlastOverhaul: data.tsnAtlastOverhaul,
+            csnAtlastOverhaul: data.csnAtlastOverhaul,
+            tlp: data.tlp,
+            tlt: data.tlt,
+            tlc: data.tlc,
+            pbo: data.pbo,
+            tbo: data.tbo,
+            cbo: data.cbo,
         });
-
+        console.log(update)
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
-        const aircraft = await Aircraft.findOne({ _id: id }).exec();
-        const newFH = culcFH(aircraft.legs, aircraft.initFh)
-        const newFC = culcFC(aircraft.legs, aircraft.initFc)
-        const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
-        if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
-        const aircraftUpdated = await Aircraft.findOne({ id: id }).exec();
+        const aircraft = await Aircraft.findOne({ _id: data._id }).exec();
+        if (data.initFh !== aircraft.initFh || data.initFc !== aircraft.initFc) {
+            const newFH = culcFH(aircraft.legs, aircraft.initFh)
+            const newFC = culcFC(aircraft.legs, aircraft.initFc)
+            const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
+            if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
+        }
+        const aircraftUpdated = await Aircraft.findOne({ id: data._id }).exec();
         res.statusMessage = "Aircraft successfully updated";
         res.json(aircraftUpdated);
     } catch (error) {
@@ -183,17 +196,20 @@ router.post('/aircraft/legs/add', async (req, res) => {
     try {
         const { leg, msn } = req.body;
         const update = await Aircraft.updateOne({ msn: msn }, { $push: { legs: leg } });
-
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
         const aircraftWithLeg = await Aircraft.findOne({ msn: msn }).exec();
         const newFH = culcFH(aircraftWithLeg.legs, aircraftWithLeg.initFh)
-        console.log(newFH)
         const newFC = culcFC(aircraftWithLeg.legs, aircraftWithLeg.initFc)
         const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
         if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
-
         const aircraft = await Aircraft.findOne({ msn: msn }).exec();
         const addedLeg = aircraft.legs[aircraft.legs.length - 1];
+        //engines update
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully added";
         res.json({ addedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
@@ -212,6 +228,12 @@ router.post('/aircraft/legs/del', async (req, res) => {
             }
         });
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
+        const aircraft = await Aircraft.findOne({ msn: msn }).exec();
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully deleted";
         res.json({ message: "Leg successfully deleted", legId: legId });
     } catch (error) {
@@ -226,8 +248,13 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         const { msn, legId, leg } = req.body;
         const aircraft = await Aircraft.findOne({ msn });
         const updatedLeg = aircraft.editLeg(legId, leg)
-        aircraft.reculcFhFc();
-        aircraft.save();
+        await aircraft.reculcFhFc();
+        await aircraft.save();
+        aircraft.engines.forEach(async (eng) => {
+            const engine = await Engine.findOne({ msn: eng.msn });
+            await engine.reculcFhFc();
+            await engine.save();
+        })
         res.statusMessage = "Leg successfully updated";
         res.json({ updatedLeg, fh: aircraft.fh, fc: aircraft.fc });
     } catch (error) {
@@ -236,7 +263,5 @@ router.post('/aircraft/legs/edit', async (req, res) => {
         res.json({ message: error.message })
     }
 })
-
-
 
 export default router;
