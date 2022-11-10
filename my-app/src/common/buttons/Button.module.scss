@@ -17,14 +17,25 @@
     }
 
     &.button__green {
-        background-color: #65e4a3;
-        border: #65e4a3 2px solid;
+        background: linear-gradient(90deg, #58cf92, #7cffbb, #58cf92, #58cf92);
+        border: #58cf92 2px solid;
+        background-size: 400%;
+        animation: animate 8s linear infinite;
 
         &:hover {
-            background-color: #ffffff;
+            background: #ffffff;
             border: #0a2640 2px solid;
         }
     }
+
+    @keyframes animate {
+        0% {
+          background-position: 0%;
+        }
+        100% {
+          background-position: 400%;
+        }
+      }
 
     &.button__white {
         border: #0a2640 2px solid;
@@ -51,7 +62,8 @@
         color: #ffffff;
 
         &:hover {
-            background-color: #ffffff;;
+            background-color: #ffffff;
+            ;
             border: #d5393a 2px solid;
             color: #d5393a;
         }

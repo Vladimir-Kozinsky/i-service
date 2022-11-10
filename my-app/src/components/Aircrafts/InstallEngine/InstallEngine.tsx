@@ -6,7 +6,6 @@ import { compose } from "redux";
 import engineAPI from "../../../API/engineAPI";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
-import ErrorMessage from "../../../common/messages/ErrorMessage";
 import { IAircraft, installEngine } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
 import { IEngine } from "../../../types/types";
@@ -157,27 +156,22 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                             </div>
 
                             <div className={s.installEngine__form__link}>
-                                {errors.installDate ? <ErrorMessage message={errors.installDate} /> : null}
                                 <label>Installation Date <span>*</span></label>
                                 <Input type="date" id="installDate" name="installDate" placeholder="Enter installation Date" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.aircraftTsn ? <ErrorMessage message={errors.aircraftTsn} /> : null}
                                 <label>Aircraft TSN <span>*</span></label>
                                 <Input type="text" id="aircraftTsn" name="aircraftTsn" placeholder="Enter Aircrfat TSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.aircraftCsn ? <ErrorMessage message={errors.aircraftCsn} /> : null}
                                 <label>Aircraft CSN <span>*</span></label>
                                 <Input type="text" id="aircraftCsn" name="aircraftCsn" placeholder="Enter Aircrfat CSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.engTsn ? <ErrorMessage message={errors.engTsn} /> : null}
                                 <label>Engine TSN <span>*</span></label>
                                 <Input type="text" id="engTsn" name="engTsn" placeholder="Enter Engine TSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.engCsn ? <ErrorMessage message={errors.engCsn} /> : null}
                                 <label>Engine CSN <span>*</span></label>
                                 <Input type="text" id="engCsn" name="engCsn" placeholder="Enter Engine CSN" />
                             </div>

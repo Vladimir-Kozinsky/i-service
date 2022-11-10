@@ -53,6 +53,4 @@ const Aircrafts = () => {
     )
 }
 
-
-
 export default Aircrafts;

@@ -6,7 +6,6 @@ import { compose } from "redux";
 import apuAPI from "../../../API/apuAPI";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
-import ErrorMessage from "../../../common/messages/ErrorMessage";
 import { IAircraft, installApu } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
 import { IApu } from "../../../types/types";
@@ -132,27 +131,22 @@ const InstallApu: React.FC<InstallApuProps> = ({ setPage, aircraft }) => {
                             </div>
 
                             <div className={s.installEngine__form__link}>
-                                {errors.installDate ? <ErrorMessage message={errors.installDate} /> : null}
                                 <label>Installation Date <span>*</span></label>
                                 <Input type="date" id="installDate" name="installDate" placeholder="Enter installation Date" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.aircraftTsn ? <ErrorMessage message={errors.aircraftTsn} /> : null}
                                 <label>Aircraft TSN <span>*</span></label>
                                 <Input type="text" id="aircraftTsn" name="aircraftTsn" placeholder="Enter Aircrfat TSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.aircraftCsn ? <ErrorMessage message={errors.aircraftCsn} /> : null}
                                 <label>Aircraft CSN <span>*</span></label>
                                 <Input type="text" id="aircraftCsn" name="aircraftCsn" placeholder="Enter Aircrfat CSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.apuTsn ? <ErrorMessage message={errors.apuTsn} /> : null}
                                 <label>APU TSN <span>*</span></label>
                                 <Input type="text" id="apuTsn" name="apuTsn" placeholder="Enter Engine TSN" />
                             </div>
                             <div className={s.installEngine__form__link}>
-                                {errors.apuCsn ? <ErrorMessage message={errors.apuCsn} /> : null}
                                 <label>APU CSN <span>*</span></label>
                                 <Input type="text" id="apuCsn" name="apuCsn" placeholder="Enter Engine CSN" />
                             </div>
