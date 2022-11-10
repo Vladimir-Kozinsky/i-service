@@ -2,7 +2,6 @@ import { Field, Form, Formik, FormikHelpers } from "formik";
 import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
-import ErrorMessage from "../../../common/messages/ErrorMessage";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./EditLegForm.module.scss"
 import { useDispatch } from "react-redux";
@@ -153,7 +152,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                     <Form className={s.addLeg__form} onSubmit={handleSubmit}>
                         <div className={s.addLeg__form__wrap}>
                             <div className={s.addLeg__form__link}>
-                                {errors.depDate ? <ErrorMessage message={errors.depDate} /> : null}
                                 <label>Date <span>*</span></label>
                                 <Field
                                     type="date"
@@ -164,7 +162,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.flightNumber ? <ErrorMessage message={errors.flightNumber} /> : null}
                                 <label>Flight No <span>*</span></label>
                                 <Input
                                     type="text"
@@ -174,7 +171,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.from ? <ErrorMessage message={errors.from} /> : null}
                                 <label>Depature airport <span>*</span></label>
                                 <Input
                                     type="text"
@@ -184,7 +180,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.to ? <ErrorMessage message={errors.to} /> : null}
                                 <label>Arrive airport <span>*</span></label>
                                 <Input
                                     type="text"
@@ -194,7 +189,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
                                 <label>Block Off <span>*</span></label>
                                 <Field
                                     type="time"
@@ -204,7 +198,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
                                 <label>Take Off <span>*</span></label>
                                 <Field
                                     type="time"
@@ -214,7 +207,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.blockOff ? <ErrorMessage message={errors.blockOff} /> : null}
                                 <label>Landing <span>*</span></label>
                                 <Field
                                     type="time"
@@ -224,7 +216,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.blockOn ? <ErrorMessage message={errors.blockOn} /> : null}
                                 <label>Block On <span>*</span></label>
                                 <Field
                                     type="time"
@@ -234,7 +225,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.flightTime ? <ErrorMessage message={errors.flightTime} /> : null}
                                 <label>Flight Time <span>*</span></label>
                                 <Input
                                     type="text"
@@ -245,7 +235,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.blockTime ? <ErrorMessage message={errors.blockTime} /> : null}
                                 <label>Block Time<span>*</span></label>
                                 <Field
                                     type="text"
@@ -257,7 +246,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.fh ? <ErrorMessage message={errors.fh} /> : null}
                                 <label>FH<span>*</span></label>
                                 <Field
                                     type="text"
@@ -269,7 +257,6 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                                 />
                             </div>
                             <div className={s.addLeg__form__link}>
-                                {errors.fc ? <ErrorMessage message={errors.fc} /> : null}
                                 <label>FC<span>*</span></label>
                                 <Input
                                     type="text"

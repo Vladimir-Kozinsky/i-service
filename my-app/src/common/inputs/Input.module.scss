@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap');
 
 .input {
+    position: relative;
+    height: 38px;
+    width: fit-content;
+}
+
+.input__field {
     width: 190px;
     height: 38px;
     border: #0A2640 2px solid;
@@ -22,4 +28,79 @@
         outline: none;
         border: #2e6497 2px solid;
     }
+}
+
+.input__message {
+    position: absolute;
+    top: 50px;
+    z-index: 20;
+    opacity: 0.9;
+
+}
+
+.input__message__triangle {
+    opacity: 0.9;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -30px;
+    left: 20px;
+    transform: rotate(180deg);
+    border: 10px solid transparent;
+    border-top: 10px solid #ac3c5e;
+    border-right: 10px solid #ac3c5e;
+}
+
+.input__message__block {
+    opacity: 0.9;
+    border-radius: 5px;
+    position: absolute;
+    width: max-content;
+    top: -14px;
+    left: 20px;
+    max-width: 190px;
+    background-color: #ac3c5e;
+    padding: 3px 5px 3px 8px;
+    p {
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        font-family: Manrope;
+        font-size: 12px;
+    }
+}
+
+.enter-active {
+    animation: scale 0.5s forwards;
+}
+
+
+@keyframes scale {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+@keyframes scaleBack {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+
+}
+
+.active {
+    animation: scale 0.5s forwards;
+}
+
+.deactive {
+    animation: scaleBack 0.5s forwards;
 }

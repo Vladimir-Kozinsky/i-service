@@ -7,13 +7,10 @@ import { AppDispatch } from "../../../store/store"
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur"
 import Select, { ActionMeta } from 'react-select'
 import s from "./EngineAddForm.module.scss"
-import ErrorMessage from "../../../common/messages/ErrorMessage"
 import Input from "../../../common/Input"
 import { addEngine } from "../../../store/reducers/engineReducer"
 import withSuccessMessage from "../../HOC/messageHoc"
 import { checkFHFormat } from "../../../utils/forms"
-import aircraftAPI from "../../../API/aircraftAPI"
-import { IAircraft } from "../../../store/reducers/aircraftReducer"
 
 type EngineAddFormProps = {
     setEngAddForm: (form: boolean) => void;
@@ -53,7 +50,7 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
     }
 
     const [selectedAircraftOption, setsSelectedAircraftOption] = useState<string | null>(null);
-    
+
     return (
         <div className={s.addEngineForm}>
             <h3 className={s.addEngineForm__header} >Engine</h3>
@@ -152,50 +149,42 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.msn ? <ErrorMessage message={errors.msn} /> : null}
                                     <label>MSN <span>*</span></label>
                                     <Input type="text" id="msn" name="msn" placeholder="Enter MSN" />
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.manufDate ? <ErrorMessage message={errors.manufDate} /> : null}
                                     <label>Manufactory Date <span>*</span></label>
                                     <Input type="date" id="manufDate" name="manufDate" placeholder="" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tsn ? <ErrorMessage message={errors.tsn} /> : null}
                                     <label>Hours Since New <span>*</span></label>
                                     <Input type="text" id="tsn" name="tsn" placeholder="Enter Time Since New" />
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.csn ? <ErrorMessage message={errors.csn} /> : null}
                                     <label>Cycles Since New <span>*</span></label>
                                     <Input type="text" id="csn" name="csn" placeholder="Enter Cycles Since New" />
                                 </div>
                             </div>
-                            
+
 
                             {/* Overhaul */}
                             <h3 className={s.addEngineForm__wrap__header}>Overhaul</h3>
                             <div className={s.addEngineForm__wrap__block}>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.overhaulNum ? <ErrorMessage message={errors.overhaulNum} /> : null}
                                     <label>Number of Overhauls <span>*</span></label>
                                     <Input type="text" id="overhaulNum" name="overhaulNum" placeholder="Enter number of overhauls" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.lastOverhaulDate ? <ErrorMessage message={errors.lastOverhaulDate} /> : null}
                                     <label>Last Overhaul Date <span>*</span></label>
                                     <Input type="date" id="lastOverhaulDate" name="lastOverhaulDate" placeholder="" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tsnAtlastOverhaul ? <ErrorMessage message={errors.tsnAtlastOverhaul} /> : null}
                                     <label>TSN at Last Overhaul<span>*</span></label>
                                     <Input type="text" id="tsnAtlastOverhaul" name="tsnAtlastOverhaul" placeholder="Enter TSN at Last Overhaul" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.csnAtlastOverhaul ? <ErrorMessage message={errors.csnAtlastOverhaul} /> : null}
                                     <label>CSN at Last Overhaul<span>*</span></label>
                                     <Input type="text" id="csnAtlastOverhaul" name="csnAtlastOverhaul" placeholder="Enter CSN at Last Overhaul" />
                                 </div>
@@ -204,35 +193,26 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                             <h3 className={s.addEngineForm__wrap__header}>Limits</h3>
                             <div className={s.addEngineForm__wrap__block}>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tlp ? <ErrorMessage message={errors.tlp} /> : null}
-                                    <label>Total Life Limit Period till<span>*</span></label>
                                     <Input type="date" id="tlp" name="tlp" placeholder="Enter Total Life Limit Period" />
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tlt ? <ErrorMessage message={errors.tlt} /> : null}
-                                    <label>Total Life Limit Time<span>*</span></label>
                                     <Input type="text" id="tlt" name="tlt" placeholder="Enter Total Life Limit Time" />
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tlc ? <ErrorMessage message={errors.tlc} /> : null}
-                                    <label>Total Life Limit Cycles<span>*</span></label>
                                     <Input type="text" id="tlc" name="tlc" placeholder="Enter Total Life Limit Cycles" />
                                 </div>
 
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.pbo ? <ErrorMessage message={errors.pbo} /> : null}
                                     <label>Period Between Overhauls<span>*</span></label>
                                     <Input type="date" id="pbo" name="pbo" placeholder="Enter Period Between Overhauls" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.tbo ? <ErrorMessage message={errors.tbo} /> : null}
                                     <label>Time Between Overhauls<span>*</span></label>
                                     <Input type="text" id="tbo" name="tbo" placeholder="Enter Time Between Overhauls" />
                                 </div>
                                 <div className={s.addEngineForm__form__link}>
-                                    {errors.cbo ? <ErrorMessage message={errors.cbo} /> : null}
                                     <label>Cycles Between Overhauls<span>*</span></label>
                                     <Input type="text" id="cbo" name="cbo" placeholder="Enter Cycles Between Overhauls" />
                                 </div>

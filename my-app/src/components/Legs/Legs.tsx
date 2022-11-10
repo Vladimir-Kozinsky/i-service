@@ -11,7 +11,6 @@ import AddLegForm from "./AddLegForm/AddLegForm";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import withSuccessMessage from "../HOC/messageHoc";
-import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import EditLegForm from "./EditLegForm/EditLegForm";
 import Print from "./Print/Print";
 import DeleteMessage from "../../common/messages/DeleteMessage/DeleteMessage";
