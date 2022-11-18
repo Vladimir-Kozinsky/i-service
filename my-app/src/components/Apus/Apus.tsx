@@ -24,7 +24,7 @@ const Apus: React.FC = () => {
     return (
         <>
             <div className={s.engines}>
-                {engAddForm && <ApuAddForm setEngAddForm={setEngAddForm} />}
+                <ApuAddForm setEngAddForm={setEngAddForm} toggle={engAddForm} />
                 {apus}
                 <div className={s.widget} onClick={() => setEngAddForm(true)}>
                     <img className={s.widget__img} src={addEngineImg} alt="" />

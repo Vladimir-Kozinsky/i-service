@@ -25,7 +25,7 @@ const Engines: React.FC = () => {
     return (
         <>
             <div className={s.engines}>
-                {engAddForm && <EngineAddForm setEngAddForm={setEngAddForm} />}
+                <EngineAddForm setEngAddForm={setEngAddForm} toggle={engAddForm} />
                 {engines}
                 <div className={s.widget} onClick={() => setEngAddForm(true)}>
                     <img className={s.widget__img} src={addEngineImg} alt="" />

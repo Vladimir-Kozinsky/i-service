@@ -93,7 +93,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
     }, [aircraft])
     return (
         <div className={s.aircraftFile} >
-            {printForm && <AircraftPrintForm setPrintForm={setPrintForm} aircraft={aircraft} />}
+            <AircraftPrintForm setPrintForm={setPrintForm} aircraft={aircraft} toggle={printForm} />
             <div className={s.main}>
                 <div className={s.aircraftData} >
                     <div className={s.aircraftInfo} >
