@@ -11,7 +11,6 @@ import AddLegForm from "./AddLegForm/AddLegForm";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import withSuccessMessage from "../HOC/messageHoc";
-import { withAuthRedirect } from "../HOC/withAuthRedirect";
 import EditLegForm from "./EditLegForm/EditLegForm";
 import Print from "./Print/Print";
 import DeleteMessage from "../../common/messages/DeleteMessage/DeleteMessage";
@@ -75,8 +74,8 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
-                {delMess && <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} />}
-                {editLegForm && <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} />}
+                <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} />
+                <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggleeditLegForm />
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>

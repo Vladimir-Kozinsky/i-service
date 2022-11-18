@@ -44,7 +44,7 @@ const Aircrafts = () => {
             </Transition>
             <div className={s.aircrafts}>
                 {aircraftsWidgets()}
-                {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
+                <AircraftForm setAddForm={setAddForm} toggle={addForm} />
                 <div className={s.widget} onClick={() => setAddForm(true)} >
                     <div className={s.widget__btns} >
                     </div>
@@ -59,7 +59,5 @@ const Aircrafts = () => {
 
     )
 }
-
-
 
 export default Aircrafts;

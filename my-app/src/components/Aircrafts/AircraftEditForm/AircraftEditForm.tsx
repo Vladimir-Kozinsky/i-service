@@ -1,6 +1,5 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
-import ErrorMessage from '../../../common/messages/ErrorMessage';
 import React, { useState } from 'react'
 import Select, { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
@@ -75,6 +74,10 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
             borderRadius: '24px',
             textAlign: 'center'
         }),
+        container: (provided: any) => ({
+            ...provided,
+            zIndex: 30
+        })
     }
     return (
         <div className={s.aircraftForm}>
@@ -184,10 +187,9 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
                             ].map((field: any) => {
                                 return (
                                     <div key={field.label} className={s.aircraft__form__link}>
-                                        {field.error ? <ErrorMessage message={field.error} /> : null}
                                         <label>{field.label}<span>*</span></label>
                                         <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
-                                            disabled={field.disabled} min="0" />
+                                            disabled={field.disabled} error={field.error} min="0" />
                                     </div>
                                 )
                             })

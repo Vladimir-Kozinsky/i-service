@@ -12,8 +12,8 @@ type IAircraftFileWidgetProps = {
     img: string;
     aircraft: IAircraft;
     order?: string;
-    x?: string; 
-    y?: string; 
+    x?: string;
+    y?: string;
     onDragHandler: (e: DragEvent<HTMLDivElement>) => void;
     onDragOverHandler: (e: DragEvent<HTMLDivElement>) => void;
     onMouseUpHandler: (e: MouseEvent<HTMLDivElement>) => void;
@@ -27,24 +27,22 @@ const AircraftFileWidget = ({ text, img, aircraft, order, onDragHandler, onDragO
     const choosePage = (text: string) => {
         switch (text) {
             case "LEGS":
-                return <Legs setPage={setPage} aircraft={aircraft} />
+                return <Legs setPage={setPage} aircraft={aircraft} toggle={page} />
             case "INSTALL ENGINE":
-                return <InstallEngine setPage={setPage} aircraft={aircraft} />
+                return <InstallEngine setPage={setPage} aircraft={aircraft} toggle={page} />
             case "REMOVE ENGINE":
-                return <RemovalEngine setPage={setPage} aircraft={aircraft} />
+                return <RemovalEngine setPage={setPage} aircraft={aircraft} toggle={page} />
             case "INSTALL APU":
-                return <InstallApu setPage={setPage} aircraft={aircraft} />
+                return <InstallApu setPage={setPage} aircraft={aircraft} toggle={page} />
             case "REMOVE APU":
-                return <RemovalApu setPage={setPage} aircraft={aircraft} />
+                return <RemovalApu setPage={setPage} aircraft={aircraft} toggle={page} />
             default:
                 break;
         }
     }
-
-
     return (
         <>
-            {page && choosePage(text)}
+            {choosePage(text)}
             <div className={s.widget} style={{ order: order }} draggable
                 onDrag={onDragHandler}
                 onDragOver={onDragOverHandler}

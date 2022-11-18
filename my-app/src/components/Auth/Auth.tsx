@@ -1,39 +1,47 @@
 import classNames from 'classnames';
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 import Button from '../../common/buttons/Button';
-import Input from '../../common/Input';
 import s from './Auth.module.scss';
 import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { compose } from 'redux';
-import { withDashboardRedirect } from '../HOC/withDashboardRedirect';
+import { CSSTransition } from 'react-transition-group';
+import Input from '../../common/inputs/Input';
 
 export interface IAuthValues {
     email: string;
     password: string;
 }
 
-type AuthProps = {
+type AuthPropsType = {
     signIn: ({ email, password }: IAuthValues) => void;
     isAuthError: boolean;
     isAuth: boolean;
+    navigate: NavigateFunction
 }
 
-class Auth extends React.Component<AuthProps> {
+class Auth extends React.Component<AuthPropsType> {
     state: {
         isAuthError: boolean
     }
-    constructor(props: AuthProps) {
+    myRef: any;
+    navigate: any;
+    constructor(props: AuthPropsType) {
         super(props);
+        this.myRef = React.createRef();
         this.state = {
             isAuthError: false
         }
     }
-    componentDidUpdate(prevProps: AuthProps) {
+    componentDidUpdate(prevProps: AuthPropsType) {
         if (this.props.isAuthError !== prevProps.isAuthError) {
             this.setAuthError(this.props.isAuthError);
+        }
+        if (this.props.isAuth !== prevProps.isAuth) {
+            console.log('navdavds')
+            if (this.props.isAuth) this.props.navigate("/dashboard");
         }
     }
 
@@ -58,24 +66,56 @@ class Auth extends React.Component<AuthProps> {
                             email: '',
                             password: ''
                         }}
+                        validate={values => {
+                            interface IAuth {
+                                email?: string;
+                                password?: string;
+                            }
+                            const errors: IAuth = {};
+                            if (!values.email) errors.email = 'Email is required';
+                            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) errors.email = 'Invalid email address';
+                            if (!values.password) errors.password = 'Password is required';
+                            return errors;
+                        }}
                         onSubmit={(
                             values: IAuthValues,
                             { setSubmitting }: FormikHelpers<IAuthValues>
                         ) => {
                             this.props.signIn(values);
                         }}
-                    >
+                    >{({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                    }) => (
                         <Form className={s.auth__form}>
-                            {this.state.isAuthError
-                                ? <div className={s.auth__message}>Incorrect e-mail or password</div>
-                                : null}
-                            <Input type="email" id="email" name="email" placeholder="john@acme.com" />
-                            <Input type="password" id="password" name="password" placeholder="Password" />
+                            <CSSTransition
+                                in={this.state.isAuthError}
+                                nodeRef={this.myRef}
+                                timeout={500}
+                                classNames={{
+                                    ...s,
+                                    enterActive: s['enter-active'],
+                                }}
+                                unmountOnExit
+                            >
+                                <div ref={this.myRef} className={s.auth__message}>Incorrect e-mail or password</div>
+                            </CSSTransition>
+                            <div className={s.auth__form__block}>
+                                <Field type="email" id="email" name="email" placeholder="john@acme.com" error={errors.email} as={Input} />
+                            </div>
+                            <div className={s.auth__form__block}>
+                                <Field type="password" id="password" name="password" placeholder="Password" error={errors.password} as={Input} />
+                            </div>
                             <Button text="Login" color="green" btnType="submit" />
                         </Form>
+                    )}
                     </Formik>
                 </div >
-            </div>
+            </div >
         )
     }
 }
@@ -89,7 +129,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = { signIn };
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    withDashboardRedirect
-)(Auth);
+function WithNavigateAuth(props: any) {
+    let navigate = useNavigate();
+    return <Auth {...props} navigate={navigate} />
+}
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(WithNavigateAuth);

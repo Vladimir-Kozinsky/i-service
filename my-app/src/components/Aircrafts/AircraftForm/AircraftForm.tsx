@@ -1,7 +1,5 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
-import Input from '../../../common/Input';
-import ErrorMessage from '../../../common/messages/ErrorMessage';
 import React, { useState } from 'react'
 import Select, { ActionMeta } from 'react-select'
 import s from './AircraftForm.module.scss';
@@ -12,6 +10,7 @@ import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFHFormat } from '../../../utils/forms';
+import Input from '../../../common/inputs/Input';
 
 export interface IAircraftFormValues {
     type: string;
@@ -51,7 +50,7 @@ const options = [
 interface IAddFormProps {
     setAddForm: (isForm: boolean) => void
 }
-const AircraftForm = ({ setAddForm }: IAddFormProps) => {
+const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
@@ -73,6 +72,10 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
             borderRadius: '24px',
             textAlign: 'center'
         }),
+        container: (provided: any) => ({
+            ...provided,
+            zIndex: 30
+        })
     }
     return (
         <div className={s.aircraftForm}>
@@ -159,7 +162,7 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                             <div className={s.aircraft__form__link}>
                                 {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
                                 <label>Type <span>*</span></label>
-                                <Select options={options} onChange={onChange} styles={customStyles} />
+                                <Select className={s.select} options={options} onChange={onChange} styles={customStyles} />
                             </div>
                             {[
                                 {
@@ -230,10 +233,9 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                             ].map((field: any) => {
                                 return (
                                     <div key={field.label} className={s.aircraft__form__link}>
-                                        {field.error ? <ErrorMessage message={field.error} /> : null}
                                         <label>{field.label}<span>*</span></label>
                                         <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
-                                            disabled={field.disabled} placeholder={field.placeholder} min="0" />
+                                            disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
                                     </div>
                                 )
                             })

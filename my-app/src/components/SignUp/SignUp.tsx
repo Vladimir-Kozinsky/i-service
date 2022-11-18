@@ -6,8 +6,7 @@ import Button from '../../common/buttons/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSignUpErrorMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
-import { Link, useNavigate, Navigate } from "react-router-dom";
-import ErrorMessage from '../../common/messages/ErrorMessage';
+import {  useNavigate, Navigate } from "react-router-dom";
 import { compose } from 'redux';
 import withSuccessMessage from '../HOC/messageHoc';
 
@@ -75,27 +74,22 @@ const SignUp = () => {
                     {({ errors, touched }) => (
                         <Form className={s.auth__form}>
                             <div className={s.auth__form__link}>
-                                {errors.email ? <ErrorMessage message={errors.email} /> : null}
                                 <label>Email</label>
                                 <Input type="email" id="email" name="email" placeholder="john@acme.com" />
                             </div>
                             <div className={s.auth__form__link}>
-                                {errors.password ? <ErrorMessage message={errors.password} /> : null}
                                 <label>Password</label>
                                 <Input type="password" id="password" name="password" placeholder="Password" />
                             </div>
                             <div className={s.auth__form__link}>
-                                {errors.firstName ? <ErrorMessage message={errors.firstName} /> : null}
                                 <label>First Name</label>
                                 <Input type="text" id="firstName" name="firstName" placeholder="First Name" />
                             </div>
                             <div className={s.auth__form__link}>
-                                {errors.lastName && touched ? <ErrorMessage message={errors.lastName} /> : null}
                                 <label>Last Name</label>
                                 <Input type="text" id="lastName" name="lastName" placeholder="Last Name" />
                             </div>
                             <div className={s.auth__form__link}>
-                                {errors.position ? <ErrorMessage message={errors.position} /> : null}
                                 <label>Position</label>
                                 <Input type="text" id="position" name="position" placeholder="Position" />
                             </div>

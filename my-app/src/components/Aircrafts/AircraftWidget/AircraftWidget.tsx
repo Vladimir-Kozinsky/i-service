@@ -25,7 +25,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
         const cutStr = str.slice(str.length - 3, str.length)
         return `...${cutStr}`;
     }
-    
+
 
     const [arcraftEditForm, setArcraftEditForm] = useState(false);
     const [arcraftFile, setArcraftFile] = useState(false);
@@ -45,8 +45,8 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
 
     return (
         <>
-            {arcraftFile && aircraft && <AircraftFile aircraft={choosedAircraft} setArcraftFile={setArcraftFile} />}
-            {arcraftEditForm && aircraft ? <AircraftEditForm aircraft={choosedAircraft} showArcraftEditForm={showArcraftEditForm} /> : null}
+            <AircraftFile aircraft={choosedAircraft} setArcraftFile={setArcraftFile} toggle={arcraftFile} />
+            <AircraftEditForm aircraft={choosedAircraft} showArcraftEditForm={showArcraftEditForm} toggle={arcraftEditForm} />
             <div className={s.widget} onClick={widgetOnClick} >
                 <div className={s.widget__btns} >
                     <button className={s.widget__btns__set} onClick={showArcraftEditForm} >
@@ -83,7 +83,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
                         </div>
                         <div className={s.engine}>
                             <img src={apu} alt="engine-icon" />
-                            <span>{`APU: ${cutData( aircraft?.apu ? aircraft?.apu.msn : '')}`}</span>
+                            <span>{`APU: ${cutData(aircraft?.apu ? aircraft?.apu.msn : '')}`}</span>
                         </div>
                     </div >
                 </div>
