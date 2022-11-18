@@ -7,15 +7,18 @@ import apuImg from "../../assets/img/png/apu.png"
 import classNames from "classnames";
 import Aircrafts from "../Aircrafts/Aircrafts";
 import Engines from "../Engines/Engines";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { setUser } from "../../store/reducers/authReducer";
 import Apus from "../Apus/Apus";
+import Loader from "../../common/Loader/Loader";
+import { Transition } from 'react-transition-group';
 
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+   
     useEffect(() => {
         dispatch(setUser())
     }, []);
@@ -24,6 +27,9 @@ const Dashboard: React.FC = () => {
             <div className={s.background__circle}></div>
             <div className={s.dashboard__container}>
                 <Header />
+                
+
+
                 <Routes>
                     <Route path='/aircrafts' element={<Aircrafts />} />
                     <Route path='/engines' element={<Engines />} />

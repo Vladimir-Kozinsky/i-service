@@ -8,6 +8,8 @@ import cross from './../../assets/img/png/cross.png'
 import Button from '../../common/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import AircraftForm from './AircraftForm/AircraftForm';
+import { Transition } from 'react-transition-group';
+import Loader from '../../common/Loader/Loader';
 
 export interface IAircraftFile {
     show: boolean;
@@ -20,8 +22,10 @@ const Aircrafts = () => {
     const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
     const [aircraftFile, setAircraftFile] = useState<IAircraftFile>({ show: false, msn: '' })
     const [addForm, setAddForm] = useState<boolean>(false)
+    const [isLoader, setIsLoader] = useState(true);
     useEffect(() => {
         dispatch(getAircrafts())
+        setIsLoader(false);
     }, [])
 
     const aircraftsWidgets = () => {
@@ -35,6 +39,9 @@ const Aircrafts = () => {
 
     return (
         <>
+            <Transition in={isLoader} timeout={500} unmountOnExit mountOnEnter  >
+                {(state) => <Loader state={state} />}
+            </Transition>
             <div className={s.aircrafts}>
                 {aircraftsWidgets()}
                 {addForm ? <AircraftForm setAddForm={setAddForm} /> : null}
