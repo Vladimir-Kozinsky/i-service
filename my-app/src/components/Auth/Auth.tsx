@@ -56,7 +56,6 @@ class Auth extends React.Component<AuthPropsType> {
     render(): React.ReactNode {
         return (
             <div className={s.auth__container}>
-                <div className={s.background__circle}></div>
                 <div className={s.auth}>
                     <h4 className={classNames(s.auth__header, s.auth__header__welcome)}>Welcome back!</h4>
                     <h3 className={classNames(s.auth__header, s.auth__header__signin)}>Sign in to your account</h3>

@@ -8,17 +8,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0A2640;
-}
-
-.background__circle {
-    background-color: #1c3d5b;
-    width: 1200px;
-    height: 1200px;
-    border-radius: 1000px;
-    position: absolute;
-    top: -600px;
-    right: -600px;
 }
 
 .auth {
@@ -91,7 +80,6 @@
     animation: scale 0.5s forwards;
 }
 
-
 @keyframes scale {
     0% {
         transform: scaleX(0);
@@ -100,5 +88,4 @@
     100% {
         transform: scaleX(1);
     }
-
 }

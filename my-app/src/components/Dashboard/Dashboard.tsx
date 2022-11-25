@@ -18,18 +18,14 @@ import { Transition } from 'react-transition-group';
 const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-   
+
     useEffect(() => {
         dispatch(setUser())
     }, []);
     return (
         <div className={s.dashboard} >
-            <div className={s.background__circle}></div>
             <div className={s.dashboard__container}>
                 <Header />
-                
-
-
                 <Routes>
                     <Route path='/aircrafts' element={<Aircrafts />} />
                     <Route path='/engines' element={<Engines />} />

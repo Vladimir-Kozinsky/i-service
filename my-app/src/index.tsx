@@ -43,23 +43,31 @@ function Example() {
   const { nodeRef } =
     routes.find((route) => route.path === location.pathname) ?? {}
   return (
-    <div className="container">
+    <div className={s.container}>
+      <div className={s.background__circle}></div>
       <SwitchTransition>
         <CSSTransition
           key={location.pathname}
           nodeRef={nodeRef}
           timeout={300}
-          classNames={{ ...s }}
+          classNames={{
+            enter: s.enter,
+            enterActive: s.enterActive,
+            enterDone: s.enterDone,
+            exit: s.exit,
+            exitActive: s.exitActive,
+            exitDone: s.exitDone,
+          }}
           unmountOnExit
         >
           {(state) => (
-            <div ref={nodeRef} className={s.container}>
+            <div ref={nodeRef} className={s.page}>
               {currentOutlet}
             </div>
           )}
         </CSSTransition>
       </SwitchTransition>
-    </div>
+    </div >
   )
 }
 
