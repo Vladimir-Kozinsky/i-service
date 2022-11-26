@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora&family=Manrope&display=swap");
 
+.aircrafts__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
 .aircrafts {
     margin-top: 60px;
     display: flex;
@@ -34,6 +40,7 @@
 }
 
 .aircrafts__buttons {
+    margin-top: 20px;
     padding: 0 20px ;
 }
 

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import AircraftForm from './AircraftForm/AircraftForm';
 import { Transition } from 'react-transition-group';
 import Loader from '../../common/Loader/Loader';
+import Header from '../Header/Header';
 
 export interface IAircraftFile {
     show: boolean;
@@ -22,10 +23,10 @@ const Aircrafts = () => {
     const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
     const [aircraftFile, setAircraftFile] = useState<IAircraftFile>({ show: false, msn: '' })
     const [addForm, setAddForm] = useState<boolean>(false)
-    const [isLoader, setIsLoader] = useState(true);
+    // const [isLoader, setIsLoader] = useState(true);
     useEffect(() => {
         dispatch(getAircrafts())
-        setIsLoader(false);
+        //  setIsLoader(false);
     }, [])
 
     const aircraftsWidgets = () => {
@@ -38,10 +39,11 @@ const Aircrafts = () => {
     }
 
     return (
-        <>
-            <Transition in={isLoader} timeout={500} unmountOnExit mountOnEnter  >
+        <div className={s.aircrafts__container}>
+            <Header />
+            {/* <Transition in={isLoader} timeout={500} unmountOnExit mountOnEnter  >
                 {(state) => <Loader state={state} />}
-            </Transition>
+            </Transition> */}
             <div className={s.aircrafts}>
                 {aircraftsWidgets()}
                 <AircraftForm setAddForm={setAddForm} toggle={addForm} />
@@ -55,8 +57,7 @@ const Aircrafts = () => {
                 <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
             </div>
 
-        </>
-
+        </div>
     )
 }
 

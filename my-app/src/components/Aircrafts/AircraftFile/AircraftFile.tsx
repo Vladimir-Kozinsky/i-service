@@ -44,11 +44,6 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
         { pos: '18', text: '', img: '' },
         { pos: '19', text: '', img: '' },
         { pos: '20', text: '', img: '' },
-        { pos: '21', text: '', img: '' },
-        { pos: '22', text: '', img: '' },
-        { pos: '23', text: '', img: '' },
-        { pos: '24', text: '', img: '' },
-        { pos: '25', text: '', img: '' },
     ])
 
     const onDragHandler = (e: DragEvent<HTMLDivElement>) => {

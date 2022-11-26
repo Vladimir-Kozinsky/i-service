@@ -7,11 +7,8 @@ type LoaderPropsType = {
 }
 
 const Loader: React.FC<LoaderPropsType> = ({ state }) => {
-
-
     return (
         <div className={classNames(s.loader, s[state])} >
-
         </div>
     )
 }

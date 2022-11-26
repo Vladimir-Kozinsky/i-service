@@ -10,6 +10,9 @@ import Dashboard from './components/Dashboard/Dashboard';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import App from './App';
 import s from './index.module.scss';
+import Aircrafts from './components/Aircrafts/Aircrafts';
+import Engines from './components/Engines/Engines';
+import Apus from './components/Apus/Apus';
 
 interface IRoutes {
   path: string;
@@ -23,6 +26,9 @@ const routes: IRoutes[] = [
   { path: '/auth', name: 'Auth', element: <Auth />, nodeRef: createRef() },
   { path: '/signup', name: 'SignUp', element: <SignUp />, nodeRef: createRef() },
   { path: '/dashboard/*', name: 'Dashboard', element: <Dashboard />, nodeRef: createRef() },
+  { path: '/dashboard/aircrafts', name: 'Aircrafts', element: <Aircrafts />, nodeRef: createRef() },
+  { path: '/dashboard/engines', name: 'Engines', element: <Engines />, nodeRef: createRef() },
+  { path: '/dashboard/apus', name: 'Apus', element: <Apus />, nodeRef: createRef() },
 ]
 
 const router = createBrowserRouter([
