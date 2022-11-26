@@ -17,7 +17,7 @@ const EngineWidget: React.FC<EngineWidgetProps> = ({ engine }) => {
 
     return (
         <>
-            {engineFile && <EngineFile engine={engine} setEngineFile={setEngineFile} />}
+            <EngineFile engine={engine} setEngineFile={setEngineFile} toggle={engineFile} />
             <div className={s.engineWidget} onClick={() => setEngineFile(true)}>
                 <button className={s.widget__btns__set} onClick={updateForm} />
                 <h3 className={s.engineWidget__header} >MSN: {engine.msn}</h3>

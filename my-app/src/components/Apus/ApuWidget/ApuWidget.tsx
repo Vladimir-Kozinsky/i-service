@@ -17,7 +17,7 @@ const ApuWidget: React.FC<EngineWidgetProps> = ({ apu }) => {
 
     return (
         <>
-            {apuFile && <ApuFile apu={apu} setApuFile={setApuFile} />}
+            <ApuFile apu={apu} setApuFile={setApuFile} toggle={apuFile} />
             <div className={s.apuWidget} onClick={() => setApuFile(true)}>
                 <button className={s.widget__btns__set} onClick={updateForm} />
                 <h3 className={s.apuWidget__header} >MSN: {apu.msn}</h3>

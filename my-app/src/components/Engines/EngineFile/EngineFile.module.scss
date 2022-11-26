@@ -28,7 +28,7 @@
 
 .main {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 2fr 3fr;
     column-gap: 20px;
     margin-top: 30px;
 }
@@ -38,6 +38,7 @@
     box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
     border-radius: 15px;
     padding: 10px;
+    overflow-y: auto;
 }
 
 .engineInfo {
@@ -81,8 +82,9 @@
 }
 
 .buttons {
-    margin: 40px auto 0;
-    width: 90%;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 20px;
     display: flex;
     justify-content: space-between;
 

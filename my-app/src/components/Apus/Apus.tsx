@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { IApu } from '../../types/types';
 import { getApus } from '../../store/reducers/apuReducer';
 import ApuWidget from './ApuWidget/ApuWidget';
+import Header from '../Header/Header';
 
 const Apus: React.FC = () => {
     const navigate = useNavigate();
@@ -22,16 +23,17 @@ const Apus: React.FC = () => {
         dispatch(getApus())
     }, [])
     return (
-        <>
+        <div className={s.apus__container}>
+            <Header />
             <div className={s.engines}>
-                {engAddForm && <ApuAddForm setEngAddForm={setEngAddForm} />}
+                <ApuAddForm setEngAddForm={setEngAddForm} toggle={engAddForm} />
                 {apus}
                 <div className={s.widget} onClick={() => setEngAddForm(true)}>
                     <img className={s.widget__img} src={addEngineImg} alt="" />
                 </div>
             </div>
             <Button text='Back' color='white__dark' btnType='button' handler={() => navigate('/dashboard')} />
-        </>
+        </div>
     )
 }
 

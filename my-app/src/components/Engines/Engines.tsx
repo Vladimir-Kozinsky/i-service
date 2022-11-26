@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { getEngines } from '../../store/reducers/engineReducer';
 import { IEngine } from '../../types/types';
 import EngineAddForm from './EngineAddForm/EngineAddForm';
+import Header from '../Header/Header';
 
 const Engines: React.FC = () => {
     const navigate = useNavigate();
@@ -23,16 +24,19 @@ const Engines: React.FC = () => {
     }, [])
 
     return (
-        <>
+        <div className={s.engines__container} >
+            <Header />
             <div className={s.engines}>
-                {engAddForm && <EngineAddForm setEngAddForm={setEngAddForm} />}
+                <EngineAddForm setEngAddForm={setEngAddForm} toggle={engAddForm} />
                 {engines}
                 <div className={s.widget} onClick={() => setEngAddForm(true)}>
                     <img className={s.widget__img} src={addEngineImg} alt="" />
                 </div>
             </div>
             <Button text='Back' color='white__dark' btnType='button' handler={() => navigate('/dashboard')} />
-        </>
+        </div>
+
+
 
     )
 }

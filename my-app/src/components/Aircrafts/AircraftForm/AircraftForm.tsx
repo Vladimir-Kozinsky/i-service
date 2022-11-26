@@ -50,7 +50,7 @@ const options = [
 interface IAddFormProps {
     setAddForm: (isForm: boolean) => void
 }
-const AircraftForm = ({ setAddForm }: IAddFormProps) => {
+const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
@@ -72,6 +72,10 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
             borderRadius: '24px',
             textAlign: 'center'
         }),
+        container: (provided: any) => ({
+            ...provided,
+            zIndex: 30
+        })
     }
     return (
         <div className={s.aircraftForm}>
@@ -158,7 +162,7 @@ const AircraftForm = ({ setAddForm }: IAddFormProps) => {
                             <div className={s.aircraft__form__link}>
                                 {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
                                 <label>Type <span>*</span></label>
-                                <Select options={options} onChange={onChange} styles={customStyles} />
+                                <Select className={s.select} options={options} onChange={onChange} styles={customStyles} />
                             </div>
                             {[
                                 {

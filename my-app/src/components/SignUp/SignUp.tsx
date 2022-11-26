@@ -27,7 +27,6 @@ const SignUp = () => {
     return (
         <div className={s.signout__container}>
             {isAuth ? <Navigate to="/dashboard" replace={true} /> : null}
-            <div className={s.background__circle}></div>
             <div className={s.signout} >
                 <div className={s.signout__avatar} >
                     <img className={s.signout__avatar__img} src={userAvatar} />

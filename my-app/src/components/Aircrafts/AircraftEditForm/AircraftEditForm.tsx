@@ -74,6 +74,10 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
             borderRadius: '24px',
             textAlign: 'center'
         }),
+        container: (provided: any) => ({
+            ...provided,
+            zIndex: 30
+        })
     }
     return (
         <div className={s.aircraftForm}>
@@ -185,7 +189,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
                                     <div key={field.label} className={s.aircraft__form__link}>
                                         <label>{field.label}<span>*</span></label>
                                         <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
-                                            disabled={field.disabled} min="0" />
+                                            disabled={field.disabled} error={field.error} min="0" />
                                     </div>
                                 )
                             })

@@ -74,8 +74,8 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
-                {delMess && <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} />}
-                {editLegForm && <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} />}
+                <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} />
+                <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggleeditLegForm />
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>

@@ -6,21 +6,10 @@
     height: 100vh;
     overflow: hidden;
     font-family: "Manrope";
-    background-color: #0A2640;
     overflow-y: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.background__circle {
-    background-color: #1c3d5b;
-    width: 1200px;
-    height: 1200px;
-    border-radius: 1000px;
-    position: absolute;
-    top: -600px;
-    right: -600px;
 }
 
 .signout {
