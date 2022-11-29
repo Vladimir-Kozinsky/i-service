@@ -13,6 +13,7 @@ import s from './index.module.scss';
 import Aircrafts from './components/Aircrafts/Aircrafts';
 import Engines from './components/Engines/Engines';
 import Apus from './components/Apus/Apus';
+import Main from './components/Main/Main';
 
 interface IRoutes {
   path: string;
@@ -22,7 +23,7 @@ interface IRoutes {
 }
 
 const routes: IRoutes[] = [
-  { path: '/', name: 'App', element: <App />, nodeRef: createRef() },
+  { path: '/', name: 'Main', element: <Main />, nodeRef: createRef() },
   { path: '/auth', name: 'Auth', element: <Auth />, nodeRef: createRef() },
   { path: '/signup', name: 'SignUp', element: <SignUp />, nodeRef: createRef() },
   { path: '/dashboard/*', name: 'Dashboard', element: <Dashboard />, nodeRef: createRef() },
