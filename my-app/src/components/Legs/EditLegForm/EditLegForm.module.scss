@@ -1,16 +1,10 @@
 .addLeg {
-    position: fixed;
     border: #0a2640 2px solid;
     background-color: #ffffff;
     border-radius: 25px;
     min-height: 520px;
     width: 600px;
-    top: 50%;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -350px;
     padding-bottom: 15px;
-    z-index: 1;
 }
 
 .addLeg__header {

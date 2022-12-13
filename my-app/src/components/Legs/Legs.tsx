@@ -75,7 +75,7 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
         return (
             <div key={leg._id} className={s.leg}>
                 <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} />
-                <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggleeditLegForm />
+                <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggle={editLegForm} />
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>
@@ -94,8 +94,6 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
                         <button className={s.edit__btns__del} onClick={() => setDelMess(true)} ></button>
                     </div>}
             </div>
-
-
         )
     }) : null
 
@@ -105,10 +103,9 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
 
     return (
         <div className={s.legs__contaiter}>
-            <div className={s.background__circle}></div>
             <button onClick={() => setPrint(true)} className={s.print__btn}></button>
-            {addLegForm && <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} />}
-            {print && <Print aircraft={aircraft} setPrint={setPrint} />}
+            <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} toggle={addLegForm} />
+            <Print aircraft={aircraft} setPrint={setPrint} toggle={print} />
             <div className={s.aircraftInfo} >
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >

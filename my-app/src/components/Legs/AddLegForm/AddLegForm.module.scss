@@ -1,16 +1,10 @@
 .addLeg {
-    position: fixed;
     border: #0a2640 2px solid;
     background-color: #ffffff;
     border-radius: 25px;
     min-height: 520px;
     width: 600px;
-    top: 50%;
-    left: 50%;
-    margin-left: -300px;
-    margin-top: -310px;
     padding-bottom: 15px;
-    z-index: 1;
 }
 
 .addLeg__header {
@@ -48,13 +42,13 @@
     input {
         width: 190px;
         height: 38px;
-        border: #0A2640 2px solid;
+        border: #0a2640 2px solid;
         border-radius: 24px;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         padding: 0 20px;
-        color: #0A2640;
+        color: #0a2640;
         font-size: 16px;
-        font-family: 'Manrope';
+        font-family: "Manrope";
         font-style: normal;
         font-weight: 400;
         text-align: center;
