@@ -9,6 +9,7 @@ import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { compose } from 'redux';
 import { CSSTransition } from 'react-transition-group';
 import Input from '../../common/inputs/Input';
+import { withContainerBlur } from '../HOC/withContainerBlur/withContainerBlur';
 
 export interface IAuthValues {
     email: string;
