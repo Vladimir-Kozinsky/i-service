@@ -83,3 +83,32 @@
     border-radius: 24px;
     background-color: rgb(255, 0, 0, 0.1);
 }
+
+@media (max-width: 768px) {
+    .signout__container {
+        display: block;
+        margin: 20px 0 20px 0 ; 
+        height: fit-content;
+    }
+    .signout {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .signout__container {
+        display: block;
+        margin: 20px 0 20px 0 ; 
+        height: fit-content;
+    }
+    .signout {
+        width: 290px;
+        padding: 25px 0px;
+
+        margin: 0 auto;
+    }
+
+    .signout__header {
+        font-size: 24px;
+    }
+}
