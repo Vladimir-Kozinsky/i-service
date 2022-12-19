@@ -67,3 +67,9 @@
     }
 }
 
+@media (max-width: 768px) {
+    .dashboard__widgets {
+        height: fit-content;
+    }
+}
+
