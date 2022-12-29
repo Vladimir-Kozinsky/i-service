@@ -1,42 +1,58 @@
-.loader {
-    width: 100px;
-    height: 100px;
+.loader__container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(10, 38, 64, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+}
+
+.ring {
+    position: absolute;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    border: 3px dashed white;
+    animation: ring 2s linear infinite;
 }
-
-.loader.entering {
-    animation: loader 0.5s forwards;
-}
-.loader.entered {
-    animation: rotate-loader 0.5s infinite;
-}
-.loader.exiting {
-    animation: loader 0.5s reverse;
-}
-.loader.exited {
-    opacity: 0;
-    width: 100px;
-}
-
-@keyframes loader {
-    0% {
-        opacity: 0;
-        transform: translateY(-200px);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(0px);
-    }
-}
-@keyframes rotate-loader {
+@keyframes ring {
     0% {
         transform: rotate(0deg);
+        box-shadow: 1px 5px 2px #e65c00;
     }
-
+    50% {
+        transform: rotate(180deg);
+        box-shadow: 1px 5px 2px #18b201;
+    }
     100% {
         transform: rotate(360deg);
+        box-shadow: 1px 5px 2px #0456c8;
+    }
+}
+.ring:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+.ring__text {
+    color: #737373;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 200px;
+    animation: text 3s ease-in-out infinite;
+}
+@keyframes text {
+    50% {
+        color: black;
     }
 }
