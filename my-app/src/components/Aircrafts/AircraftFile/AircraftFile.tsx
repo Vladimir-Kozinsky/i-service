@@ -16,9 +16,10 @@ import DataBlock from "../../../common/DataBlock/DataBlock";
 type IAircraftFileProps = {
     aircraft: IAircraft
     setArcraftFile: (isAircraftFile: boolean) => void
+    setIsLoader: (isLoader: boolean) => void
 }
 
-const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
+const AircraftFile = ({ aircraft, setArcraftFile, setIsLoader }: IAircraftFileProps) => {
     const [aircraftData, setAircraftData] = useState(aircraft);
     const [printForm, setPrintForm] = useState<boolean>(false);
     const [currentWidget, setCurrentWidget] = useState<HTMLDivElement | null>(null);
@@ -162,6 +163,7 @@ const AircraftFile = ({ aircraft, setArcraftFile }: IAircraftFileProps) => {
                                     onDragHandler={onDragHandler}
                                     onDragOverHandler={onDragOverHandler}
                                     aircraft={aircraftData}
+                                    setIsLoader={setIsLoader}
                                 />
                             } else {
                                 return (

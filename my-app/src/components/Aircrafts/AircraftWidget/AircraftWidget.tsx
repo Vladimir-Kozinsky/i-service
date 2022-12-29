@@ -14,9 +14,10 @@ import { setEngine } from '../../../utils/forms';
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
     aircraft?: IAircraft;
+    setIsLoader: (isLoader: boolean) => void
 }
 
-const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
+const AircraftWidget = ({ onClick, aircraft, setIsLoader }: propsAircraftWidget) => {
     const dispatch = useDispatch<AppDispatch>();
     const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
     const cutData = (str: string | undefined | null) => {
@@ -45,7 +46,7 @@ const AircraftWidget = ({ onClick, aircraft }: propsAircraftWidget) => {
 
     return (
         <>
-            <AircraftFile aircraft={choosedAircraft} setArcraftFile={setArcraftFile} toggle={arcraftFile} />
+            <AircraftFile aircraft={choosedAircraft} setArcraftFile={setArcraftFile} toggle={arcraftFile} setIsLoader={setIsLoader} />
             <AircraftEditForm aircraft={choosedAircraft} showArcraftEditForm={showArcraftEditForm} toggle={arcraftEditForm} />
             <div className={s.widget} onClick={widgetOnClick} >
                 <div className={s.widget__btns} >

@@ -38,7 +38,7 @@ const Aircrafts = () => {
         if (!aircrafts) return
         return aircrafts.map((aircraft: IAircraft) => {
             return (
-                <AircraftWidget key={aircraft._id} aircraft={aircraft} onClick={setAircraftFile} />
+                <AircraftWidget key={aircraft._id} aircraft={aircraft} onClick={setAircraftFile} setIsLoader={setIsLoader} />
             )
         })
     }

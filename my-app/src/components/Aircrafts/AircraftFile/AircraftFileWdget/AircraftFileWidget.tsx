@@ -20,14 +20,15 @@ type IAircraftFileWidgetProps = {
     onMouseDownHandler: (e: MouseEvent<HTMLDivElement>) => void;
     onDragEndHandler: (e: DragEvent<HTMLDivElement>) => void;
     onDragStartHandler: (e: DragEvent<HTMLDivElement>) => void;
+    setIsLoader: (isLoader: boolean) => void
 }
 
-const AircraftFileWidget = ({ text, img, aircraft, order, onDragHandler, onDragOverHandler, onMouseUpHandler, onMouseDownHandler, onDragEndHandler, onDragStartHandler, x, y }: IAircraftFileWidgetProps) => {
+const AircraftFileWidget = ({ text, img, aircraft, order, onDragHandler, onDragOverHandler, onMouseUpHandler, onMouseDownHandler, onDragEndHandler, onDragStartHandler, x, y, setIsLoader }: IAircraftFileWidgetProps) => {
     const [page, setPage] = useState(false);
     const choosePage = (text: string) => {
         switch (text) {
             case "LEGS":
-                return <Legs setPage={setPage} aircraft={aircraft} toggle={page} />
+                return <Legs setIsLoader={setIsLoader} setPage={setPage} aircraft={aircraft} toggle={page} />
             case "INSTALL ENGINE":
                 return <InstallEngine setPage={setPage} aircraft={aircraft} toggle={page} />
             case "REMOVE ENGINE":

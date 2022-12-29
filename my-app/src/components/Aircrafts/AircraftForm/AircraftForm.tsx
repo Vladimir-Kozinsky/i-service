@@ -159,87 +159,125 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                 {({ errors, values, touched, handleChange }) => (
                     <Form className={s.aircraft__form}>
                         <div className={s.aircraft__form__wrap}>
-                            <div className={s.aircraft__form__link}>
-                                {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
-                                <label>Type <span>*</span></label>
-                                <Select className={s.select} options={options} onChange={onChange} styles={customStyles} />
+                            {/* General */}
+                            <h3 className={s.addAircraftForm__wrap__header}>General</h3>
+                            <div className={s.addAircraftForm__wrap__block}>
+                                <div className={s.aircraft__form__link}>
+                                    {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
+                                    <label>Type <span>*</span></label>
+                                    <Select className={s.select} options={options} onChange={onChange} styles={customStyles} />
+                                </div>
+
+                                {[
+                                    {
+                                        label: "Manufacture Date", type: "date", id: "manufDate", name: "manufDate",
+                                        value: values.manufDate, error: errors.manufDate, placeholder: "Choose Manufacture Date"
+                                    },
+                                    {
+                                        label: "MSN", type: "text", id: "msn", name: "msn",
+                                        value: values.msn, error: errors.msn, placeholder: "Enter MSN"
+                                    },
+                                    {
+                                        label: "Reg.", type: "text", id: "regNum", name: "regNum",
+                                        value: values.regNum, error: errors.regNum, placeholder: "Enter Reg. No"
+                                    },
+                                    {
+                                        label: "Initial FH", type: "text", id: "initFh", name: "initFh",
+                                        value: values.initFh, error: errors.initFh, placeholder: "Enter Initial FH"
+                                    },
+                                    {
+                                        label: "Initial FC", type: "text", id: "initFc", name: "initFc",
+                                        value: values.initFc, error: errors.initFc, placeholder: "Enter Initial FC"
+                                    },
+                                    {
+                                        label: "FH", type: "text", id: "fh", name: "fh",
+                                        value: values.fh, error: errors.fh, placeholder: "Enter FH"
+                                    },
+                                    {
+                                        label: "FC", type: "text", id: "fc", name: "fc",
+                                        value: values.fc, error: errors.fc, placeholder: "Enter FC"
+                                    },
+                                ].map((field: any) => {
+                                    return (
+                                        <div key={field.label} className={s.aircraft__form__link}>
+                                            <label>{field.label}<span>*</span></label>
+                                            <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                                disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
+                                        </div>
+                                    )
+                                })
+                                }
                             </div>
-                            {[
-                                {
-                                    label: "Manufacture Date", type: "date", id: "manufDate", name: "manufDate",
-                                    value: values.manufDate, error: errors.manufDate, placeholder: "Choose Manufacture Date"
-                                },
-                                {
-                                    label: "MSN", type: "text", id: "msn", name: "msn",
-                                    value: values.msn, error: errors.msn, placeholder: "Enter MSN"
-                                },
-                                {
-                                    label: "Reg.", type: "text", id: "regNum", name: "regNum",
-                                    value: values.regNum, error: errors.regNum, placeholder: "Enter Reg. No"
-                                },
-                                {
-                                    label: "Initial FH", type: "text", id: "initFh", name: "initFh",
-                                    value: values.initFh, error: errors.initFh, placeholder: "Enter Initial FH"
-                                },
-                                {
-                                    label: "Initial FC", type: "text", id: "initFc", name: "initFc",
-                                    value: values.initFc, error: errors.initFc, placeholder: "Enter Initial FC"
-                                },
-                                {
-                                    label: "FH", type: "text", id: "fh", name: "fh",
-                                    value: values.fh, error: errors.fh, placeholder: "Enter FH"
-                                },
-                                {
-                                    label: "FC", type: "text", id: "fc", name: "fc",
-                                    value: values.fc, error: errors.fc, placeholder: "Enter FC"
-                                },
-                                { label: "Number of Overhaul", type: "number", id: "overhaulNum", name: "overhaulNum", value: values.overhaulNum, error: errors.overhaulNum },
-                                {
-                                    label: "Last Overhaul Date", type: "date", id: "lastOverhaulDate", name: "lastOverhaulDate",
-                                    value: values.lastOverhaulDate, error: errors.lastOverhaulDate, placeholder: "Choose last overhaul date", disabled: values.overhaulNum === 0 ? true : false
-                                },
-                                {
-                                    label: "FH at Last Overhaul", type: "text", id: "tsnAtlastOverhaul", name: "tsnAtlastOverhaul",
-                                    value: values.tsnAtlastOverhaul, error: errors.tsnAtlastOverhaul, placeholder: "Enter FH at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
-                                },
-                                {
-                                    label: "FC at Last Overhaul", type: "text", id: "csnAtlastOverhaul", name: "csnAtlastOverhaul",
-                                    value: values.csnAtlastOverhaul, error: errors.csnAtlastOverhaul, placeholder: "Enter FC at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
-                                },
-                                {
-                                    label: "Total Life Period", type: "date", id: "tlp", name: "tlp",
-                                    value: values.tlp, error: errors.tlp, placeholder: "Enter Total Life Period"
-                                },
-                                {
-                                    label: "Total Life Time", type: "text", id: "tlt", name: "tlt",
-                                    value: values.tlt, error: errors.tlt, placeholder: "Enter Total Life Time"
-                                },
-                                {
-                                    label: "Total Life Cycles", type: "text", id: "tlc", name: "tlc",
-                                    value: values.tlc, error: errors.tlc, placeholder: "Enter Total Life Cycles"
-                                },
-                                {
-                                    label: "Period Between Overhaul", type: "date", id: "pbo", name: "pbo",
-                                    value: values.pbo, error: errors.pbo, placeholder: "Choose Period Between Overhaul"
-                                },
-                                {
-                                    label: "Time Between Overhaul", type: "text", id: "tbo", name: "tbo",
-                                    value: values.tbo, error: errors.tbo, placeholder: "Enter Time Between Overhaul"
-                                },
-                                {
-                                    label: "Cycles Between Overhaul", type: "text", id: "cbo", name: "cbo",
-                                    value: values.cbo, error: errors.cbo, placeholder: "Enter Cycles Between Overhaul"
-                                },
-                            ].map((field: any) => {
-                                return (
-                                    <div key={field.label} className={s.aircraft__form__link}>
-                                        <label>{field.label}<span>*</span></label>
-                                        <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
-                                            disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
-                                    </div>
-                                )
-                            })
-                            }
+                            {/* Overhaul */}
+                            <h3 className={s.addAircraftForm__wrap__header}>Overhaul</h3>
+                            <div className={s.addAircraftForm__wrap__block}>
+                                {[
+                                    { label: "Number of Overhaul", type: "number", id: "overhaulNum", name: "overhaulNum", value: values.overhaulNum, error: errors.overhaulNum },
+                                    {
+                                        label: "Last Overhaul Date", type: "date", id: "lastOverhaulDate", name: "lastOverhaulDate",
+                                        value: values.lastOverhaulDate, error: errors.lastOverhaulDate, placeholder: "Choose last overhaul date", disabled: values.overhaulNum === 0 ? true : false
+                                    },
+                                    {
+                                        label: "FH at Last Overhaul", type: "text", id: "tsnAtlastOverhaul", name: "tsnAtlastOverhaul",
+                                        value: values.tsnAtlastOverhaul, error: errors.tsnAtlastOverhaul, placeholder: "Enter FH at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
+                                    },
+                                    {
+                                        label: "FC at Last Overhaul", type: "text", id: "csnAtlastOverhaul", name: "csnAtlastOverhaul",
+                                        value: values.csnAtlastOverhaul, error: errors.csnAtlastOverhaul, placeholder: "Enter FC at Last Overhaul", disabled: values.overhaulNum === 0 ? true : false
+                                    },
+                                ].map((field: any) => {
+                                    return (
+                                        <div key={field.label} className={s.aircraft__form__link}>
+                                            <label>{field.label}<span>*</span></label>
+                                            <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                                disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
+                                        </div>
+                                    )
+                                })
+                                }
+
+
+                            </div>
+
+                            {/* Limits */}
+                            <h3 className={s.addAircraftForm__wrap__header}>Limits</h3>
+                            <div className={s.addAircraftForm__wrap__block}>
+                                {[
+                                    {
+                                        label: "Total Life Period", type: "date", id: "tlp", name: "tlp",
+                                        value: values.tlp, error: errors.tlp, placeholder: "Enter Total Life Period"
+                                    },
+                                    {
+                                        label: "Total Life Time", type: "text", id: "tlt", name: "tlt",
+                                        value: values.tlt, error: errors.tlt, placeholder: "Enter Total Life Time"
+                                    },
+                                    {
+                                        label: "Total Life Cycles", type: "text", id: "tlc", name: "tlc",
+                                        value: values.tlc, error: errors.tlc, placeholder: "Enter Total Life Cycles"
+                                    },
+                                    {
+                                        label: "Period Between Overhaul", type: "date", id: "pbo", name: "pbo",
+                                        value: values.pbo, error: errors.pbo, placeholder: "Choose Period Between Overhaul"
+                                    },
+                                    {
+                                        label: "Time Between Overhaul", type: "text", id: "tbo", name: "tbo",
+                                        value: values.tbo, error: errors.tbo, placeholder: "Enter Time Between Overhaul"
+                                    },
+                                    {
+                                        label: "Cycles Between Overhaul", type: "text", id: "cbo", name: "cbo",
+                                        value: values.cbo, error: errors.cbo, placeholder: "Enter Cycles Between Overhaul"
+                                    },
+                                ].map((field: any) => {
+                                    return (
+                                        <div key={field.label} className={s.aircraft__form__link}>
+                                            <label>{field.label}<span>*</span></label>
+                                            <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                                disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
+                                        </div>
+                                    )
+                                })
+                                }
+                            </div>
                         </div>
                         <div className={s.aircraft__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => setAddForm(false)} />
