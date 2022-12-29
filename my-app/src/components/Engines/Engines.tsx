@@ -10,6 +10,8 @@ import { getEngines } from '../../store/reducers/engineReducer';
 import { IEngine } from '../../types/types';
 import EngineAddForm from './EngineAddForm/EngineAddForm';
 import Header from '../Header/Header';
+import { Transition } from 'react-transition-group';
+import Loader from '../../common/Loader/Loader';
 
 const Engines: React.FC = () => {
     const navigate = useNavigate();
@@ -19,12 +21,21 @@ const Engines: React.FC = () => {
         return <EngineWidget engine={engine} key={engine._id} />
     })
     const [engAddForm, setEngAddForm] = useState<boolean>(false);
+    const [isLoader, setIsLoader] = useState(false);
     useEffect(() => {
-        dispatch(getEngines())
+        async function loader() {
+            await setIsLoader(true)
+            await dispatch(getEngines())
+            await setIsLoader(false)
+        }
+        loader()
     }, [])
 
     return (
         <div className={s.engines__container} >
+            <Transition in={isLoader} timeout={400} unmountOnExit mountOnEnter >
+                {(state) => <Loader state={state} />}
+            </Transition>
             <Header />
             <div className={s.engines}>
                 <EngineAddForm setEngAddForm={setEngAddForm} toggle={engAddForm} />

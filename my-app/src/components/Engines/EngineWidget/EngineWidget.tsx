@@ -19,6 +19,7 @@ const EngineWidget: React.FC<EngineWidgetProps> = ({ engine }) => {
         <>
             <EngineFile engine={engine} setEngineFile={setEngineFile} toggle={engineFile} />
             <div className={s.engineWidget} onClick={() => setEngineFile(true)}>
+                <img className={s.engineWidget__img} src={engineImg} alt="icon" />
                 <button className={s.widget__btns__set} onClick={updateForm} />
                 <h3 className={s.engineWidget__header} >MSN: {engine.msn}</h3>
                 <div className={s.engineWidget__data} >
@@ -35,8 +36,6 @@ const EngineWidget: React.FC<EngineWidgetProps> = ({ engine }) => {
                         <span>{engine.csn}</span>
                     </div>
                 </div>
-                <div></div>
-                <img className={s.engineWidget__img} src={engineImg} alt="icon" />
             </div>
         </>
 
