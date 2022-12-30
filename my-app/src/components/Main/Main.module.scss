@@ -1,7 +1,7 @@
 .main {
     width: 100vw;
     height: 1200px;
-    background-color: white;
+    background: #051d42;
 }
 
 .main__container {
@@ -9,3 +9,17 @@
     width: 1200px;
 }
 
+.content__container {
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.news__wrap {
+    padding-top: 180px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.news {
+    width: 30%;
+}

@@ -1,14 +1,14 @@
 .slider {
     margin: 0px auto;
-    width: 1200px;
-    height: 500px;
-    padding-top: 80px;
+    width: 770px;
+    height: 420px;
     position: relative;
 }
 
 .carousel {
-    width: 1200px;
-    height: 500px;
+    width: 770px;
+    height: 420px;
+    border-radius: 15px;
     overflow: hidden;
 }
 
@@ -19,46 +19,74 @@
 .carousel__container__item {
     transition: transform 300ms ease-in-out;
     img {
-        width: 1200px;
-        height: 500px;
+        width: 770px;
+        height: 420px;
     }
+}
+
+.carousel__btns {
+    position: absolute;
+    display: flex;
+    gap: 40px;
+    z-index: 2;
+    right: 30px;
+    bottom: 30px;
 }
 
 .carousel__btn__left,
 .carousel__btn__right {
-    position: absolute;
     top: 250px;
-    z-index: 10;
+    display: block;
+    width: 64px;
+    height: 64px;
+    border: 1px rgb(255, 255, 255, 0.5) solid;
+    background: none;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: rotate(45deg);
+    border-radius: 8px;
+    transition: all 0.3s;
+
     &:hover {
         cursor: pointer;
+        border: 1px rgb(255, 255, 255, 0.9) solid;
     }
 }
 
 .carousel__btn__left {
     left: 0px;
+    svg {
+        transform: rotate(-45deg);
+    }
 }
 .carousel__btn__right {
     right: 0px;
+    svg {
+        transform: rotate(135deg);
+    }
 }
 
 .carousel__dotes {
     position: absolute;
-    left: 45%;
-    bottom: 10px;
+    left: 100px;
+    bottom: 55px;
     z-index: 10;
-    width: 100px;
+    width: 150px;
     display: flex;
     justify-content: space-between;
 }
 
 .carousel__dotes__item {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50px;
+    border: none;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.5);
     &:hover {
         cursor: pointer;
     }
     &.active {
-        background-color: rgb(89, 89, 89);
+        background-color: rgb(5, 29, 66, 0.6);
     }
 }
