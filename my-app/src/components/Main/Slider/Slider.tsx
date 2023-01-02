@@ -1,13 +1,13 @@
 import s from './Slider.module.scss'
-import slider1 from '../../../assets/img/jpeg/slider-img1.jpeg'
+import slider5 from '../../../assets/img/jpeg/slider-img5.jpeg'
 import slider2 from '../../../assets/img/jpeg/slider-img2.jpeg'
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 
 const slides = [
-    slider1,
+    slider5,
     slider2,
-    slider1,
+    slider5,
     slider2
 ]
 
