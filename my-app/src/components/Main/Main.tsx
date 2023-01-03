@@ -7,6 +7,7 @@ import Slider from './Slider/Slider';
 import plane_sheme1 from '../../assets/img/png/plane_sheme1.png'
 import plane_sheme2 from '../../assets/img/png/plane_sheme2.png'
 import plane_sheme4 from '../../assets/img/png/plane_il.png'
+import Feedback from './Feedback/Feedback';
 
 const Main: React.FC = () => {
     return (
@@ -74,14 +75,7 @@ const Main: React.FC = () => {
                                 </iframe>
                             </div>
                             <div className={s.contacts__feedBack}>
-                                <div className={s.message} >
-                                    <h3 className={s.message__title}>Напишите нам</h3>
-                                    <input type="text" placeholder='Ваше имя' />
-                                    <input type="text" placeholder='Ваш телефона' />
-                                    <input type="text" placeholder='Компания' />
-                                    <textarea name="" id="" placeholder='Ваше сообщение'></textarea>
-                                    <button className={s.message__btn}>Отправить</button>
-                                </div>
+                                <Feedback />
                             </div>
                         </div>
                     </section>
