@@ -158,7 +158,12 @@
     gap: 50px;
 }
 
+.fleet__item:last-child {
+    margin-top: 80px;
+}
+
 .fleet_title {
+    width: 110px;
     font-size: 18px;
     color: rgba(255, 255, 255, 0.8);
     font-family: "Roboto", sans-serif;

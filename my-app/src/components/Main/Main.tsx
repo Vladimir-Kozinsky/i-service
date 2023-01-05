@@ -36,12 +36,31 @@ const Main: React.FC = () => {
                         <h3 className={s.section__title} >Наш флот</h3>
                         <div className={s.fleet} >
                             <div className={s.fleet__item} >
+                                <h4 className={s.fleet_title}>Ил-76Т</h4>
+                                <div className={s.fleet__img} >
+                                    <img src={plane_sheme4} alt="" />
+                                </div>
+                                <div className={s.fleet__item__info} >
+                                    <div className={s.params}>
+                                        <div className={s.params__disc}>
+                                            <span>Максимальный взлетный вес, кг</span>
+                                            <span>Масимальная загрузка, кг</span>
+                                            <span>Обьем грузовой кабины, м3</span>
+                                        </div>
+                                        <div className={s.params__value} >
+                                            <span>175 000</span>
+                                            <span>43 400</span>
+                                            <span>180</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={s.fleet__item} >
                                 <h4 className={s.fleet_title}>Ил-76ТД</h4>
                                 <div className={s.fleet__img} >
                                     <img src={plane_sheme4} alt="" />
                                 </div>
                                 <div className={s.fleet__item__info} >
-                                    <h5 className={s.params__title}>Характеристики</h5>
                                     <div className={s.params}>
                                         <div className={s.params__disc}>
                                             <span>Максимальный взлетный вес, кг</span>
@@ -54,9 +73,9 @@ const Main: React.FC = () => {
                                             <span>180</span>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
+
 
                         </div>
 
