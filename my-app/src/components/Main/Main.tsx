@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom';
-import { Element, Link } from 'react-scroll';
 import HeaderMain from './HeaderMain/HeaderMain';
 import s from './Main.module.scss'
 import Slider from './Slider/Slider';
-import plane_sheme1 from '../../assets/img/png/plane_sheme1.png'
-import plane_sheme2 from '../../assets/img/png/plane_sheme2.png'
 import plane_sheme4 from '../../assets/img/png/plane_il.png'
 import Feedback from './Feedback/Feedback';
+import plane_demen from './../../assets/img/jpeg/cargo.jpg'
+import classNames from 'classnames';
 
 const Main: React.FC = () => {
+    const [active, setActive] = useState('');
+    useEffect(() => {
+        setActive('active')
+    }, [])
     return (
         <div className={s.main} >
             <HeaderMain />
@@ -18,19 +21,22 @@ const Main: React.FC = () => {
                 <div className={s.main__content__back2}></div>
                 <div className={s.content__container}>
                     <section className={s.about__wrap}>
-                        <div className={s.about} >
-                            <h3 className={s.about__title}>О компании</h3>
-                            <p className={s.about__par}>
-                                Авиакомпания была основана в 2021 году, и начала свою деятельность
-                            </p>
-                            <div className={s.about__btn}>
-                                <NavLink className={s.about__btn__link} to='/about'>Читать больше</NavLink>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.88128 7.38129L3.76256 12.5L8.88128 17.6187L10.1187 16.3813L7.11244 13.375H20V11.625H7.11244L10.1187 8.61872L8.88128 7.38129Z" fill="white" />
-                                </svg>
+                        <div className={classNames(s.moove__block, s[active])}>
+                            <div className={s.about} >
+                                <h3 className={s.about__title}>О компании</h3>
+                                <p className={s.about__par}>
+                                    Авиакомпания была основана в 2021 году, и начала свою деятельность
+                                </p>
+                                <div className={s.about__btn}>
+                                    <NavLink className={s.about__btn__link} to='/about'>Читать больше</NavLink>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.88128 7.38129L3.76256 12.5L8.88128 17.6187L10.1187 16.3813L7.11244 13.375H20V11.625H7.11244L10.1187 8.61872L8.88128 7.38129Z" fill="white" />
+                                    </svg>
+                                </div>
                             </div>
+                            <Slider />
                         </div>
-                        <Slider />
+
                     </section>
                     <section id='fleet' className={s.fleet__wrap}>
                         <h3 className={s.section__title} >Наш флот</h3>
@@ -75,8 +81,7 @@ const Main: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-
-
+                            <img className={s.fleet__dimensions__img} src={plane_demen} alt="" />
                         </div>
 
                     </section>
@@ -88,7 +93,7 @@ const Main: React.FC = () => {
                                 <p className={s.contacts__address__text} >720005, Кыргызская Республика, г. Бишкек
                                     <br /> ул. Горького 27/1 офис №503
                                     <br /> Tel/fax: +996-558-379798, e-mail: gd@nwcargo.pro</p>
-                                <iframe
+                                <iframe className={s.contacts__address__map}
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2924.7158185199273!2d74.60902077150811!3d42.85773337372006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb633eb4a865f%3A0xda48af2b2a2e4b59!2sVefa%20Center!5e0!3m2!1sen!2sae!4v1672640878930!5m2!1sen!2sae"
                                     width="550" height="350" loading="lazy" >
                                 </iframe>

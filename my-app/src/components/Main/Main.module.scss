@@ -23,6 +23,7 @@
     opacity: 0.15;
     transform: rotate(-50deg);
 }
+
 .main__content__back2 {
     position: absolute;
     height: 750px;
@@ -42,11 +43,33 @@
     width: 1200px;
 }
 
-.about__wrap {
-    padding-top: 150px;
+.moove__block {
+    position: absolute;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 60px;
+    top: 150px
+}
+
+.moove__block.active {
+    animation: slider-animate 0.5s ease-in-out;
+}
+
+@keyframes slider-animate {
+    0% {
+        opacity: 0;
+        top: 165px
+    }
+
+    100% {
+        opacity: 1;
+        top: 150px
+    }
+}
+
+.about__wrap {
+    position: relative;
+    height: 500px;
+    padding-top: 150px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -81,12 +104,14 @@
     padding: 0 10px;
     z-index: 1;
     transition: all 0.3s;
+
     .about__btn__link {
         color: white;
         font-size: 15px;
         font-weight: 600;
         text-decoration: none;
     }
+
     svg {
         margin-top: 4px;
         transform: rotate(180deg);
@@ -96,6 +121,7 @@
     &:hover {
         background-color: #1190f5;
         cursor: pointer;
+
         svg {
             transform: rotate(180deg) translate(-10px, 0);
         }
@@ -108,10 +134,12 @@
     color: white;
     font-family: "Roboto", sans-serif;
 }
+
 .contacts__wrap {
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: 60px;
 }
+
 .contacts {
     display: flex;
     justify-content: space-between;
@@ -120,6 +148,7 @@
 
 .contacts__address {
     width: 480px;
+
     span {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.8);
@@ -145,6 +174,11 @@
     width: 500px;
 }
 
+.contacts__address__map {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 0px 7px rgb(255, 255, 255, 0.5);
+}
 
 
 .fleet__wrap {
@@ -158,8 +192,8 @@
     gap: 50px;
 }
 
-.fleet__item:last-child {
-    margin-top: 80px;
+.fleet__item:first-child {
+    margin-bottom: 50px;
 }
 
 .fleet_title {
@@ -188,6 +222,7 @@
     width: 600px;
     display: flex;
     justify-content: space-around;
+
     span {
         font-size: 16px;
         color: rgba(255, 255, 255, 0.8);
@@ -201,11 +236,21 @@
     flex-direction: column;
     gap: 10px;
 }
+
 .params__value {
     width: 20%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.fleet__dimensions__img {
+    margin: 50px auto 0px;
+    display: block;
+    border-radius: 15px;
+    width: 100%;
+    opacity: 0.8;
+    box-shadow: 0px 0px 7px rgb(255, 255, 255, 0.7);
 }
 
 .footer__container {
@@ -215,6 +260,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     span {
         font-size: 16px;
         color: rgba(255, 255, 255, 0.8);
@@ -235,6 +281,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     &:hover {
         cursor: pointer;
         border: 1px rgb(255, 255, 255, 0.8) solid;
