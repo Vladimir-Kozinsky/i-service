@@ -1,9 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 .headerMain {
-    background-color: white;
+    background: #051d42;
     width: 100%;
-    position:fixed;
+    position: fixed;
     z-index: 10;
-    box-shadow: 5px 5px 10px #d2d2d2;
+
+    // box-shadow: 5px 5px 10px #d2d2d2;
 }
 
 .header__container {
@@ -14,8 +17,25 @@
     max-width: 1200px;
     height: 80px;
 }
-
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo__title {
+    font-size: 20px;
+    color: #f9f9f9;
+    margin-left: 20px;
+    font-family: "Roboto", sans-serif;
+}
 .headerMain__logo {
+    // padding: 5px 20px;
+    // background-color: #f9f9f9;
+    border-radius: 15px 0 15px 0;
+    height: fit-content;
+}
+.headerMain__logo__img {
+    position: relative;
+    top: -6px;
     height: 50px;
 }
 
@@ -36,22 +56,35 @@
 
 .headerMain__nav__link {
     text-decoration: none;
+    color: #f9f9f9;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: 16px;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .headerMain__lang {
     display: flex;
     button {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         border: 1px rgb(182, 182, 248) solid;
+        background: none;
         border-radius: 5px;
-        background-color: white;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: "Roboto", sans-serif;
         transition: all 300ms;
         &:last-child {
             margin-left: 8px;
         }
         &:hover {
             cursor: pointer;
+            background-color: rgb(182, 182, 248, 0.3);
+        }
+        &.active {
             background-color: rgb(182, 182, 248, 0.3);
         }
     }
