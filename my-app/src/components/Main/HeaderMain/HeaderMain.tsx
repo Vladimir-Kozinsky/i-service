@@ -1,6 +1,6 @@
 import s from './HeaderMain.module.scss'
 import React from 'react'
-import logo from './../../../assets/img/png/airline-logo.png'
+import logo from './../../../assets/img/png/logo_short.png'
 import { Link } from 'react-scroll'
 import { NavLink } from 'react-router-dom'
 import classNames from 'classnames'
@@ -13,7 +13,7 @@ const HeaderMain: React.FC = () => {
                     <div className={s.headerMain__logo}>
                         <img src={logo} alt="logo" className={s.headerMain__logo__img} />
                     </div>
-                    <h3 className={s.logo__title}>New Way Cargo <br />Airlines LLC</h3>
+                    <h3 className={s.logo__title}>New Way Cargo Airlines LLC</h3>
                 </div>
                 <div className={s.nav__wrapper} >
                     <nav className={s.headerMain__nav}>

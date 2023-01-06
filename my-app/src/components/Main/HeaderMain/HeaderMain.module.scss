@@ -28,13 +28,15 @@
     font-family: "Roboto", sans-serif;
 }
 .headerMain__logo {
-    padding: 5px 20px;
-    background-color: #f9f9f9;
+    // padding: 5px 20px;
+    // background-color: #f9f9f9;
     border-radius: 15px 0 15px 0;
     height: fit-content;
 }
 .headerMain__logo__img {
-    height: 35px;
+    position: relative;
+    top: -6px;
+    height: 50px;
 }
 
 .nav__wrapper {
