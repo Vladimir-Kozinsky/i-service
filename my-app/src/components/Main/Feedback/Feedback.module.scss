@@ -7,7 +7,19 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.message__field {
+    position: relative;
+    img {
+        position: absolute;
+        width: 20px;
+        right: 25px;
+        top: 15px;
+        opacity: 0.8;
+    }
     input {
+        width: 444px;
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 15px;
         outline: none;
@@ -31,6 +43,7 @@
     }
 
     textarea {
+        width: 444px;
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 15px;
         outline: none;
