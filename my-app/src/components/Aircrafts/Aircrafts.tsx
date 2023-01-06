@@ -23,27 +23,32 @@ const Aircrafts = () => {
     const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
     const [aircraftFile, setAircraftFile] = useState<IAircraftFile>({ show: false, msn: '' })
     const [addForm, setAddForm] = useState<boolean>(false)
-    // const [isLoader, setIsLoader] = useState(true);
+    const [isLoader, setIsLoader] = useState(false);
+
     useEffect(() => {
-        dispatch(getAircrafts())
-        //  setIsLoader(false);
+        async function loader() {
+            await setIsLoader(true)
+            await dispatch(getAircrafts())
+            await setIsLoader(false)
+        }
+        loader()
     }, [])
 
     const aircraftsWidgets = () => {
         if (!aircrafts) return
         return aircrafts.map((aircraft: IAircraft) => {
             return (
-                <AircraftWidget key={aircraft._id} aircraft={aircraft} onClick={setAircraftFile} />
+                <AircraftWidget key={aircraft._id} aircraft={aircraft} onClick={setAircraftFile} setIsLoader={setIsLoader} />
             )
         })
     }
 
     return (
         <div className={s.aircrafts__container}>
-            <Header />
-            {/* <Transition in={isLoader} timeout={500} unmountOnExit mountOnEnter  >
+            <Transition in={isLoader} timeout={400} unmountOnExit mountOnEnter >
                 {(state) => <Loader state={state} />}
-            </Transition> */}
+            </Transition>
+            <Header />
             <div className={s.aircrafts}>
                 {aircraftsWidgets()}
                 <AircraftForm setAddForm={setAddForm} toggle={addForm} />

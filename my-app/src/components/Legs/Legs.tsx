@@ -14,10 +14,13 @@ import withSuccessMessage from "../HOC/messageHoc";
 import EditLegForm from "./EditLegForm/EditLegForm";
 import Print from "./Print/Print";
 import DeleteMessage from "../../common/messages/DeleteMessage/DeleteMessage";
+import { Transition } from "react-transition-group";
+import Loader from "../../common/Loader/Loader";
 
 type ILegsProps = {
     aircraft: IAircraft;
     setPage: (isPage: boolean) => void
+    setIsLoader: (isLoader: boolean) => void
 
 }
 
@@ -42,7 +45,7 @@ interface ILeg {
     fc: string;
 }
 
-const Legs = ({ setPage, aircraft }: ILegsProps) => {
+const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
     const totalPages = useSelector((state: any) => state.aircraft.legsTotalPages);
@@ -55,7 +58,9 @@ const Legs = ({ setPage, aircraft }: ILegsProps) => {
     const [delMess, setDelMess] = useState(false);
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
-        dispatch(getLegs({ msn, from, to, page }))
+        await setIsLoader(true)
+        await dispatch(getLegs({ msn, from, to, page }))
+        await setIsLoader(false)
     }
 
     const editBtnHandler = () => {

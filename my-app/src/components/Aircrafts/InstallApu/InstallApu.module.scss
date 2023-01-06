@@ -1,12 +1,6 @@
 .installApu {
     background-color: white;
-    position: fixed;
     width: 530px;
-    height: 37vh;
-    left: 50%;
-    top: 50%;
-    margin-top: -23vh;
-    margin-left: -275px;
     border-radius: 25px;
     border: #1c3d5b 1px solid;
 }
@@ -35,7 +29,7 @@
 }
 
 .buttons {
-    margin: 30px auto 0;
+    margin: 30px auto 30px;
     width: 300px;
     display: flex;
     justify-content: space-between;

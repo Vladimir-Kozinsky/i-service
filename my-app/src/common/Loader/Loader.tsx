@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import s from './Loader.module.scss';
 
 type LoaderPropsType = {
@@ -8,7 +8,9 @@ type LoaderPropsType = {
 
 const Loader: React.FC<LoaderPropsType> = ({ state }) => {
     return (
-        <div className={classNames(s.loader, s[state])} >
+        <div className={classNames(s.loader__container, s[state])}>
+            <div className={s.ring}></div>
+            <span className={s.ring__text}>loading...</span>
         </div>
     )
 }
