@@ -60,6 +60,22 @@
         transform: rotate(-45deg);
     }
 }
+
+.carousel__btn__left.disable {
+    opacity: 0.7;
+    &:hover {
+        cursor: auto;
+        border: 1px rgb(255, 255, 255, 0.4) solid;
+    }
+}
+.carousel__btn__right.disable {
+    opacity: 0.7;
+    &:hover {
+        cursor: auto;
+        border: 1px rgb(255, 255, 255, 0.4) solid;
+    }
+}
+
 .carousel__btn__right {
     right: 0px;
     svg {

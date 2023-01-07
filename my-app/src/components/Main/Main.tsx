@@ -21,10 +21,10 @@ const Main: React.FC = () => {
                 <div className={s.main__content__back}></div>
                 <div className={s.main__content__back2}></div>
                 <div className={s.content__container}>
-                    <section className={classNames(s.about__wrap, isAbout && s[active])}>
+                    <section className={s.about__wrap}>
                         <div className={classNames(s.moove__block, s[active])}>
                             <div className={s.about} >
-                                <h3 className={s.about__title}>О компании</h3>
+                                <h3 className={classNames(s.about__title, isAbout && s[active])}>О компании</h3>
                                 <p className={s.about__par}>
                                     Авиакомпания была основана в 2021 году, и начала свою
                                     деятельность по перевозке грузов на рамповых самолетах Ил-76.
@@ -47,60 +47,22 @@ const Main: React.FC = () => {
                                         внедрена система менеджмента качества в
                                         соответствии с требованиями ИСО 9001-2015.
                                     </p>
-                                    <div className={s.about__wrap__full}>
-                                        <p className={classNames(s.about__par, s.about__par__fill)}>
-                                            В настоящее время OcOO «New Way Cargo Airlines» является стабильно
-                                            развивающимся авиапредприятием с быстрой и гибкой
-                                            политикой, ориентированной на максимально полное
-                                            удовлетворение потребностей заказчиков в сфере
-                                            международных грузовых авиаперевозок. Парк воздушных судов
-                                            OcOO «New Way Cargo Airlines» состоит из двух самолетов Ил-76ТД и
-                                            одного самолетов Ил-76Т.
-                                        </p>
-                                        <p className={classNames(s.about__par, s.about__par__fill)}>
-                                            Авиакомпания специализируется на перевозке следующих типов грузов:
-                                            <ul>
-                                                <li>
-                                                    Срочная переброска по воздуху крупногабаритной колесной техники,
-                                                    промышленного оборудования, морских контейнеров, а также товаров
-                                                    народного потребления в регионы с неразвитой или отсутствующей транспортной инфраструктурой.
-                                                </li>
-                                                <li>
-                                                    Перевозки опасных грузов, в том числе ядерных материалов, для российских и
-                                                    зарубежных коммерческих заказчиков.
-                                                </li>
-                                                <li>
-                                                    Перемещения авиационной техники (вертолетов, небольших самолетов) к/от
-                                                    местам их временного или постоянного базирования.
-                                                </li>
-                                                <li>
-                                                    Доставка дорогостоящей ракетно-космической техники и аппаратуры
-                                                    к местам запуска и проведения испытаний.
-                                                </li>
-
-                                                <li>
-                                                    Перевозки высокотехнологичного оборудования.
-                                                </li>
-                                                <li>
-                                                    Перевозки гуманитарных грузов в регионы, пораженные
-                                                    стихийными бедствиями и катастрофами.
-
-                                                </li>
-                                                <li>
-                                                    Перевозка животных.
-                                                </li>
-                                            </ul>
-                                        </p>
-                                        <div className={s.hide__btn__wrap}>
-                                            <button className={s.hide__btn} onClick={() => setIsAbout(false)}>
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.88128 7.38129L3.76256 12.5L8.88128 17.6187L10.1187 16.3813L7.11244 13.375H20V11.625H7.11244L10.1187 8.61872L8.88128 7.38129Z" fill="white" />
-                                                </svg>
-                                            </button>
-                                        </div>
-
+                                    <p className={classNames(s.about__par)}>
+                                        В настоящее время OcOO «New Way Cargo Airlines» является стабильно
+                                        развивающимся авиапредприятием  с быстрой и гибкой
+                                        политикой, ориентированной на максимально полное
+                                        удовлетворение потребностей заказчиков в сфере
+                                        международных грузовых авиаперевозок. Парк воздушных судов
+                                        OcOO «New Way Cargo Airlines» состоит из двух самолетов Ил-76ТД и
+                                        одного самолетов Ил-76Т.
+                                    </p>
+                                    <div className={s.hide__btn__wrap}>
+                                        <button className={s.hide__btn} onClick={() => setIsAbout(false)}>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.88128 7.38129L3.76256 12.5L8.88128 17.6187L10.1187 16.3813L7.11244 13.375H20V11.625H7.11244L10.1187 8.61872L8.88128 7.38129Z" fill="white" />
+                                            </svg>
+                                        </button>
                                     </div>
-
                                 </>}
                                 {!isAbout && <div className={s.about__btn} onClick={() => setIsAbout(true)} >
                                     <span className={s.about__btn__link}>Читать больше</span>
