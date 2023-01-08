@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/i-service/static/css/main.d0659ceb.css",
-    "main.js": "/i-service/static/js/main.0d4be59d.js",
+    "main.js": "/i-service/static/js/main.221e8bf0.js",
     "static/js/787.28cb0dcd.chunk.js": "/i-service/static/js/787.28cb0dcd.chunk.js",
     "static/media/plane_il.png": "/i-service/static/media/plane_il.064ac911062a96ad276d.png",
     "static/media/slider-img3.jpeg": "/i-service/static/media/slider-img3.163abda60fed74d6b93c.jpeg",
@@ -28,11 +28,11 @@
     "index.html": "/i-service/index.html",
     "static/media/getFetch.cjs": "/i-service/static/media/getFetch.40f37ddea2378391108f.cjs",
     "main.d0659ceb.css.map": "/i-service/static/css/main.d0659ceb.css.map",
-    "main.0d4be59d.js.map": "/i-service/static/js/main.0d4be59d.js.map",
+    "main.221e8bf0.js.map": "/i-service/static/js/main.221e8bf0.js.map",
     "787.28cb0dcd.chunk.js.map": "/i-service/static/js/787.28cb0dcd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d0659ceb.css",
-    "static/js/main.0d4be59d.js"
+    "static/js/main.221e8bf0.js"
   ]
 }
