@@ -14,6 +14,7 @@ import Aircrafts from './components/Aircrafts/Aircrafts';
 import Engines from './components/Engines/Engines';
 import Apus from './components/Apus/Apus';
 import Main from './components/Main/Main';
+import './18n';
 
 interface IRoutes {
   path: string;
