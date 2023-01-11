@@ -4,7 +4,7 @@ import s from './Main.module.scss'
 import Slider from './Slider/Slider';
 import plane_sheme4 from '../../assets/img/png/plane_il.png'
 import Feedback from './Feedback/Feedback';
-import plane_demen from './../../assets/img/jpeg/cargo.jpg'
+import plane_demen from './../../assets/img/jpeg/plane_demensions.jpg'
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { abort } from 'process';
