@@ -1,8 +1,9 @@
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, { useContext } from 'react'
 import s from './Feedback.module.scss'
 import cross from '../../../assets/img/png/cross-input.png'
 import { useTranslation } from 'react-i18next'
+import { ThemeContext } from '../Main'
 
 type IFeedbackValues = {
     name: string;
@@ -13,6 +14,7 @@ type IFeedbackValues = {
 
 const Feedback: React.FC = () => {
     const { t, i18n } = useTranslation();
+    const appContext = useContext(ThemeContext);
     return (
         <Formik
             initialValues={{
@@ -48,7 +50,7 @@ const Feedback: React.FC = () => {
             handleBlur,
             handleSubmit,
         }) => (
-            <Form className={s.message}>
+            <Form className={s.message} id={s[`${appContext?.theme}__main__message`]} >
                 <h3 className={s.message__title}>{t("feedback_title")}</h3>
                 <div className={s.message__field} >
                     {errors.name && <img src={cross} alt='cross-img' />}

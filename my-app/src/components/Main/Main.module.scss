@@ -5,6 +5,86 @@
     background: #051d42;
 }
 
+#light__main {
+    background: white;
+    .about__wrap,
+    .fleet__wrap,
+    .contacts__wrap {
+        border-bottom: 1px solid rgba(5, 29, 66, 0.15);
+    }
+    .about__title {
+        color: #051d42;
+    }
+    .about__par {
+        color: #051d42;
+    }
+    .hide__btn {
+        border-top: 1px rgb(5, 29, 66, 0.5) solid;
+        border-left: 1px rgb(5, 29, 66, 0.5) solid;
+        &:hover {
+            border-top: 1px rgb(5, 29, 66, 0.9) solid;
+            border-left: 1px rgb(5, 29, 66, 0.9) solid;
+            path {
+                fill: rgb(5, 29, 66, 0.9);
+            }
+        }
+        path {
+            fill: rgb(5, 29, 66, 0.5);
+            transition: all 0.3s;
+        }
+    }
+
+    .section__title {
+        color: #051d42;
+    }
+
+    .fleet_title {
+        color: #051d42;
+    }
+    .params__title {
+        color: #051d42;
+    }
+
+    .params {
+        span {
+            color: #051d42;
+        }
+    }
+
+    .contacts__address {
+        span {
+            color: #051d42;
+        }
+    }
+    .contacts__address__title {
+        color: #051d42;
+    }
+    .contacts__address__text {
+        color: #051d42;
+    }
+}
+
+#light__footer {
+    background-color: white;
+    .footer__container {
+        span {
+            color: #051d42;
+        }
+    }
+    .links__item {
+        border: 1px #051d42 solid;
+        path {
+            fill: #051d42;
+        }
+
+        &:hover {
+            border: 1px rgb(5, 29, 66, 0.8) solid;
+            path {
+                fill: rgb(5, 29, 66, 0.8);
+            }
+        }
+    }
+}
 .main__container {
     margin: 0 auto;
     width: 1200px;
@@ -404,7 +484,7 @@
     }
 
     .about__par__last {
-        height: 150px; 
+        height: 150px;
     }
 }
 
@@ -430,14 +510,13 @@
         width: 140px;
         height: 48px;
         gap: 12px;
-    
+
         .about__btn__link {
             color: white;
             font-size: 14px;
             font-weight: 600;
             text-decoration: none;
         }
-    
     }
 
     .moove__block {
@@ -445,6 +524,6 @@
     }
 
     .about__par__last {
-        height: 220px; 
+        height: 220px;
     }
 }

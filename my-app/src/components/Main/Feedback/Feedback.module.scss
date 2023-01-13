@@ -9,6 +9,33 @@
     gap: 20px;
 }
 
+#light__main__message {
+    border: 1px rgb(5, 29, 66, 0.5) solid;
+    .message__title {
+        color: #051d42;
+    }
+    .message__field {
+        input {
+            border: 1px solid rgba(5, 29, 66, 0.5);
+            color: #051d42;
+            &:focus {
+                border: 1px solid rgba(5, 29, 66, 0.3);
+            }
+            &:hover {
+                border: 1px solid rgba(5, 29, 66, 0.3);
+            }
+        }
+        input[type="text"] {
+            color: #051d42;
+        }
+
+        textarea {
+            border: 1px solid rgba(5, 29, 66, 0.5);
+            color: #051d42;
+        }
+    }
+}
+
 .message__field {
     position: relative;
     img {
