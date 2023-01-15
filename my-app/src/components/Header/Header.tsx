@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../../common/buttons/Button";
 import { AppDispatch } from "../../store/store";
-import logo from './../../assets/img/png/logo.png';
+import logo from './../../assets/img/png/logo_short.png';
 import s from './Header.module.scss';
 import { signOut } from '../../store/reducers/authReducer';
 
