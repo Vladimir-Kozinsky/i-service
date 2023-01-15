@@ -8,7 +8,6 @@ import Auth from './components/Auth/Auth';
 import SignUp from './components/SignUp/SignUp';
 import Dashboard from './components/Dashboard/Dashboard';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import App from './App';
 import s from './index.module.scss';
 import Aircrafts from './components/Aircrafts/Aircrafts';
 import Engines from './components/Engines/Engines';
@@ -43,7 +42,8 @@ const router = createBrowserRouter([
       element: route.element,
     })),
   },
-])
+], { basename: '/i-service' })
+
 
 function Example() {
   const location = useLocation()
