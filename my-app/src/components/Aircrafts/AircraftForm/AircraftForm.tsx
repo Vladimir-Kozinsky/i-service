@@ -1,7 +1,7 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
 import React, { useState } from 'react'
-import Select, { ActionMeta } from 'react-select'
+import { ActionMeta } from 'react-select'
 import s from './AircraftForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
@@ -11,6 +11,7 @@ import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';
+import FormSelect from '../../../common/Select/Select';
 
 export interface IAircraftFormValues {
     type: string;
@@ -54,9 +55,7 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
-        if (option?.value) {
-            setSelectedOption(option.value);
-        }
+        if (option?.value) setSelectedOption(option.value)
     }
 
     const customStyles = {
@@ -123,8 +122,7 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                         cbo?: string;
                     }
                     const errors: IErrors = {};
-
-                    if (!selectedOption) errors.type = 'Type is required';
+                    if (!selectedOption || selectedOption === 'error') errors.type = 'Type is required';
                     if (!values.msn) errors.msn = 'MSN is required';
                     if (!values.manufDate) errors.manufDate = 'Manufacture Date is required';
                     if (!values.regNum) errors.regNum = 'Reg No is required';
@@ -160,14 +158,13 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                     <Form className={s.aircraft__form}>
                         <div className={s.aircraft__form__wrap}>
                             {/* General */}
-                            <h3 className={s.addAircraftForm__wrap__header}>General</h3>
                             <div className={s.addAircraftForm__wrap__block}>
+                                <h3 className={s.addAircraftForm__wrap__header}>General</h3>
                                 <div className={s.aircraft__form__link}>
-                                    {/* {errors.type ? <ErrorMessage message={errors.type} /> : null} */}
-                                    <label>Type <span>*</span></label>
-                                    <Select className={s.select} options={options} onChange={onChange} styles={customStyles} />
+                                    <label >Type <span>*</span></label>
+                                    <Field id='type' name='type' type='select' value={values.type} setSelectedOption={setSelectedOption} onChange={onChange} as={FormSelect}
+                                        placeholder='type' error={selectedOption} options={options} customStyles={customStyles} />
                                 </div>
-
                                 {[
                                     {
                                         label: "Manufacture Date", type: "date", id: "manufDate", name: "manufDate",
@@ -209,8 +206,8 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                                 }
                             </div>
                             {/* Overhaul */}
-                            <h3 className={s.addAircraftForm__wrap__header}>Overhaul</h3>
                             <div className={s.addAircraftForm__wrap__block}>
+                                <h3 className={s.addAircraftForm__wrap__header}>Overhaul</h3>
                                 {[
                                     { label: "Number of Overhaul", type: "number", id: "overhaulNum", name: "overhaulNum", value: values.overhaulNum, error: errors.overhaulNum },
                                     {
@@ -240,8 +237,8 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                             </div>
 
                             {/* Limits */}
-                            <h3 className={s.addAircraftForm__wrap__header}>Limits</h3>
                             <div className={s.addAircraftForm__wrap__block}>
+                                <h3 className={s.addAircraftForm__wrap__header}>Limits</h3>
                                 {[
                                     {
                                         label: "Total Life Period", type: "date", id: "tlp", name: "tlp",

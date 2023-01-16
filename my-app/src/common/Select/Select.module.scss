@@ -1,0 +1,45 @@
+.formSelect {
+    position: relative;
+    height: 38px;
+    width: fit-content;
+}
+
+.input__message {
+    position: absolute;
+    top: 50px;
+    z-index: 31;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.input__message__triangle {
+    opacity: 0.9;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -30px;
+    left: 20px;
+    transform: rotate(180deg);
+    border: 10px solid transparent;
+    border-top: 10px solid #ac3c5e;
+    border-right: 10px solid #ac3c5e;
+}
+
+.input__message__block {
+    opacity: 0.9;
+    border-radius: 5px;
+    position: absolute;
+    width: max-content;
+    top: -14px;
+    left: 20px;
+    max-width: 190px;
+    background-color: #ac3c5e;
+    padding: 3px 5px 3px 8px;
+
+    p {
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        font-family: Manrope;
+        font-size: 12px;
+    }
+}
