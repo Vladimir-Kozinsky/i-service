@@ -9,7 +9,7 @@ import { addAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
-import { checkFHFormat } from '../../../utils/forms';
+import { checkFCFormat, checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';
 import FormSelect from '../../../common/Select/Select';
 
@@ -128,10 +128,12 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                     if (!values.regNum) errors.regNum = 'Reg No is required';
                     if (!values.initFh) errors.initFh = 'Initial FH is required';
                     if (!checkFHFormat(values.initFh)) errors.initFh = 'Invalid format, the format should be like "123456:22"';
-                    if (!values.initFc) errors.initFc = 'FC si required';
+                    if (!values.initFc) errors.initFc = 'FC is required';
+                    if (!checkFCFormat(values.initFc)) errors.initFc = 'Invalid format, the format should be like "123456"';
                     if (!values.fh) errors.fh = 'FH is required';
                     if (!checkFHFormat(values.fh)) errors.fh = 'Invalid format, the format should be like "123456:22"';
                     if (!values.fc) errors.fc = 'FC si required';
+                    if (!checkFCFormat(values.fc)) errors.fc = 'Invalid format, the format should be like "123456"';
                     if (values.overhaulNum > 0 && !values.lastOverhaulDate) errors.lastOverhaulDate = 'Last overhaul Date is required';
                     if (values.overhaulNum > 0 && !values.tsnAtlastOverhaul) errors.tsnAtlastOverhaul = 'FH at last overhaul is required';
                     if (values.overhaulNum > 0 && !checkFHFormat(values.tsnAtlastOverhaul)) errors.tsnAtlastOverhaul = 'Invalid format, the format should be like "123456:22"';
@@ -140,10 +142,12 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                     if (!values.tlt) errors.tlt = 'Total Life Time is required';
                     if (!checkFHFormat(values.tlt)) errors.tlt = 'Invalid format, the format should be like "123456:22"';
                     if (!values.tlc) errors.tlc = 'Total Life Cycles is required';
+                    if (!checkFCFormat(values.tlc)) errors.tlc = 'Invalid format, the format should be like "123456"';
                     if (!values.pbo) errors.pbo = 'Period between overhaul is required';
                     if (!values.tbo) errors.tbo = 'Time between overhaul is required';
                     if (!checkFHFormat(values.tbo)) errors.tbo = 'Invalid format, the format should be like "123456:22"';
                     if (!values.cbo) errors.cbo = 'Cycles between overhaul is required';
+                    if (!checkFCFormat(values.cbo)) errors.cbo = 'Invalid format, the format should be like "123456"';
                     return errors;
                 }}
                 onSubmit={(

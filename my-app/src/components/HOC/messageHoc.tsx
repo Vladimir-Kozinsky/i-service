@@ -11,7 +11,7 @@ const withSuccessMessage = (Component: any) => ({ ...props }) => {
 
     const NewComponent = () => {
         if (isAuthSuccessMessage) return <SuccessMessage route='/auth' handler={hideAuthSuccessMessage} />
-        if (isAircraftSuccessMessage) return <SuccessMessage handler={hideSuccessMessage} />
+        if (isAircraftSuccessMessage) return <SuccessMessage handler={hideSuccessMessage} setForm={props.setAddForm} />
         if (isEngineSuccessMessage) return <SuccessMessage route='/dashboard/engines' handler={hideEngineSuccessMessage} />
         return <Component {...props} />
     }

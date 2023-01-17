@@ -10,9 +10,10 @@ import s from './SuccessMessage.module.scss';
 type SuccessMessageProps = {
     route?: string;
     handler: () => any
+    setForm?: (isForm: boolean) => void
 }
 
-const SuccessMessage = ({ route, handler }: SuccessMessageProps) => {
+const SuccessMessage = ({ route, handler, setForm }: SuccessMessageProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [anim, setAnim] = useState(false);
     const setSignUpMessage = () => {
@@ -28,7 +29,10 @@ const SuccessMessage = ({ route, handler }: SuccessMessageProps) => {
                 ...s,
                 enterActive: s['enter-active'],
             }}
-            onEntered={() => dispatch(handler())}
+            onEntered={() => {
+                dispatch(handler())
+                if (setForm) setForm(false)
+            }}
         >
             <div className={s.message} ref={nodeRef}>
                 <h3 className={s.message__header} >Success!</h3>
