@@ -30,9 +30,10 @@ type SelectProps = {
     customStyles: any;
     error: string | undefined;
     setSelectedOption: (selectedOption: null | string) => void
+    defaultValue: any
 }
 
-const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, error, setSelectedOption }) => {
+const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, error, setSelectedOption, defaultValue }) => {
     const nodeRef = useRef(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     useEffect(() => {
@@ -40,7 +41,12 @@ const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, er
     }, [error])
     return (
         <div className={s.formSelect}>
-            <Select onFocus={() => !error && setSelectedOption('error')} className={s.select} options={options} onChange={onChange} styles={customStyles} />
+            <Select onFocus={() => !error && setSelectedOption('error')} 
+            className={s.select} 
+            options={options} 
+            onChange={onChange} 
+            styles={customStyles}
+            defaultValue={defaultValue} />
             <Transition
                 nodeRef={nodeRef}
                 in={error === 'error' ? true : false}

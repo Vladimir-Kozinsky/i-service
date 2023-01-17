@@ -10,6 +10,11 @@ const aircraftAPI = {
         const response = await proxy.post('/aircraft/add', aircraftData);
         return response;
     },
+    async deleteAircraft(aircraftId: string) {
+        console.log(aircraftId)
+        const response = await proxy.post('/aircraft/delete', aircraftId);
+        return response;
+    },
     async getAircrafts() {
         const response = await proxy.get('/aircrafts');
         return response;
