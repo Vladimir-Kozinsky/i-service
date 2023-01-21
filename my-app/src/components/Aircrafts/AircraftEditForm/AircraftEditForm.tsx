@@ -84,7 +84,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
         }),
         container: (provided: any) => ({
             ...provided,
-            zIndex: 30
         })
     }
     return (
@@ -304,8 +303,8 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
                         </div>
                         <div className={s.aircraft__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => showArcraftEditForm(false)} />
-                            <Button text="Delete" color="red" btnType="button" handler={() => setDelMess(true)} />
                             <Button text="Add" color="green" btnType="submit" />
+                            <Button text="Delete" color="red" btnType="button" handler={() => setDelMess(true)} />
                         </div>
                     </Form>
                 )}
