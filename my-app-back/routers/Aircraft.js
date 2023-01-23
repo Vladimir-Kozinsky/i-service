@@ -87,6 +87,20 @@ router.post('/aircraft/edit', async (req, res) => {
     }
 })
 
+router.post('/aircraft/delete', async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data._id) throw new Error("An deleted aircraft has not been recieved");
+        const del = await Aircraft.findByIdAndRemove(data._id);
+        res.statusMessage = "Aircraft successfully deleted";
+        res.json(del);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 router.get('/aircrafts', async (req, res) => {
     try {
         const aircrafts = await Aircraft.find().exec();

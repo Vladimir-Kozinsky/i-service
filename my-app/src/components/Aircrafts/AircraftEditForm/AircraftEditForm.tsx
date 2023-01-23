@@ -1,11 +1,11 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
-import React, { useState } from 'react'
-import Select, { ActionMeta } from 'react-select'
+import { useState } from 'react'
+import { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { addAircraft, deleteAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
+import { deleteAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
