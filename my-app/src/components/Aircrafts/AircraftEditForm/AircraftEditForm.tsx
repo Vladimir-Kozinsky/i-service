@@ -5,14 +5,14 @@ import { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
-import { deleteAircraft, IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
+import { IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
 import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFCFormat, checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';
 import FormSelect from '../../../common/Select/Select';
-import DeleteMessage from '../../../common/messages/DeleteMessage/DeleteMessage';
+import withAircraftSuccMess from '../../HOC/withAircraftSuccMess';
 
 export interface IAircraftFormValues {
     type: string;
@@ -57,16 +57,12 @@ interface IEditFormProps {
 const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type);
-    const [delMess, setDelMess] = useState(false);
+
 
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) {
             setSelectedOption(option.value);
         }
-    }
-
-    const delAircraft = (aircraftId: string | undefined) => {
-        if (aircraftId) dispatch(deleteAircraft(aircraftId))
     }
 
     const customStyles = {
@@ -88,10 +84,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
     }
     return (
         <div className={s.aircraftForm}>
-            <DeleteMessage handleBack={() => setDelMess(false)}
-                handleSubmit={() => delAircraft(aircraft._id)} toggle={delMess}
-                header='Would you like to delete this Aircraft?'
-                text='The Aircraft will be permanently deleted' />
             <h3 className={s.aircraftForm__header}>Edit an Aircraft</h3>
             <Formik
                 initialValues={{
@@ -304,7 +296,6 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
                         <div className={s.aircraft__form__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => showArcraftEditForm(false)} />
                             <Button text="Add" color="green" btnType="submit" />
-                            <Button text="Delete" color="red" btnType="button" handler={() => setDelMess(true)} />
                         </div>
                     </Form>
                 )}
@@ -313,4 +304,4 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(AircraftEditForm);
+export default compose(withContainerBlur, withAircraftSuccMess)(AircraftEditForm);

@@ -2,7 +2,7 @@ import s from './AircraftWidget.module.scss';
 import plane from './../../../assets/img/png/plane.png'
 import engine from './../../../assets/img/png/engine.png'
 import apu from './../../../assets/img/png/apu.png'
-import { IAircraft, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
+import { deleteAircraft, IAircraft, setChoosedAircraft } from '../../../store/reducers/aircraftReducer';
 import React, { useState } from 'react';
 import AircraftEditForm from '../AircraftEditForm/AircraftEditForm';
 import { IAircraftFile } from '../Aircrafts';
@@ -10,6 +10,7 @@ import AircraftFile from '../AircraftFile/AircraftFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { setEngine } from '../../../utils/forms';
+import DeleteMessage from '../../../common/messages/DeleteMessage/DeleteMessage';
 
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
@@ -30,6 +31,11 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader }: propsAircraftWidget)
 
     const [arcraftEditForm, setArcraftEditForm] = useState(false);
     const [arcraftFile, setArcraftFile] = useState(false);
+    const [delMess, setDelMess] = useState(false);
+
+    const delAircraft = (aircraftId: string | undefined) => {
+        if (aircraftId) dispatch(deleteAircraft(aircraftId))
+    }
 
     const showArcraftEditForm = () => {
         arcraftEditForm ? setArcraftEditForm(false) : setArcraftEditForm(true);
@@ -46,12 +52,18 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader }: propsAircraftWidget)
 
     return (
         <>
+            <DeleteMessage
+                handleBack={() => setDelMess(false)}
+                handleSubmit={() => delAircraft(aircraft?._id)}
+                toggle={delMess}
+                header='Would you like to delete this Aircraft?'
+                text='The Aircraft will be permanently deleted' />
             <AircraftFile aircraft={choosedAircraft} setArcraftFile={setArcraftFile} toggle={arcraftFile} setIsLoader={setIsLoader} />
             <AircraftEditForm aircraft={choosedAircraft} showArcraftEditForm={showArcraftEditForm} toggle={arcraftEditForm} />
             <div className={s.widget} onClick={widgetOnClick} >
                 <div className={s.widget__btns} >
-                    <button className={s.widget__btns__set} onClick={showArcraftEditForm} >
-                    </button>
+                    <button className={s.widget__btns__set} onClick={showArcraftEditForm} />
+                    <button className={s.widget__btns__del} onClick={() => setDelMess(true)} />
                 </div>
                 <img className={s.widget__plane__img} src={plane} alt="plane-icon" />
                 <div className={s.widget__data}>

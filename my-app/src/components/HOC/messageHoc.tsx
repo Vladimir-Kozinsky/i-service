@@ -7,12 +7,25 @@ import { hideEngineSuccessMessage } from '../../store/reducers/engineReducer';
 const withSuccessMessage = (Component: any) => ({ ...props }) => {
     const isAuthSuccessMessage = useSelector((state: any) => state.auth.isSuccessMessage)
     const isAircraftSuccessMessage = useSelector((state: any) => state.aircraft.isSuccessMessage)
-    const isEngineSuccessMessage = useSelector((state: any) => state.engine.isSuccessMessage)
+   
     const NewComponent = () => {
-        if (isAuthSuccessMessage) return <SuccessMessage route='/auth' handler={hideAuthSuccessMessage} />
-        if (isAircraftSuccessMessage) return <SuccessMessage handler={hideSuccessMessage} setForm={props.setAddForm ? props.setAddForm: props.showArcraftEditForm} />
-        if (isEngineSuccessMessage) return <SuccessMessage route='/dashboard/engines' handler={hideEngineSuccessMessage} />
-        return <Component {...props} />
+        return (
+            <>
+                {isAuthSuccessMessage
+                    ? <SuccessMessage route='/auth' handler={hideAuthSuccessMessage} toggle={isAuthSuccessMessage} />
+                    : null}
+               
+                {isAircraftSuccessMessage
+                    ? <SuccessMessage
+                        handler={hideSuccessMessage}
+                        toggle={props.setAddForm
+                            ? props.setAddForm
+                            : props.showArcraftEditForm} />
+                    : null}
+                <Component {...props} />
+            </>
+        )
+
     }
     return <NewComponent />;
 }

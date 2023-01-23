@@ -12,6 +12,7 @@ import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur
 import { checkFCFormat, checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';
 import FormSelect from '../../../common/Select/Select';
+import withAircraftSuccMess from '../../HOC/withAircraftSuccMess';
 
 export interface IAircraftFormValues {
     type: string;
@@ -291,4 +292,4 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(AircraftForm);
+export default compose(withContainerBlur, withAircraftSuccMess)(AircraftForm);

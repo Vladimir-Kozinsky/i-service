@@ -31,8 +31,10 @@
     position: absolute;
     left: 0px;
     top: 0px;
-
-    button {
+    .widget__btns__set {
+        top: 7px;
+        left: 290px;
+        width: 30px;
         width: 30px;
         height: 34px;
         position: absolute;
@@ -45,12 +47,6 @@
         background-position: center;
         background-size: cover;
         background-repeat: noRepeat;
-    }
-
-    .widget__btns__set {
-        top: 7px;
-        left: 290px;
-        width: 30px;
         &:hover {
             cursor: pointer;
             width: 34px;
@@ -62,9 +58,33 @@
             width: 30px;
         }
     }
-
     .widget__btns__del {
-        left: 60px;
+        top: 50px;
+        left: 295px;
+        width: 25px;
+        height: 30px;
+        opacity: 0.8;
+        position: absolute;
+        background: none;
+        margin: 0;
+        padding: 0;
+        border: none;
+        transition: all 0.3s;
+        background-image: url(./../../../assets/img/png/bin.png);
+        background-position: center;
+        background-size: cover;
+        background-repeat: noRepeat;
+        &:hover {
+            cursor: pointer;
+            top: 49px;
+            left: 294px;
+            width: 27px;
+            height: 32px;
+            opacity: 1;
+        }
+        :active {
+            width: 30px;
+        }
     }
 }
 

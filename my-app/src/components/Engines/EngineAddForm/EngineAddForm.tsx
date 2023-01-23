@@ -11,6 +11,7 @@ import Input from "../../../common/Input"
 import { addEngine } from "../../../store/reducers/engineReducer"
 import withSuccessMessage from "../../HOC/messageHoc"
 import { checkFHFormat } from "../../../utils/forms"
+import withEngineSuccMess from "../../HOC/withAEngineSuccMess"
 
 type EngineAddFormProps = {
     setEngAddForm: (form: boolean) => void;
@@ -228,4 +229,4 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(EngineAddForm);
+export default compose(withContainerBlur, withEngineSuccMess)(EngineAddForm);
