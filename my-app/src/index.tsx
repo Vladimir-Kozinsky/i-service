@@ -23,7 +23,7 @@ interface IRoutes {
 }
 
 const routes: IRoutes[] = [
-  { path: '/*', name: 'Main', element: <Main />, nodeRef: createRef() },
+  { path: '/', name: 'Main', element: <Main />, nodeRef: createRef() },
   { path: '/auth', name: 'Auth', element: <Auth />, nodeRef: createRef() },
   { path: '/signup', name: 'SignUp', element: <SignUp />, nodeRef: createRef() },
   { path: '/dashboard/*', name: 'Dashboard', element: <Dashboard />, nodeRef: createRef() },

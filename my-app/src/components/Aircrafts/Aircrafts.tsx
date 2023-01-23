@@ -26,12 +26,11 @@ const Aircrafts = () => {
     const [isLoader, setIsLoader] = useState(false);
 
     useEffect(() => {
-        async function loader() {
+        (async () => {
             await setIsLoader(true)
             await dispatch(getAircrafts())
             await setIsLoader(false)
-        }
-        loader()
+        })()
     }, [])
 
     const aircraftsWidgets = () => {

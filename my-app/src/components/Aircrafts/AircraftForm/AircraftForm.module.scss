@@ -18,19 +18,24 @@
     margin-top: 30px;
     font-family: Manrope;
     font-weight: 700;
-}
-
-.addAircraftForm__wrap__header {
-margin-left: 40px;
+    color: #0a2640;
 }
 
 .addAircraftForm__wrap__block {
+    position: relative;
     margin: 10px;
-    padding: 10px;
+    padding: 40px 10px 10px 10px;
     border: solid 1px rgb(196, 196, 196);
+    border-radius: 15px;
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+}
+
+.addAircraftForm__wrap__header {
+    position: absolute;
+    top: -15px;
+    color: rgb(105, 105, 105);
 }
 
 .aircraft__form__link {
@@ -49,10 +54,6 @@ margin-left: 40px;
     }
 }
 
-.select {
-    position: absolute;
-}
-
 .aircraft__form__btns {
     margin: 35px auto 25px;
     max-width: 270px;
@@ -60,17 +61,16 @@ margin-left: 40px;
     justify-content: space-between;
 }
 
-
 .input {
     width: 190px;
     height: 38px;
-    border: #0A2640 2px solid;
+    border: #0a2640 2px solid;
     border-radius: 24px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 0 20px;
-    color: #0A2640;
+    color: #0a2640;
     font-size: 16px;
-    font-family: 'Manrope';
+    font-family: "Manrope";
     font-style: normal;
     font-weight: 400;
     text-align: center;
@@ -89,11 +89,9 @@ margin-left: 40px;
     .aircraft__form__wrap {
         justify-content: center;
     }
-
 }
 
 @media (max-width: 380px) {
-
     .aircraftForm__header {
         font-size: 24px;
         margin-top: 15px;

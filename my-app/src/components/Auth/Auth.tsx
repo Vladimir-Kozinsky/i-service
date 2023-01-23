@@ -7,9 +7,10 @@ import { signIn } from './../../store/reducers/authReducer';
 import { connect } from "react-redux";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { compose } from 'redux';
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition, Transition } from 'react-transition-group';
 import Input from '../../common/inputs/Input';
 import { withContainerBlur } from '../HOC/withContainerBlur/withContainerBlur';
+import Loader from '../../common/Loader/Loader';
 
 export interface IAuthValues {
     email: string;
@@ -26,6 +27,7 @@ type AuthPropsType = {
 class Auth extends React.Component<AuthPropsType> {
     state: {
         isAuthError: boolean
+        isLoader: boolean;
     }
     myRef: any;
     navigate: any;
@@ -33,15 +35,16 @@ class Auth extends React.Component<AuthPropsType> {
         super(props);
         this.myRef = React.createRef();
         this.state = {
-            isAuthError: false
+            isAuthError: false,
+            isLoader: false
         }
+        this.setAuthError = this.setAuthError.bind(this);
     }
     componentDidUpdate(prevProps: AuthPropsType) {
         if (this.props.isAuthError !== prevProps.isAuthError) {
             this.setAuthError(this.props.isAuthError);
         }
         if (this.props.isAuth !== prevProps.isAuth) {
-            console.log('navdavds')
             if (this.props.isAuth) this.props.navigate("/dashboard");
         }
     }
@@ -57,6 +60,9 @@ class Auth extends React.Component<AuthPropsType> {
     render(): React.ReactNode {
         return (
             <div className={s.auth__container}>
+                <Transition in={this.state.isLoader} timeout={400} unmountOnExit mountOnEnter >
+                    {(state) => <Loader state={state} />}
+                </Transition>
                 <div className={s.auth}>
                     <h4 className={classNames(s.auth__header, s.auth__header__welcome)}>Welcome back!</h4>
                     <h3 className={classNames(s.auth__header, s.auth__header__signin)}>Sign in to your account</h3>
@@ -81,7 +87,12 @@ class Auth extends React.Component<AuthPropsType> {
                             values: IAuthValues,
                             { setSubmitting }: FormikHelpers<IAuthValues>
                         ) => {
-                            this.props.signIn(values);
+                            (async () => {
+                                await this.setState({ isLoader: true })
+                                await this.props.signIn(values);
+                                await this.setState({ isLoader: false })
+                            })()
+
                         }}
                     >{({
                         values,

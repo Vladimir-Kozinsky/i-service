@@ -2,12 +2,20 @@ import { IInstEngine } from "../store/reducers/aircraftReducer";
 
 export const checkFHFormat = (str = ''): boolean => {
     const num = parseInt(str.replace(/[^\d]/g, ''))
-    if (num.toString().length !== str.length-1) return false
+    if (num.toString().length !== str.length - 1) return false
     if (str[str.length - 3] !== ':') return false;
     if (str[str.length - 2] > '5') return false;
     if (str.length < 4) return false
     if (typeof +str[str.length - 4] !== "number") return false
     if (str.length > 9) return false;
+    return true
+}
+
+export const checkFCFormat = (str = ''): boolean => {
+    const num = parseInt(str.replace(/[^\d]/g, ''))
+    if (num.toString().length !== str.length) return false
+    if (num > 999999) return false
+    if (num < 0) return false
     return true
 }
 

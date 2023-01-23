@@ -79,7 +79,10 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
-                <DeleteMessage handleBack={() => setDelMess(false)} handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} />
+                <DeleteMessage handleBack={() => setDelMess(false)} 
+                handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} 
+                header='Would you like to delete this leg?' 
+                text='The leg will be permanently deleted' />
                 <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggle={editLegForm} />
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>

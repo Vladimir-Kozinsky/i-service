@@ -102,6 +102,15 @@ const aircraftSlice = createSlice({
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
         })
+        builder.addCase(deleteAircraft.fulfilled, (state, action) => {
+            state.addAicraftMessage = action.payload;
+            state.isSuccessMessage = true;
+            const aircraftIndex = state.aircrafts.findIndex((aircraft: IAircraft) => aircraft.msn === action.payload.msn);
+            if (aircraftIndex >= 0) state.aircrafts.splice(aircraftIndex, 1);
+        })
+        builder.addCase(deleteAircraft.rejected, (state, action) => {
+            state.addAicraftErrorMessage = action.payload as string;
+        })
         builder.addCase(getAircrafts.fulfilled, (state, action) => {
             state.aircrafts = action.payload;
         })
@@ -276,6 +285,18 @@ export const addAircraft = createAsyncThunk(
     async (aircraftData: IAircraftFormValues, thunkAPI) => {
         try {
             const response = await aircraftAPI.addAircraft(aircraftData);
+            return response.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.statusText)
+        }
+    }
+)
+
+export const deleteAircraft = createAsyncThunk(
+    'aircraft/deleteAircraft',
+    async (aircraftId: string, thunkAPI) => {
+        try {
+            const response = await aircraftAPI.deleteAircraft(aircraftId);
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.statusText)
