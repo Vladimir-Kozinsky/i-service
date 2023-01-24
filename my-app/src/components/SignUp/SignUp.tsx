@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSignUpErrorMessage, signUp } from '../../store/reducers/authReducer';
 import { AppDispatch } from '../../store/store';
 import {  useNavigate, Navigate } from "react-router-dom";
-import { compose } from 'redux';
-import withSuccessMessage from '../HOC/messageHoc';
 
 export interface ISignUpValues {
     email: string;
@@ -107,4 +105,4 @@ const SignUp = () => {
     )
 }
 
-export default compose(withSuccessMessage)(SignUp);
+export default SignUp;

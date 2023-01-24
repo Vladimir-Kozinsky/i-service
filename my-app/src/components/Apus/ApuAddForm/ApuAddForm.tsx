@@ -8,7 +8,6 @@ import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur
 import Select, { ActionMeta } from 'react-select'
 import s from "./ApuAddForm.module.scss"
 import Input from "../../../common/Input"
-import withSuccessMessage from "../../HOC/messageHoc"
 import { checkFHFormat } from "../../../utils/forms"
 import { IApu } from "../../../types/types"
 import { addApu } from "../../../store/reducers/apuReducer"
@@ -227,4 +226,4 @@ const ApuAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(ApuAddForm);
+export default compose(withContainerBlur)(ApuAddForm);

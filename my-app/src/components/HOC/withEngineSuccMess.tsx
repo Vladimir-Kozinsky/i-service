@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import SuccessMessage from "../../common/messages/SuccessMessage/SuccessMessage";
 
-const withAircraftSuccMess = (Component: any) => ({ ...props }) => {
-    const isSuccessMessage = useSelector((state: any) => state.aircraft.isSuccessMessage)
+const withEngineSuccMess = (Component: any) => ({ ...props }) => {
+    const isSuccessMessage = useSelector((state: any) => state.engine.isSuccessMessage)
     return (
         <>
             <Component {...props} />
@@ -11,4 +11,4 @@ const withAircraftSuccMess = (Component: any) => ({ ...props }) => {
     )
 }
 
-export default withAircraftSuccMess;
+export default withEngineSuccMess;

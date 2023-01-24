@@ -10,7 +10,6 @@ import { IAircraft, installApu } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
 import { IApu } from "../../../types/types";
 import { checkFHFormat } from "../../../utils/forms";
-import withSuccessMessage from "../../HOC/messageHoc";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./InstallApu.module.scss";
 
@@ -162,4 +161,4 @@ const InstallApu: React.FC<InstallApuProps> = ({ setPage, aircraft }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(InstallApu);
+export default compose(withContainerBlur)(InstallApu);

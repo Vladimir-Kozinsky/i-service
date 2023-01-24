@@ -10,12 +10,9 @@ import { useState } from "react";
 import AddLegForm from "./AddLegForm/AddLegForm";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import withSuccessMessage from "../HOC/messageHoc";
 import EditLegForm from "./EditLegForm/EditLegForm";
 import Print from "./Print/Print";
 import DeleteMessage from "../../common/messages/DeleteMessage/DeleteMessage";
-import { Transition } from "react-transition-group";
-import Loader from "../../common/Loader/Loader";
 
 type ILegsProps = {
     aircraft: IAircraft;
@@ -192,4 +189,4 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(Legs); 
+export default compose(withContainerBlur)(Legs); 

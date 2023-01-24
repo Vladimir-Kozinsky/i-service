@@ -1,5 +1,5 @@
 import { compose } from 'redux';
-import withSuccessMessage from '../../../components/HOC/messageHoc';
+import withAircraftSuccMess from '../../../components/HOC/withAircraftSuccMess';
 import { withContainerBlur } from '../../../components/HOC/withContainerBlur/withContainerBlur';
 import Button from '../../buttons/Button';
 import bin from './../../../assets/img/png/bin.png'
@@ -27,4 +27,4 @@ const DeleteMessage = ({ handleSubmit, handleBack, header, text }: DeleteMessage
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(DeleteMessage);
+export default compose(withAircraftSuccMess, withContainerBlur)(DeleteMessage);

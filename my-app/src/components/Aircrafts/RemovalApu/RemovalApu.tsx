@@ -6,7 +6,6 @@ import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
 import { IAircraft, removeApu } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
-import withSuccessMessage from "../../HOC/messageHoc";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./RemovalApu.module.scss";
 
@@ -71,4 +70,4 @@ const RemovalApu: React.FC<RemovalApuProps> = ({ setPage, aircraft }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(RemovalApu);
+export default compose(withContainerBlur)(RemovalApu);

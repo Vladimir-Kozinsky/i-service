@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
-import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFCFormat, checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';

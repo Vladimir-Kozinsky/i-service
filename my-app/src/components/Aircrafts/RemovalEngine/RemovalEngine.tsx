@@ -7,7 +7,6 @@ import Button from "../../../common/buttons/Button";
 import Input from "../../../common/Input";
 import { IAircraft, IInstEngine, removeEngine } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
-import withSuccessMessage from "../../HOC/messageHoc";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./RemovalEngine.module.scss";
 
@@ -114,4 +113,4 @@ const RemovalEngine: React.FC<RemovalEngineProps> = ({ setPage, aircraft }) => {
     )
 }
 
-export default compose(withContainerBlur, withSuccessMessage)(RemovalEngine);
+export default compose(withContainerBlur)(RemovalEngine);

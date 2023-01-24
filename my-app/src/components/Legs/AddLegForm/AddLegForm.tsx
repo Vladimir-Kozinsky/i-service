@@ -7,6 +7,7 @@ import s from "./AddLegForm.module.scss"
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { addLeg } from "../../../store/reducers/aircraftReducer";
+import withAircraftSuccMess from "../../HOC/withAircraftSuccMess";
 
 interface ILeg {
     depDate: string;
@@ -269,4 +270,4 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
     )
 }
 
-export default compose(withContainerBlur)(AddLegForm);
+export default compose(withContainerBlur, withAircraftSuccMess)(AddLegForm);

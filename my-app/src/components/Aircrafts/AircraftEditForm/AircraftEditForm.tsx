@@ -3,15 +3,15 @@ import Button from '../../../common/buttons/Button';
 import { useState } from 'react'
 import { ActionMeta } from 'react-select'
 import s from './AircraftEditForm.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { IAircraft, updateAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
-import withSuccessMessage from '../../HOC/messageHoc';
 import { withContainerBlur } from '../../HOC/withContainerBlur/withContainerBlur';
 import { checkFCFormat, checkFHFormat } from '../../../utils/forms';
 import Input from '../../../common/inputs/Input';
 import FormSelect from '../../../common/Select/Select';
+import SuccessMessage from '../../../common/messages/SuccessMessage/SuccessMessage';
 import withAircraftSuccMess from '../../HOC/withAircraftSuccMess';
 
 export interface IAircraftFormValues {
@@ -57,7 +57,7 @@ interface IEditFormProps {
 const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(aircraft.type);
-
+    const isSuccessMessage = useSelector((state: any) => state.aircraft.isSuccessMessage)
 
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) {
@@ -84,6 +84,7 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
     }
     return (
         <div className={s.aircraftForm}>
+            {/* <SuccessMessage  toggle={isSuccessMessage} /> */}
             <h3 className={s.aircraftForm__header}>Edit an Aircraft</h3>
             <Formik
                 initialValues={{
