@@ -11,6 +11,8 @@ import AircraftForm from './AircraftForm/AircraftForm';
 import { Transition } from 'react-transition-group';
 import Loader from '../../common/Loader/Loader';
 import Header from '../Header/Header';
+import { compose } from 'redux';
+import withAircraftSuccMess from '../HOC/withAircraftSuccMess';
 
 export interface IAircraftFile {
     show: boolean;
@@ -65,4 +67,4 @@ const Aircrafts = () => {
     )
 }
 
-export default Aircrafts;
+export default compose(withAircraftSuccMess)(Aircrafts);

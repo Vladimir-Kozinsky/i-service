@@ -305,4 +305,4 @@ const AircraftEditForm = ({ aircraft, showArcraftEditForm }: IEditFormProps) => 
     )
 }
 
-export default compose(withContainerBlur, withAircraftSuccMess)(AircraftEditForm);
+export default compose(withContainerBlur)(AircraftEditForm);

@@ -1,5 +1,4 @@
 import { compose } from 'redux';
-import withAircraftSuccMess from '../../../components/HOC/withAircraftSuccMess';
 import { withContainerBlur } from '../../../components/HOC/withContainerBlur/withContainerBlur';
 import Button from '../../buttons/Button';
 import bin from './../../../assets/img/png/bin.png'
@@ -10,7 +9,6 @@ type DeleteMessageProps = {
     handleSubmit: (legId: string) => void;
     header: string;
     text: string;
-
 }
 
 const DeleteMessage = ({ handleSubmit, handleBack, header, text }: DeleteMessageProps) => {
@@ -27,4 +25,4 @@ const DeleteMessage = ({ handleSubmit, handleBack, header, text }: DeleteMessage
     )
 }
 
-export default compose(withAircraftSuccMess, withContainerBlur)(DeleteMessage);
+export default compose(withContainerBlur)(DeleteMessage);

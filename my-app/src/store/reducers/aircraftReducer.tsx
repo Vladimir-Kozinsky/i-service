@@ -104,7 +104,7 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(deleteAircraft.fulfilled, (state, action) => {
             // state.addAicraftMessage = action.payload;
-            // state.isSuccessMessage = true;
+            state.isSuccessMessage = true;
             const aircraftIndex = state.aircrafts.findIndex((aircraft: IAircraft) => aircraft.msn === action.payload.msn);
             if (aircraftIndex >= 0) {
                 state.aircrafts.splice(aircraftIndex, 1);
