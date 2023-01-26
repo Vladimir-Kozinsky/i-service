@@ -1,9 +1,9 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import Button from '../../../common/buttons/Button';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActionMeta } from 'react-select'
 import s from './AircraftForm.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { addAircraft } from '../../../store/reducers/aircraftReducer';
 import { compose } from 'redux';
@@ -54,6 +54,7 @@ interface IAddFormProps {
 const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
+    const isSuccessMessage = useSelector((state: any) => state.aircraft.isSuccessMessage)
     const onChange = (option: IOption | null, actionMeta: ActionMeta<IOption>) => {
         if (option?.value) setSelectedOption(option.value)
     }
@@ -76,6 +77,11 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
             zIndex: 30
         })
     }
+
+    useEffect(() => {
+        if (isSuccessMessage) setAddForm(false);
+    }, [isSuccessMessage])
+
     return (
         <div className={s.aircraftForm}>
             <h3 className={s.aircraftForm__header}>Add an Aircraft</h3>
