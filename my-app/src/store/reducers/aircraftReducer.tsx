@@ -62,6 +62,7 @@ export interface IAircraftState {
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
     isSuccessMessage: boolean;
+    isErrorMessage: boolean;
     errorMessage: string;
 }
 
@@ -71,6 +72,7 @@ const initialState = {
     addAicraftMessage: '',
     addAicraftErrorMessage: '',
     isSuccessMessage: false,
+    isErrorMessage: false,
     legsTotalPages: 1,
     legsCurrentPage: 1,
     errorMessage: ''
@@ -82,6 +84,9 @@ const aircraftSlice = createSlice({
     reducers: {
         hideSuccessMessage(state) {
             state.isSuccessMessage = false;
+        },
+        hideErrorMessage(state) {
+            state.isErrorMessage = false;
         },
         setChoosedAircraft(state, action) {
             state.choosedAircraft = action.payload
@@ -101,6 +106,7 @@ const aircraftSlice = createSlice({
         })
         builder.addCase(addAircraft.rejected, (state, action) => {
             state.addAicraftErrorMessage = action.payload as string;
+            state.isErrorMessage = true;
         })
         builder.addCase(deleteAircraft.fulfilled, (state, action) => {
             // state.addAicraftMessage = action.payload;
@@ -317,6 +323,7 @@ export const getAircrafts = createAsyncThunk(
         }
     }
 )
+
 export const updateAircraft = createAsyncThunk(
     'aircraft/updateAircraft',
     async (aircraftData: any) => {
@@ -352,6 +359,7 @@ export const addLeg = createAsyncThunk(
         }
     }
 )
+
 export const delLeg = createAsyncThunk(
     'aircraft/delLeg',
     async ({ msn, legId }: any) => {
@@ -363,6 +371,7 @@ export const delLeg = createAsyncThunk(
         }
     }
 )
+
 export const editLeg = createAsyncThunk(
     'aircraft/editLeg',
     async ({ msn, legId, updatedLeg }: any) => {
@@ -391,7 +400,6 @@ export const removeEngine = createAsyncThunk(
     }
 )
 
-
 export const installApu = createAsyncThunk(
     'aircraft/installApu',
     async (instData: ApuInstallValues) => {
@@ -408,5 +416,5 @@ export const removeApu = createAsyncThunk(
     }
 )
 
-export const { hideSuccessMessage, setChoosedAircraft, setLegsTotalPages, setLegsCurrentPage } = aircraftSlice.actions
+export const { hideSuccessMessage, hideErrorMessage, setChoosedAircraft, setLegsTotalPages, setLegsCurrentPage } = aircraftSlice.actions
 export default aircraftSlice.reducer;

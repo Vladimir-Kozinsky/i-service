@@ -14,6 +14,7 @@ import Header from '../Header/Header';
 import { compose } from 'redux';
 import withAircraftSuccMess from '../HOC/withAircraftSuccMess';
 import AddAircraftWidget from './AircraftWidget/AddAircraftWidget';
+import withAircraftErrorMess from '../HOC/withAircraftErrorMess';
 
 
 
@@ -71,4 +72,4 @@ const Aircrafts = () => {
     )
 }
 
-export default compose(withAircraftSuccMess)(Aircrafts);
+export default compose(withAircraftSuccMess, withAircraftErrorMess)(Aircrafts);
