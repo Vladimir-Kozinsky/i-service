@@ -13,7 +13,7 @@ import { setEngine } from '../../../utils/forms';
 import DeleteMessage from '../../../common/messages/DeleteMessage/DeleteMessage';
 import { useRef } from 'react';
 import { Transition, TransitionStatus } from 'react-transition-group';
-
+import classNames from 'classnames';
 
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
@@ -47,17 +47,18 @@ const transitionStyles: transitionStylesType = {
 const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircraftWidget) => {
     const dispatch = useDispatch<AppDispatch>();
     const choosedAircraft = useSelector((state: any) => state.aircraft.choosedAircraft);
+    const nodeRef = useRef(null);
+    const [arcraftEditForm, setArcraftEditForm] = useState(false);
+    const [arcraftFile, setArcraftFile] = useState(false);
+    const [delMess, setDelMess] = useState(false);
+    const [menu, setMenu] = useState(false);
+
     const cutData = (str: string | undefined | null) => {
         if (!str) return 'N/A'
         if (str.length <= 5) return str;
         const cutStr = str.slice(str.length - 3, str.length)
         return `...${cutStr}`;
     }
-
-
-    const [arcraftEditForm, setArcraftEditForm] = useState(false);
-    const [arcraftFile, setArcraftFile] = useState(false);
-    const [delMess, setDelMess] = useState(false);
 
     const delAircraft = (aircraftId: string | undefined) => {
         if (aircraftId) dispatch(deleteAircraft(aircraftId))
@@ -76,7 +77,13 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
         }
     }
 
-    const nodeRef = useRef(null);
+    const menuHandler = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation()
+        menu ? setMenu(false) : setMenu(true)
+        setTimeout(() => {
+           setMenu(false)
+        }, 5000);
+    }
 
     return (
         <>
@@ -99,10 +106,28 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
                             ...defaultStyle,
                             ...transitionStyles[state]
                         }} >
-                        <div className={s.widget__btns} >
-                            <button className={s.widget__btns__set} onClick={showArcraftEditForm} />
-                            <button className={s.widget__btns__del} onClick={() => setDelMess(true)} />
-                        </div>
+                        <button className={s.widget__menu} onClick={menuHandler}>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                        <Transition
+                            nodeRef={nodeRef}
+                            in={menu}
+                            timeout={500}
+                            unmountOnExit>
+                            {(state: TransitionStatus) => (
+                                <div className={classNames(s.widget__btns)}
+                                    ref={nodeRef}
+                                    style={{
+                                        ...transitionStyles[state]
+                                    }}>
+                                    <button className={s.widget__btns__set} onClick={showArcraftEditForm} />
+                                    <button className={s.widget__btns__del} onClick={() => setDelMess(true)} />
+                                </div>
+                            )}
+                        </Transition>
+
                         <img className={s.widget__plane__img} src={plane} alt="plane-icon" />
                         <div className={s.widget__data}>
                             <h3 className={s.widget__data__value}>{`Type: ${aircraft?.type}`}</h3>
@@ -142,7 +167,6 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
                 )}
             </Transition>
         </>
-
     )
 }
 
