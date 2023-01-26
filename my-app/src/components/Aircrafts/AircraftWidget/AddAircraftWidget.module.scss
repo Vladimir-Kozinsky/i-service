@@ -1,0 +1,22 @@
+.widget {
+    position: relative;
+    width: 290px;
+    height: 200px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    transition: all 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(255, 255, 255, 0.3);
+    }
+
+    .widget__cross__img {
+        margin-top: 45px;
+        margin-left: 95px;
+        width: 100px;
+        height: 100px;
+    }
+}

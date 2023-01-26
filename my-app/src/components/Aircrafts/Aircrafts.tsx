@@ -4,15 +4,18 @@ import { AppDispatch } from '../../store/store';
 import AircraftWidget from './AircraftWidget/AircraftWidget';
 import { getAircrafts, IAircraft } from '../../store/reducers/aircraftReducer';
 import { useEffect, useState } from 'react';
-import cross from './../../assets/img/png/cross.png'
+
 import Button from '../../common/buttons/Button';
 import { useNavigate } from 'react-router-dom';
 import AircraftForm from './AircraftForm/AircraftForm';
-import { Transition } from 'react-transition-group';
+import { Transition, TransitionStatus } from 'react-transition-group';
 import Loader from '../../common/Loader/Loader';
 import Header from '../Header/Header';
 import { compose } from 'redux';
 import withAircraftSuccMess from '../HOC/withAircraftSuccMess';
+import AddAircraftWidget from './AircraftWidget/AddAircraftWidget';
+
+
 
 export interface IAircraftFile {
     show: boolean;
@@ -25,21 +28,26 @@ const Aircrafts = () => {
     const aircrafts = useSelector((state: any) => state.aircraft.aircrafts);
     const [aircraftFile, setAircraftFile] = useState<IAircraftFile>({ show: false, msn: '' })
     const [addForm, setAddForm] = useState<boolean>(false)
-    const [isLoader, setIsLoader] = useState(false);
+    const [isLoader, setIsLoader] = useState(true);
 
     useEffect(() => {
         (async () => {
-            await setIsLoader(true)
             await dispatch(getAircrafts())
-            await setIsLoader(false)
+            setIsLoader(false)
         })()
     }, [])
+
+
 
     const aircraftsWidgets = () => {
         if (!aircrafts) return
         return aircrafts.map((aircraft: IAircraft) => {
             return (
-                <AircraftWidget key={aircraft._id} aircraft={aircraft} onClick={setAircraftFile} setIsLoader={setIsLoader} />
+                <AircraftWidget key={aircraft._id}
+                    aircraft={aircraft}
+                    onClick={setAircraftFile}
+                    setIsLoader={setIsLoader}
+                    isLoader={isLoader} />
             )
         })
     }
@@ -53,11 +61,7 @@ const Aircrafts = () => {
             <div className={s.aircrafts}>
                 {aircraftsWidgets()}
                 <AircraftForm setAddForm={setAddForm} toggle={addForm} />
-                <div className={s.widget} onClick={() => setAddForm(true)} >
-                    <div className={s.widget__btns} >
-                    </div>
-                    <img className={s.widget__cross__img} src={cross} alt="plane-icon" />
-                </div>
+                <AddAircraftWidget setAddForm={setAddForm} isLoader={isLoader} />
             </div>
             <div className={s.aircrafts__buttons} >
                 <Button text='Back' color='white__dark' btnType='button' handler={() => navigate("/dashboard")} />
