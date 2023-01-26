@@ -13,7 +13,7 @@ import { setEngine } from '../../../utils/forms';
 import DeleteMessage from '../../../common/messages/DeleteMessage/DeleteMessage';
 import { useRef } from 'react';
 import { Transition, TransitionStatus } from 'react-transition-group';
-import classNames from 'classnames';
+import WidgetMenu from '../../../common/WidgetMenu/WidgetMenu';
 
 type propsAircraftWidget = {
     onClick?: ({ show, msn }: IAircraftFile) => void
@@ -51,7 +51,6 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
     const [arcraftEditForm, setArcraftEditForm] = useState(false);
     const [arcraftFile, setArcraftFile] = useState(false);
     const [delMess, setDelMess] = useState(false);
-    const [menu, setMenu] = useState(false);
 
     const cutData = (str: string | undefined | null) => {
         if (!str) return 'N/A'
@@ -77,14 +76,6 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
         }
     }
 
-    const menuHandler = (event: React.MouseEvent<HTMLElement>) => {
-        event.stopPropagation()
-        menu ? setMenu(false) : setMenu(true)
-        setTimeout(() => {
-           setMenu(false)
-        }, 5000);
-    }
-
     return (
         <>
             <DeleteMessage
@@ -106,27 +97,7 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
                             ...defaultStyle,
                             ...transitionStyles[state]
                         }} >
-                        <button className={s.widget__menu} onClick={menuHandler}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <Transition
-                            nodeRef={nodeRef}
-                            in={menu}
-                            timeout={500}
-                            unmountOnExit>
-                            {(state: TransitionStatus) => (
-                                <div className={classNames(s.widget__btns)}
-                                    ref={nodeRef}
-                                    style={{
-                                        ...transitionStyles[state]
-                                    }}>
-                                    <button className={s.widget__btns__set} onClick={showArcraftEditForm} />
-                                    <button className={s.widget__btns__del} onClick={() => setDelMess(true)} />
-                                </div>
-                            )}
-                        </Transition>
+                        <WidgetMenu showEditForm={showArcraftEditForm} setDelMess={setDelMess} />
 
                         <img className={s.widget__plane__img} src={plane} alt="plane-icon" />
                         <div className={s.widget__data}>
