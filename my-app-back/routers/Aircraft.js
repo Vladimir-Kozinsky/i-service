@@ -68,7 +68,6 @@ router.post('/aircraft/edit', async (req, res) => {
             tbo: data.tbo,
             cbo: data.cbo,
         });
-        console.log(update)
         if (!update.modifiedCount) throw new Error("An aircraft has not been updated");
         const aircraft = await Aircraft.findOne({ _id: data._id }).exec();
         if (data.initFh !== aircraft.initFh || data.initFc !== aircraft.initFc) {
@@ -77,7 +76,7 @@ router.post('/aircraft/edit', async (req, res) => {
             const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
             if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
         }
-        const aircraftUpdated = await Aircraft.findOne({ id: data._id }).exec();
+        const aircraftUpdated = await Aircraft.findOne({ _id: data._id }).exec();
         res.statusMessage = "Aircraft successfully updated";
         res.json(aircraftUpdated);
     } catch (error) {
