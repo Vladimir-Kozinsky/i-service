@@ -1,3 +1,7 @@
+button::-moz-focus-inner {
+    border: none;
+}
+
 .widget__menu {
     position: absolute;
     top: 3px;
@@ -16,6 +20,7 @@
             background-color: rgb(255, 255, 255, 0.6);
         }
     }
+
     span {
         width: 8px;
         height: 8px;
@@ -29,7 +34,7 @@
     position: absolute;
     left: 1px;
     top: 18px;
-    
+
     .widget__btns__set {
         top: 7px;
         left: 290px;
