@@ -1,11 +1,12 @@
-import { Form, Formik, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Select, { ActionMeta, SingleValue } from "react-select";
+import { ActionMeta, SingleValue } from "react-select";
 import { compose } from "redux";
 import engineAPI from "../../../API/engineAPI";
 import Button from "../../../common/buttons/Button";
-import Input from "../../../common/Input";
+import Input from "../../../common/inputs/Input";
+import FormSelect from "../../../common/Select/Select";
 import { IAircraft, installEngine } from "../../../store/reducers/aircraftReducer";
 import { AppDispatch } from "../../../store/store";
 import { IEngine } from "../../../types/types";
@@ -21,7 +22,7 @@ type InstallEngineProps = {
 export type FormValues = {
     ACmsn: string;
     Emsn: string;
-    position: number;
+    position: string;
     installDate: string;
     aircraftTsn: string;
     aircraftCsn: string;
@@ -30,7 +31,7 @@ export type FormValues = {
 }
 
 interface IOption {
-    value: number | null;
+    value: string | null;
     label: string | null;
 }
 
@@ -40,27 +41,24 @@ interface IEngOption {
 }
 
 const options: IOption[] = [
-    { value: 1, label: 'Pos. 1' },
-    { value: 2, label: 'Pos. 2' },
-    { value: 3, label: 'Pos. 3' },
-    { value: 4, label: 'Pos. 4' }
+    { value: '1', label: 'Pos. 1' },
+    { value: '2', label: 'Pos. 2' },
+    { value: '3', label: 'Pos. 3' },
+    { value: '4', label: 'Pos. 4' }
 ]
 
 const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [selectedOption, setSelectedOption] = useState<number | null>(null);
+    const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [selectedEngOption, setSelectedEngOption] = useState<string | null>(null);
     const [engines, setEngines] = useState<any>([]);
 
-    const onChange = (newValue: SingleValue<IOption>, actionMeta: ActionMeta<IOption>) => {
-        if (newValue?.value) {
-            setSelectedOption(newValue.value);
-        }
+    const onChange = (newValue: SingleValue<IOption | null>, actionMeta: ActionMeta<IOption>) => {
+        if (newValue?.value) setSelectedOption(newValue.value);
     }
     const onChangeEng = (newValue: SingleValue<IEngOption>, actionMeta: ActionMeta<IEngOption>) => {
-        if (newValue?.value) {
-            setSelectedEngOption(newValue.value);
-        }
+        if (newValue?.value) setSelectedEngOption(newValue.value);
+        console.log(newValue?.value)
     }
 
     const customStyles = {
@@ -102,7 +100,7 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                     ACmsn: '',
                     Emsn: '',
                     //Installation
-                    position: 0,
+                    position: '0',
                     installDate: '',
                     aircraftTsn: '',
                     aircraftCsn: '',
@@ -121,8 +119,8 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                         engCsn?: string | null;
                     }
                     const errors: IErrors = {};
-                    if (!selectedEngOption) errors.Emsn = 'Engine is required';
-                    if (!selectedOption) errors.position = 'Engine Position is required';
+                    if (!selectedOption || selectedOption === 'error') errors.position = 'Type is required';
+                    if (!selectedEngOption || selectedEngOption === 'error') errors.Emsn = 'Engine is required';
                     if (!values.installDate) errors.installDate = 'Engine Installation Date is required';
                     if (!values.aircraftTsn) errors.aircraftTsn = 'Aircraft TSN is required';
                     if (!checkFHFormat(values.aircraftTsn)) errors.aircraftTsn = 'Invalid format, the format should be like "123456:22"';
@@ -130,6 +128,7 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                     if (!values.engTsn) errors.engTsn = 'Engine TSN is required';
                     if (!checkFHFormat(values.engTsn)) errors.engTsn = 'Invalid format, the format should be like "123456:22"';
                     if (!values.engCsn) errors.engCsn = 'Engine CSN is required';
+                    console.log(errors)
                     return errors;
                 }}
                 onSubmit={(
@@ -139,41 +138,59 @@ const InstallEngine: React.FC<InstallEngineProps> = ({ setPage, aircraft }) => {
                     values.ACmsn = aircraft.msn;
                     if (selectedOption) values.position = selectedOption
                     if (selectedEngOption) values.Emsn = selectedEngOption
+                    console.log(values)
                     dispatch(installEngine(values));
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, values, touched, handleChange }) => (
                     <Form className={s.installEngine__form}>
                         <div className={s.installEngine__form__wrap}>
                             <div className={s.installEngine__form__link}>
                                 <label>Position:<span>*</span></label>
-                                <Select options={options} onChange={onChange} styles={customStyles} />
+                                <Field id='position' name='position' type='select' value={values.position}
+                                    setSelectedOption={setSelectedOption} onChange={onChange} as={FormSelect}
+                                    placeholder='Position' error={selectedOption} options={options}
+                                    customStyles={customStyles} errorMessage={'Engine position is required'} />
                             </div>
                             <div className={s.installEngine__form__link}>
                                 <label>Engine:<span>*</span></label>
-                                <Select options={engines} onChange={onChangeEng} styles={customStyles} />
+                                <Field id='Emsn' name='Emsn' type='select' value={values.position}
+                                    setSelectedOption={setSelectedEngOption} onChange={onChangeEng} as={FormSelect}
+                                    placeholder='Msn' error={selectedEngOption} options={engines}
+                                    customStyles={customStyles} errorMessage={'Engine is required'} />
                             </div>
 
-                            <div className={s.installEngine__form__link}>
-                                <label>Installation Date <span>*</span></label>
-                                <Input type="date" id="installDate" name="installDate" placeholder="Enter installation Date" />
-                            </div>
-                            <div className={s.installEngine__form__link}>
-                                <label>Aircraft TSN <span>*</span></label>
-                                <Input type="text" id="aircraftTsn" name="aircraftTsn" placeholder="Enter Aircrfat TSN" />
-                            </div>
-                            <div className={s.installEngine__form__link}>
-                                <label>Aircraft CSN <span>*</span></label>
-                                <Input type="text" id="aircraftCsn" name="aircraftCsn" placeholder="Enter Aircrfat CSN" />
-                            </div>
-                            <div className={s.installEngine__form__link}>
-                                <label>Engine TSN <span>*</span></label>
-                                <Input type="text" id="engTsn" name="engTsn" placeholder="Enter Engine TSN" />
-                            </div>
-                            <div className={s.installEngine__form__link}>
-                                <label>Engine CSN <span>*</span></label>
-                                <Input type="text" id="engCsn" name="engCsn" placeholder="Enter Engine CSN" />
-                            </div>
+                            {[
+                                {
+                                    label: "Installation Date", type: "date", id: "installDate", name: "installDate",
+                                    value: values.installDate, error: errors.installDate, placeholder: "Enter installation Date"
+                                },
+                                {
+                                    label: "Aircraft TSN", type: "text", id: "aircraftTsn", name: "aircraftTsn",
+                                    value: values.aircraftTsn, error: errors.aircraftTsn, placeholder: "Enter Aircrfat TSN"
+                                },
+                                {
+                                    label: "Aircraft CSN", type: "text", id: "aircraftCsn", name: "aircraftCsn",
+                                    value: values.aircraftCsn, error: errors.aircraftCsn, placeholder: "Enter Aircrfat CSN"
+                                },
+                                {
+                                    label: "Engine TSN", type: "text", id: "engTsn", name: "engTsn",
+                                    value: values.engTsn, error: errors.engTsn, placeholder: "Enter Engine TSN"
+                                },
+                                {
+                                    label: "Engine CSN", type: "text", id: "engCsn", name: "engCsn",
+                                    value: values.engCsn, error: errors.engCsn, placeholder: "Enter Engine CSN"
+                                },
+                            ].map((field: any) => {
+                                return (
+                                    <div key={field.label} className={s.installEngine__form__link}>
+                                        <label>{field.label}<span>*</span></label>
+                                        <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={handleChange} as={Input}
+                                            disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                         <div className={s.buttons} >
                             <Button text="Back" btnType="button" color="white" handler={() => setPage(false)} />
