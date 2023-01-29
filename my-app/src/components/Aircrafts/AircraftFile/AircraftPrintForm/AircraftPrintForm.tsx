@@ -56,17 +56,17 @@ const ComponentToPrint = React.forwardRef(({ aircraft }: ComponentToPrintProps, 
                 const eng: IEngine = await response.data;
                 if (!eng) throw new Error("Reques failed");
                 switch (eng.position) {
-                    case 1:
+                    case '1':
                         setEng1(eng)
 
                         break;
-                    case 2:
+                    case '2':
                         setEng2(eng)
                         break;
-                    case 3:
+                    case '3':
                         setEng3(eng)
                         break;
-                    case 4:
+                    case '4':
                         setEng4(eng)
                         break;
                     default:

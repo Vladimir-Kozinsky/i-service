@@ -63,7 +63,7 @@ const EngineAddForm: React.FC<EngineAddFormProps> = ({ setEngAddForm }) => {
                     csn: '',
                     //Installation
                     onAircraft: '',
-                    position: 0,
+                    position: '0',
                     installDate: '',
                     aircraftTsn: '',
                     aircraftCsn: '',

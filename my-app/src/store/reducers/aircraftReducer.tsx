@@ -11,7 +11,7 @@ import { IApu } from "../../types/types";
 
 export interface IInstEngine {
     _id: string;
-    pos: number;
+    pos: string;
     msn: string;
 }
 

@@ -106,7 +106,7 @@ export const subtractDatesFromTo = (from: string | null | undefined, to: string 
     return '';
 }
 
-export const setEngine = (pos: number, engines: IInstEngine[]): string | undefined => {
+export const setEngine = (pos: string, engines: IInstEngine[]): string | undefined => {
     if (pos && engines.length > 0) {
         const eng = engines.find(e => e.pos === pos);
         if (eng) return eng.msn.toString();

@@ -108,12 +108,12 @@ const AircraftFile = ({ aircraft, setArcraftFile, setIsLoader }: IAircraftFilePr
                         <h2 className={s.main__header}>Engines</h2>
                         <div className={s.aircraftInfo__section}>
                             <div className={s.aircraftInfo__section__block}>
-                                <DataBlock title="ENG1" value={setEngine(1, aircraftData.engines)} />
-                                <DataBlock title="ENG2" value={setEngine(2, aircraftData.engines)} />
+                                <DataBlock title="ENG1" value={setEngine('1', aircraftData.engines)} />
+                                <DataBlock title="ENG2" value={setEngine('2', aircraftData.engines)} />
                             </div>
                             <div className={s.aircraftInfo__section__block}>
-                                <DataBlock title="ENG3" value={setEngine(3, aircraftData.engines)} />
-                                <DataBlock title="ENG4" value={setEngine(4, aircraftData.engines)} />
+                                <DataBlock title="ENG3" value={setEngine('3', aircraftData.engines)} />
+                                <DataBlock title="ENG4" value={setEngine('4', aircraftData.engines)} />
                             </div>
                             <div className={s.aircraftInfo__section__block}>
                                 <DataBlock title="APU" value={aircraftData.apu?.msn} />
