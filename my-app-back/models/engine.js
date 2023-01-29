@@ -9,7 +9,7 @@ const engineSchema = new mongoose.Schema({
     csn: { type: String, required: true },
 
     onAircraft: { type: String },
-    position: { type: Number },
+    position: { type: String },
     installDate: { type: String },
     aircraftTsn: { type: String },
     aircraftCsn: { type: String },

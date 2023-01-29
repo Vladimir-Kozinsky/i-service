@@ -121,8 +121,10 @@ EngineRouter.post('/engine/install', async (req, res) => {
         if (!updateAircraft.modifiedCount) throw new Error("An aircraft has not been updated with new engine");
         const updatedAircraft = await Aircraft.findOne({ msn: ACmsn });
         if (updatedAircraft) {
+            console.log(updatedAircraft)
             const addedEngine = updatedAircraft.engines.find((eng) => eng.msn === Emsn && eng.pos === position);
-            if (!addedEngine) throw new Error("An aircraft has not been updated with new engine");
+           console.log(addedEngine)
+            if (!addedEngine) throw new Error("An Engine has not been updated with new position");
             res.statusMessage = "Engine successfully installed";
             res.json(addedEngine);
         }
@@ -164,8 +166,5 @@ EngineRouter.post('/engine/remove', async (req, res) => {
         res.json({ message: error.message })
     }
 })
-
-
-
 
 export default EngineRouter;

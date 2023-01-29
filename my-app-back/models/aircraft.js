@@ -21,7 +21,7 @@ const aircraftSchema = new mongoose.Schema({
     cbo: { type: String, required: true },
     engines: [
         {
-            pos: { type: Number },
+            pos: { type: String },
             msn: { type: String }
         }
     ],
