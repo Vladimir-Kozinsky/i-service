@@ -172,8 +172,10 @@ const AircraftForm: React.FC<IAddFormProps> = ({ setAddForm }) => {
                                 <h3 className={s.addAircraftForm__wrap__header}>General</h3>
                                 <div className={s.aircraft__form__link}>
                                     <label >Type <span>*</span></label>
-                                    <Field id='type' name='type' type='select' value={values.type} setSelectedOption={setSelectedOption} onChange={onChange} as={FormSelect}
-                                        placeholder='type' error={selectedOption} options={options} customStyles={customStyles} />
+                                    <Field id='type' name='type' type='select' value={values.type}
+                                        setSelectedOption={setSelectedOption} onChange={onChange} as={FormSelect}
+                                        placeholder='type' error={selectedOption} options={options}
+                                        customStyles={customStyles} errorMessage={'Aircraft type is required'} />
                                 </div>
                                 {[
                                     {
