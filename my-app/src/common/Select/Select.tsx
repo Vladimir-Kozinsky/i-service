@@ -26,32 +26,33 @@ interface IOption {
 
 type SelectProps = {
     options: IOption[];
-    onChange: ()=> void;
+    onChange: () => void;
     customStyles: any;
     error: string | undefined;
     setSelectedOption: (selectedOption: null | string) => void
-    defaultValue: any
+    defaultValue: any;
+    errorMessage: string;
 }
 
-const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, error, setSelectedOption, defaultValue }) => {
+const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, error, setSelectedOption, defaultValue, errorMessage }) => {
     const nodeRef = useRef(null);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [errorMess, setErrorMess] = useState<string | null>(null);
     useEffect(() => {
-        if (error === 'error') setErrorMessage('Aircraft type is required')
+        if (error === 'error') setErrorMess(errorMessage)
     }, [error])
     return (
         <div className={s.formSelect}>
-            <Select onFocus={() => !error && setSelectedOption('error')} 
-            className={s.select} 
-            options={options} 
-            onChange={onChange} 
-            styles={customStyles}
-            defaultValue={defaultValue} />
+            <Select onFocus={() => !error && setSelectedOption('error')}
+                className={s.select}
+                options={options}
+                onChange={onChange}
+                styles={customStyles}
+                defaultValue={defaultValue} />
             <Transition
                 nodeRef={nodeRef}
                 in={error === 'error' ? true : false}
                 timeout={500}
-                onExited={() => setErrorMessage(null)}
+                onExited={() => setErrorMess(null)}
                 unmountOnExit >
                 {(state: TransitionStatus) => (
                     <div className={s.input__message} ref={nodeRef} style={{
@@ -59,7 +60,7 @@ const FormSelect: React.FC<SelectProps> = ({ options, onChange, customStyles, er
                     }} >
                         <div className={s.input__message__triangle}></div>
                         <div className={s.input__message__block}>
-                            <p>{errorMessage}</p>
+                            <p>{errorMess}</p>
                         </div>
                     </div >
                 )}
