@@ -1,13 +1,13 @@
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { compose } from "redux";
 import Button from "../../../common/buttons/Button";
-import Input from "../../../common/Input";
 import { withContainerBlur } from "../../HOC/withContainerBlur/withContainerBlur";
 import s from "./AddLegForm.module.scss"
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { addLeg } from "../../../store/reducers/aircraftReducer";
 import withAircraftSuccMess from "../../HOC/withAircraftSuccMess";
+import Input from "../../../common/inputs/Input";
 
 interface ILeg {
     depDate: string;
@@ -31,7 +31,7 @@ type AddLegFormProps = {
     fc: string;
 }
 
-const calcTime = (depDate: string, startTime: string, endTime: string) => {
+export const calcTime = (depDate: string, startTime: string, endTime: string) => {
     if (!depDate || !startTime || !endTime) return '00:00';
     const startYear = +depDate.split('-')[0];
     const startMonth = +depDate.split('-')[1];
@@ -53,8 +53,10 @@ const calcTime = (depDate: string, startTime: string, endTime: string) => {
 
     if (start > end) end.setUTCDate(endDate + 1);
     const totalTimemm = Math.abs((end - start) / 1000 / 60);
-    const hh = Math.floor(totalTimemm / 60);
-    const mm = totalTimemm % 60;
+    let hh = Math.floor(totalTimemm / 60).toString();
+    if (hh.length < 2) hh = `0${hh}`
+    let mm = (totalTimemm % 60).toString();
+    if (mm.length < 2) mm = `0${mm}`
     return `${hh}:${mm}`
 }
 
@@ -115,15 +117,16 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
                         blockTime?: string;
                     }
                     const errors: IErrors = {};
-
-                    if (!values.depDate) errors.depDate = 'Date is required';
+                    if (!values.depDate) errors.depDate = 'Depature date is required';
                     if (!values.flightNumber) errors.flightNumber = 'Reg No is required';
-                    if (!values.from) errors.from = 'FH is required';
-                    if (!values.to) errors.to = 'FC si required';
+                    if (!values.from) errors.from = 'Depature Airport is required';
+                    if (!values.to) errors.to = 'Arrive airport is required';
                     if (!values.blockOff) errors.blockOff = 'Serial number is required';
-                    if (!values.blockOn) errors.blockOn = 'Serial number is required';
-                    // if (!values.flightTime) errors.flightTime = 'Serial number is required';
-                    if (!values.blockTime) errors.blockTime = 'Serial number is required';
+                    if (!values.takeOff) errors.takeOff = 'Take Off time is required';
+                    if (!values.landing) errors.landing = 'Landing time is required';
+                    if (!values.blockOn) errors.blockOn = 'Block On time is required';
+                    if (!values.flightTime) errors.flightTime = 'Flight time is required';
+                    if (!values.blockTime) errors.blockTime = 'Block time is required';
                     return errors;
                 }}
                 onSubmit={async (
@@ -147,116 +150,80 @@ const AddLegForm = ({ setAddLegForm, msn, fh, fc }: AddLegFormProps) => {
                     dispatch(addLeg({ leg, msn }))
                 }}
             >
-                {({ errors, touched, setFieldValue, values, handleSubmit }) => (
+                {({ errors, touched, setFieldValue, values, handleChange, handleSubmit }) => (
                     <Form className={s.addLeg__form} onSubmit={handleSubmit}>
                         <div className={s.addLeg__form__wrap}>
-                            <div className={s.addLeg__form__link}>
-                                <label>Date <span>*</span></label>
-                                <Field
-                                    type="date"
-                                    id="depDate"
-                                    name="depDate"
-                                    placeholder="Enter Date"
-                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Flight No <span>*</span></label>
-                                <Input
-                                    type="text"
-                                    id="flightNumber"
-                                    name="flightNumber"
-                                    placeholder="Enter Flight No" />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Depature airport <span>*</span></label>
-                                <Input
-                                    type="text"
-                                    id="from"
-                                    name="from"
-                                    placeholder="Enter depature airport" />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Arrive airport <span>*</span></label>
-                                <Input
-                                    type="text"
-                                    id="to"
-                                    name="to"
-                                    placeholder="Enter arrive airport" />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Block Off <span>*</span></label>
-                                <Field
-                                    type="time"
-                                    id="blockOff"
-                                    name="blockOff"
-                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)}
-                                />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Take Off <span>*</span></label>
-                                <Field
-                                    type="time"
-                                    id="takeOff"
-                                    name="takeOff"
-                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Landing <span>*</span></label>
-                                <Field
-                                    type="time"
-                                    id="landing"
-                                    name="landing"
-                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)} />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Block On <span>*</span></label>
-                                <Field
-                                    type="time"
-                                    id="blockOn"
-                                    name="blockOn"
-                                    onChange={(e: any) => onChangeTime(e, setFieldValue, values)}
-                                />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Flight Time <span>*</span></label>
-                                <Input
-                                    type="text"
-                                    id="flightTime" name="flightTime"
-                                    placeholder='00:00'
-                                    value={values.flightTime}
-                                    disabled={true}
-                                />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>Block Time<span>*</span></label>
-                                <Field
-                                    type="text"
-                                    id="blockTime"
-                                    name="blockTime"
-                                    placeholder='00:00'
-                                    value={values.blockTime}
-                                    disabled={true}
-                                />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>FH<span>*</span></label>
-                                <Field
-                                    type="text"
-                                    id="fh"
-                                    name="fh"
-                                    placeholder={fh}
-                                    value={values.fh}
-                                />
-                            </div>
-                            <div className={s.addLeg__form__link}>
-                                <label>FC<span>*</span></label>
-                                <Input
-                                    type="text"
-                                    id="fc"
-                                    name="fc"
-                                    value={(+fc + 1).toString()}
-                                    placeholder={fc} />
-                            </div>
+                            {[
+                                {
+                                    label: "Date", type: "date", id: "depDate", name: "depDate",
+                                    value: values.depDate, error: errors.depDate,
+                                    placeholder: "Choose Depature Date", onchange: (e: any) => onChangeTime(e, setFieldValue, values)
+                                },
+                                {
+                                    label: "Flight No", type: "text", id: "flightNumber", name: "flightNumber",
+                                    value: values.flightNumber, error: errors.flightNumber,
+                                    placeholder: "Enter Flight No", onchange: handleChange
+                                },
+                                {
+                                    label: "Depature airport", type: "text", id: "from", name: "from",
+                                    value: values.from, error: errors.from,
+                                    placeholder: "Enter depature airport", onchange: handleChange
+                                },
+                                {
+                                    label: "Arrive airport", type: "text", id: "to", name: "to",
+                                    value: values.to, error: errors.to,
+                                    placeholder: "Enter arrive airport", onchange: handleChange
+                                },
+                                {
+                                    label: "Block Off", type: "time", id: "blockOff", name: "blockOff",
+                                    value: values.blockOff, error: errors.blockOff,
+                                    placeholder: "Enter Block Off", onchange: (e: any) => onChangeTime(e, setFieldValue, values)
+                                },
+                                {
+                                    label: "Take Off", type: "time", id: "takeOff", name: "takeOff",
+                                    value: values.takeOff, error: errors.takeOff,
+                                    placeholder: "Enter Take Off", onchange: (e: any) => onChangeTime(e, setFieldValue, values)
+                                },
+                                {
+                                    label: "Landing", type: "time", id: "landing", name: "landing",
+                                    value: values.landing, error: errors.landing,
+                                    placeholder: "Enter Landing", onchange: (e: any) => onChangeTime(e, setFieldValue, values)
+                                },
+                                {
+                                    label: "Block On", type: "time", id: "blockOn", name: "blockOn",
+                                    value: values.blockOn, error: errors.blockOn,
+                                    placeholder: "Enter blockOn", onchange: (e: any) => onChangeTime(e, setFieldValue, values)
+                                },
+                                {
+                                    label: "Flight Time", type: "text", id: "flightTime", name: "flightTime",
+                                    value: values.flightTime, error: errors.flightTime,
+                                    placeholder: "00:00", disabled: true
+                                },
+                                {
+                                    label: "Block Time", type: "text", id: "blockTime", name: "blockTime",
+                                    value: values.blockTime, error: errors.blockTime,
+                                    placeholder: "00:00", disabled: true
+                                },
+                                {
+                                    label: "FH", type: "text", id: "fh", name: "fh",
+                                    value: values.fh, error: errors.fh,
+                                    placeholder: fh, disabled: true
+                                },
+                                {
+                                    label: "FC", type: "text", id: "fc", name: "fc",
+                                    value: (+fc + 1).toString(), error: errors.fc,
+                                    placeholder: fc, disabled: true
+                                },
+                            ].map((field: any) => {
+                                return (
+                                    <div key={field.label} className={s.addLeg__form__link}>
+                                        <label>{field.label}<span>*</span></label>
+                                        <Field type={field.type} id={field.id} name={field.name} value={field.value} onChange={field.onchange} as={Input}
+                                            disabled={field.disabled} placeholder={field.placeholder} error={field.error} min="0" />
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                         <div className={s.addLeg__btns} >
                             <Button text="Cancel" color="white" btnType="button" handler={() => setAddLegForm(false)} />
