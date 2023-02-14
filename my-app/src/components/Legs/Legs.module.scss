@@ -7,8 +7,8 @@
 }
 
 .print__btn {
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     background: none;
     border: none;
@@ -16,16 +16,16 @@
     background-position: center;
     background-size: 100%;
     background-repeat: no-repeat;
-    top: 90px;
+    top: 105px;
     right: 70px;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
         cursor: pointer;
-        top: 89px;
+        top: 104px;
         right: 69px;
-        width: 82px;
-        height: 82px;
+        width: 52px;
+        height: 52px;
     }
 
     &:active {
@@ -85,7 +85,7 @@
 
 .legs {
     margin-top: 0px;
-    max-height: 60%;
+    height:calc(90% - 250px);
     overflow-y: auto;
 }
 
@@ -122,8 +122,8 @@
 
     button {
         position: absolute;
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         background: none;
         padding: 0;
         border: 0;
@@ -135,19 +135,19 @@
 
     .edit__btns__del {
         background-image: url(../../assets/img/png/bin-icon.png);
-        width: 34px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
         top: -16px;
         left: 30px;
         background-position: center;
         background-size: 30px;
         background-repeat: no-repeat;
+        background-size: cover;
 
         &:hover {
             cursor: pointer;
-            background-size: 32px;
-            width: 36px;
-            height: 32px;
+            width: 27px;
+            height: 27px;
             top: -17px;
             left: 29px;
         }
@@ -159,8 +159,8 @@
 
         &:hover {
             cursor: pointer;
-            width: 32px;
-            height: 32px;
+            width: 27px;
+            height: 27px;
             top: -16px;
             left: -1px;
         }
@@ -169,9 +169,9 @@
 
 .edit__btn {
     position: absolute;
-    right: -36px;
-    width: 30px;
-    height: 30px;
+    right: -30px;
+    width: 25px;
+    height: 25px;
     background: none;
     border: none;
     background-image: url(../../assets/img/png/edit-icon.png);
@@ -182,14 +182,17 @@
 
     &:hover {
         cursor: pointer;
-        width: -32px;
-        height: 32px;
-        right: -36px;
+        width: -27px;
+        height: 27px;
+        right: -31px;
     }
 }
 
 .buttons {
-    margin: 30px auto 0;
+    position: absolute;
+    left: calc(50% - 150px);
+    bottom: 30px;
+    margin: 0 auto;
     width: 300px;
     display: flex;
     justify-content: space-between;

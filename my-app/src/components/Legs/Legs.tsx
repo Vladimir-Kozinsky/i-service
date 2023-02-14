@@ -50,9 +50,9 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
     const [searchParam, setSearchParam] = useState({ from: '', to: '' });
     const [addLegForm, setAddLegForm] = useState(false);
     const [legsEditMode, setlegsEditMode] = useState(false);
-    const [editLegForm, setEditLegForm] = useState(false);
+    const [editLegForm, setEditLegForm] = useState({ isEditForm: false, leg: {} });
     const [print, setPrint] = useState(false);
-    const [delMess, setDelMess] = useState(false);
+    const [delMess, setDelMess] = useState<{ isDelMes: boolean, leg?: ILeg }>({ isDelMes: false });
 
     const getLegsFunc = async (msn: string, from: string, to: string, page: number) => {
         await setIsLoader(true)
@@ -69,18 +69,15 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
     }
 
 
-    const deleteLeg = (legId: string): void => {
+    const deleteLeg = (legId: string | undefined): void => {
         dispatch(delLeg({ msn: aircraft.msn, legId: legId }))
     }
 
     const legsComp = choosedAircraft ? choosedAircraft.legs.map((leg: ILeg) => {
         return (
             <div key={leg._id} className={s.leg}>
-                <DeleteMessage handleBack={() => setDelMess(false)} 
-                handleSubmit={() => deleteLeg(leg._id)} toggle={delMess} 
-                header='Would you like to delete this leg?' 
-                text='The leg will be permanently deleted' />
-                <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={leg} toggle={editLegForm} />
+
+
                 <div className={s.leg__title__value}>{leg.depDate}</div>
                 <div className={s.leg__title__value}>{leg.flightNumber}</div>
                 <div className={s.leg__title__value}>{leg.from}</div>
@@ -95,8 +92,8 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
                 <div className={s.leg__title__value}>{leg.fc}</div>
                 {legsEditMode
                     && <div className={s.edit__btns} >
-                        <button className={s.edit__btns__edit} onClick={() => setEditLegForm(true)}></button>
-                        <button className={s.edit__btns__del} onClick={() => setDelMess(true)} ></button>
+                        <button className={s.edit__btns__edit} onClick={() => setEditLegForm({ isEditForm: true, leg: leg })}></button>
+                        <button className={s.edit__btns__del} onClick={() => setDelMess({ isDelMes: true, leg: leg })} ></button>
                     </div>}
             </div>
         )
@@ -111,6 +108,11 @@ const Legs = ({ setPage, aircraft, setIsLoader }: ILegsProps) => {
             <button onClick={() => setPrint(true)} className={s.print__btn}></button>
             <AddLegForm setAddLegForm={setAddLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} toggle={addLegForm} />
             <Print aircraft={aircraft} setPrint={setPrint} toggle={print} />
+            <EditLegForm setAddLegForm={setEditLegForm} msn={aircraft.msn} fh={aircraft.fh} fc={aircraft.fc} leg={editLegForm.leg} toggle={editLegForm.isEditForm} />
+            <DeleteMessage handleBack={() => setDelMess({ isDelMes: false })}
+                handleSubmit={() => deleteLeg(delMess.leg?._id)} toggle={delMess.isDelMes}
+                header='Would you like to delete this leg?'
+                text='The leg will be permanently deleted' />
             <div className={s.aircraftInfo} >
                 <div className={s.aircraftInfo__wrap} >
                     <div className={s.aircraftInfo__block} >

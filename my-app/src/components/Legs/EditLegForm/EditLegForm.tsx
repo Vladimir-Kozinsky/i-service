@@ -25,7 +25,7 @@ interface ILeg {
 }
 
 type AddLegFormProps = {
-    setAddLegForm: (addLegForm: boolean) => void;
+    setAddLegForm: ({isEditForm, leg}: {isEditForm:boolean, leg: ILeg | object}) => void;
     msn: string;
     fh: string;
     fc: string;
@@ -269,7 +269,7 @@ const EditLegForm = ({ setAddLegForm, msn, fh, fc, leg }: AddLegFormProps) => {
                             </div>
                         </div>
                         <div className={s.addLeg__btns} >
-                            <Button text="Cancel" color="white" btnType="button" handler={() => setAddLegForm(false)} />
+                            <Button text="Cancel" color="white" btnType="button" handler={() => setAddLegForm({ isEditForm: false, leg: {} })} />
                             <Button text="Submit" color="green" btnType="submit" />
                         </div>
                     </Form>
