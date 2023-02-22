@@ -104,7 +104,8 @@ router.get('/aircrafts', async (req, res) => {
     try {
         const aircrafts = await Aircraft.find().exec();
         if (!aircrafts.length) {
-            throw new Error("Aircrafts were not found");
+            res.statusMessage = "Aircrafs were not found";
+            res.json([]);
         } else {
             for (let i = 0; i < aircrafts.length; i++) {
                 const aircraft = aircrafts[i];

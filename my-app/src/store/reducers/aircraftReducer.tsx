@@ -57,7 +57,7 @@ export interface IAircraft {
 }
 
 export interface IAircraftState {
-    aircrafts: IAircraft[];
+    aircrafts: IAircraft[] | [];
     choosedAircraft: IAircraft;
     addAicraftMessage: string;
     addAicraftErrorMessage: string;
