@@ -12,6 +12,8 @@ import EngineAddForm from './EngineAddForm/EngineAddForm';
 import Header from '../Header/Header';
 import { Transition, TransitionStatus } from 'react-transition-group';
 import Loader from '../../common/Loader/Loader';
+import { compose } from 'redux';
+import withEngineSuccMess from '../HOC/withEngineSuccMess';
 
 
 const defaultStyle = {
@@ -87,4 +89,4 @@ const Engines: React.FC = () => {
     )
 }
 
-export default Engines;
+export default compose(withEngineSuccMess)(Engines);

@@ -14,7 +14,7 @@ type SuccessMessageProps = {
 const SuccessMessage = ({ handler }: SuccessMessageProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const buttonHandler = () => {
-        dispatch(hideSuccessMessage())
+        dispatch(handler())
     }
     return (
         <div className={s.message} >
