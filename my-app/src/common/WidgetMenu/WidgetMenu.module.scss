@@ -2,8 +2,15 @@ button::-moz-focus-inner {
     border: none;
 }
 
-.widget__menu {
+.widgetMenuContainer {
+    width: 50px;
+    height: 20px;
+    top: 0px;
+    right: 0px;
     position: absolute;
+}
+
+.widget__menu {
     top: 3px;
     right: 5px;
     height: 20px;
@@ -13,9 +20,9 @@ button::-moz-focus-inner {
     justify-content: space-around;
     background: none;
     border: none;
-
     &:hover {
         cursor: pointer;
+
         span {
             background-color: rgb(255, 255, 255, 0.6);
         }
@@ -31,45 +38,45 @@ button::-moz-focus-inner {
 }
 
 .widget__btns {
+    top: 25px;
+    left: 13px;
+    height: 65px;
     position: absolute;
-    left: 1px;
-    top: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     .widget__btns__set {
-        top: 7px;
-        left: 290px;
         width: 26px;
         height: 28px;
-        position: absolute;
         background: none;
         margin: 0;
         padding: 0;
         border: none;
-        transition: all 0.3s;
+        transition: all 0.3s ease-in-out;
         background-image: url(./../../assets/img/png/setting_icon.png);
         background-position: center;
         background-size: cover;
         background-repeat: noRepeat;
+
         &:hover {
             cursor: pointer;
             width: 28px;
             height: 30px;
-            top: 6px;
-            left: 289px;
         }
+
         :active {
             width: 30px;
         }
     }
+
     .widget__btns__del {
         opacity: 1;
-        top: 42px;
-        left: 292px;
         width: 20px;
         height: 28px;
         opacity: 0.8;
-        position: absolute;
         background: none;
+        top: 35px;
         margin: 0;
         padding: 0;
         border: none;
@@ -78,14 +85,14 @@ button::-moz-focus-inner {
         background-position: center;
         background-size: cover;
         background-repeat: noRepeat;
+
         &:hover {
             cursor: pointer;
-            top: 41px;
-            left: 291px;
             width: 22px;
             height: 30px;
             opacity: 1;
         }
+
         :active {
             width: 30px;
         }

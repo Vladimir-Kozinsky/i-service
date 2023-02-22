@@ -32,8 +32,8 @@ const engineAPI = {
         return response;
     },
 
-    async delEngine(msn: string) {
-        const response = await proxy.post('/engine/del', msn);
+    async delEngine(engineId: string) {
+        const response = await proxy.post('/engine/delete', { _id: engineId });
         return response;
     },
 

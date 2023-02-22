@@ -11,7 +11,6 @@ const aircraftAPI = {
         return response;
     },
     async deleteAircraft(aircraftId: string) {
-        console.log(aircraftId)
         const response = await proxy.post('/aircraft/delete', { _id: aircraftId });
         return response;
     },

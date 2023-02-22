@@ -167,4 +167,18 @@ EngineRouter.post('/engine/remove', async (req, res) => {
     }
 })
 
+EngineRouter.post('/engine/delete', async (req, res) => {
+    try {
+        const data = req.body;
+        if (!data._id) throw new Error("An deleted aircraft has not been recieved");
+        const del = await Engine.findByIdAndRemove(data._id);
+        res.statusMessage = "Engine successfully deleted";
+        res.json(del);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
+
 export default EngineRouter;

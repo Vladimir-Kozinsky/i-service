@@ -7,29 +7,15 @@ interface IEngineState {
     engines: IEngine[];
     errorMessage: string;
     isSuccessMessage: boolean;
+    choosedEngine: IEngine | null;
 }
 
-const initialState = {
+const initialState: IEngineState = {
     engines: [],
     errorMessage: '',
-    isSuccessMessage: false
-    // type: null,
-    // msn: null,
-    // manufDate: null,
-    // hsn: null,
-    // csn: null,
-    // overhaulNum: null,
-    // lastOverhaulDate: null,
-    // totalLifeTime: null,
-    // totalLifeHours: null,
-    // totalLifeCycles: null,
-    // tbo: null,
-    // hbo: null,
-    // cbo: null,
-    // tso: null,
-    // hso: null,
-    // cso: null,
-} as IEngineState
+    isSuccessMessage: false,
+    choosedEngine: null,
+}
 
 
 const engineSlice = createSlice({
@@ -38,6 +24,9 @@ const engineSlice = createSlice({
     reducers: {
         hideEngineSuccessMessage(state: IEngineState) {
             state.isSuccessMessage = false;
+        },
+        setChoosedEngine(state, action) {
+            state.choosedEngine = action.payload
         },
     },
     extraReducers: (builder) => {
@@ -56,7 +45,17 @@ const engineSlice = createSlice({
         builder.addCase(addEngine.rejected, (state: IEngineState, action) => {
             state.errorMessage = action.payload as string;
         })
-        
+        builder.addCase(deleteEngine.fulfilled, (state, action) => {
+            state.isSuccessMessage = true;
+            const engineIndex = state.engines.findIndex((engine: IEngine) => engine.msn === action.payload.msn);
+            if (engineIndex >= 0) {
+                state.engines.splice(engineIndex, 1);
+            }
+        })
+        builder.addCase(deleteEngine.rejected, (state, action) => {
+            state.errorMessage = action.payload as string;
+        })
+
     },
 })
 
@@ -77,8 +76,20 @@ export const addEngine = createAsyncThunk(
     }
 )
 
+export const deleteEngine = createAsyncThunk(
+    'engine/deleteEngine',
+    async (engineId: string, thunkAPI) => {
+        try {
+            const response = await engineAPI.delEngine(engineId);
+            return response.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(error.response.statusText)
+        }
+    }
+)
 
 
-export const { hideEngineSuccessMessage } = engineSlice.actions
+
+export const { hideEngineSuccessMessage, setChoosedEngine } = engineSlice.actions
 export default engineSlice.reducer;
 

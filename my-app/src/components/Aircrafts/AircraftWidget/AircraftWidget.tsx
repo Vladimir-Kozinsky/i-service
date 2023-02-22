@@ -98,7 +98,6 @@ const AircraftWidget = ({ onClick, aircraft, setIsLoader, isLoader }: propsAircr
                             ...transitionStyles[state]
                         }} >
                         <WidgetMenu showEditForm={showArcraftEditForm} setDelMess={setDelMess} />
-
                         <img className={s.widget__plane__img} src={plane} alt="plane-icon" />
                         <div className={s.widget__data}>
                             <h3 className={s.widget__data__value}>{`Type: ${aircraft?.type}`}</h3>

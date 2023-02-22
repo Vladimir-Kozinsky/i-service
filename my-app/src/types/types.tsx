@@ -17,7 +17,7 @@ export interface IAuthState {
 }
 
 export interface IEngine {
-    _id?: string | null;
+    _id?: string;
     type: string | null;
     msn: string | null;
     manufDate: string | null;

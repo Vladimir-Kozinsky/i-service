@@ -32,7 +32,7 @@ type WidgetMenuProps = {
 const WidgetMenu: React.FC<WidgetMenuProps> = ({ showEditForm, setDelMess }) => {
     const [menu, setMenu] = useState(false);
     const nodeRef = useRef(null);
-    
+
     const menuHandler = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation()
         menu ? setMenu(false) : setMenu(true)
@@ -41,7 +41,7 @@ const WidgetMenu: React.FC<WidgetMenuProps> = ({ showEditForm, setDelMess }) => 
         }, 5000);
     }
     return (
-        <div>
+        <div className={s.widgetMenuContainer}>
             <button className={s.widget__menu} onClick={menuHandler}>
                 <span></span>
                 <span></span>
