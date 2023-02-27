@@ -5,10 +5,11 @@ import React, { useRef, useState } from 'react';
 import EngineFile from '../EngineFile/EngineFile';
 import { Transition, TransitionStatus } from 'react-transition-group';
 import WidgetMenu from '../../../common/WidgetMenu/WidgetMenu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../../store/store';
 import { deleteEngine, setChoosedEngine } from '../../../store/reducers/engineReducer';
 import DeleteMessage from '../../../common/messages/DeleteMessage/DeleteMessage';
+import EngineEditForm from '../EngineEditForm/EngineEditForm';
 
 type EngineWidgetProps = {
     engine: IEngine;
@@ -39,18 +40,20 @@ const transitionStyles: transitionStylesType = {
 
 const EngineWidget: React.FC<EngineWidgetProps> = ({ engine, isLoader }) => {
     const dispatch = useDispatch<AppDispatch>();
+    const choosedEngine = useSelector((state: any) => state.engine.choosedEngine);
     const nodeRef = useRef(null);
-    const [arcraftEditForm, setArcraftEditForm] = useState(false);
     const [engineFile, setEngineFile] = useState(false);
     const [delMess, setDelMess] = useState(false);
-    const showArcraftEditForm = () => {
-        arcraftEditForm ? setArcraftEditForm(false) : setArcraftEditForm(true);
-        dispatch(setChoosedEngine(engine));
-    }
+    const [engineEditForm, setEngineEditForm] = useState(false);
 
     const updateForm = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
         console.log("update form")
+    }
+
+    const showEngineEditForm = () => {
+        engineEditForm ? setEngineEditForm(false) : setEngineEditForm(true);
+        dispatch(setChoosedEngine(engine));
     }
 
     const widgetOnClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -73,6 +76,7 @@ const EngineWidget: React.FC<EngineWidgetProps> = ({ engine, isLoader }) => {
                 toggle={delMess}
                 header='Would you like to delete this Engine?'
                 text='The Engine will be permanently deleted' />
+            <EngineEditForm engine={choosedEngine} showEngineEditForm={showEngineEditForm} toggle={engineEditForm} />
             <EngineFile engine={engine} setEngineFile={setEngineFile} toggle={engineFile} />
             <Transition
                 nodeRef={nodeRef}
@@ -86,7 +90,7 @@ const EngineWidget: React.FC<EngineWidgetProps> = ({ engine, isLoader }) => {
                             ...defaultStyle,
                             ...transitionStyles[state]
                         }} >
-                        <WidgetMenu showEditForm={() => console.log('show engine edit form')} setDelMess={setDelMess} />
+                        <WidgetMenu showEditForm={showEngineEditForm} setDelMess={setDelMess} />
                         <img className={s.engineWidget__img} src={engineImg} alt="icon" />
                         {/* <button className={s.widget__btns__set} onClick={updateForm} /> */}
                         <h3 className={s.engineWidget__header} >MSN: {engine.msn}</h3>

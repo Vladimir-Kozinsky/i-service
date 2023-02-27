@@ -55,6 +55,14 @@ const engineSlice = createSlice({
         builder.addCase(deleteEngine.rejected, (state, action) => {
             state.errorMessage = action.payload as string;
         })
+         builder.addCase(updateEngine.fulfilled, (state, action) => {
+            const engineIndex = state.engines.findIndex((engine: IEngine) => engine.msn === action.payload.msn);
+            if (engineIndex >= 0) {
+                state.engines[engineIndex] = { ...action.payload }
+            }
+            state.choosedEngine = { ...action.payload };
+            state.isSuccessMessage = true;
+        })
 
     },
 })
@@ -84,6 +92,18 @@ export const deleteEngine = createAsyncThunk(
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response.statusText)
+        }
+    }
+)
+
+export const updateEngine = createAsyncThunk(
+    'engine/updateEngine',
+    async (engineData: any) => {
+        try {
+            const response = await engineAPI.updateEngine(engineData);
+            return response.data;
+        } catch (error: any) {
+            console.log(error)
         }
     }
 )
