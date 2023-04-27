@@ -11,6 +11,7 @@ import { AppDispatch } from "../../../store/store";
 import { ActionMeta } from "react-select";
 import FormSelect from "../../../common/Select/Select";
 import { checkFCFormat, checkFHFormat } from "../../../utils/forms";
+import { updateEngine } from "../../../store/reducers/engineReducer";
 
 interface IEngineEditForm {
     engine: any;
@@ -154,8 +155,7 @@ const EngineEditForm: React.FC<IEngineEditForm> = ({ engine, showEngineEditForm 
                     { setSubmitting }: FormikHelpers<any>
                 ) => {
                     if (selectedOption) values.type = selectedOption;
-                    // dispatch(updateAircraft(values));
-                    console.log(values)
+                    dispatch(updateEngine(values));
                 }}
             >
                 {({ errors, touched, values, handleChange }) => (

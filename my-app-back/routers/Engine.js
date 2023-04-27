@@ -75,51 +75,41 @@ EngineRouter.get('/engine', async (req, res) => {
     }
 })
 
-// EngineRouter.post('/engine/update', async (req, res) => {
-//     try {
-//         const data = req.body;
-//         const update = await Engine.updateOne({ _id: id }, {
-//             type: data.type,
-//             msn: data.msn,
-//             manufDate: data.manufDate,
-//             tsn: data.tsn,
-//             csn: data.csn,
-//             engTsn: data.engTsn,
-//             engCsn: data.engCsn,
-//             overhaulNum: data.overhaulNum,
-//             lastOverhaulDate: data.lastOverhaulDate,
-//             tsnAtlastOverhaul: data.tsnAtlastOverhaul,
-//             csnAtlastOverhaul: data.csnAtlastOverhaul,
-//             tlp: data.tlp,
-//             tlt: data.tlt,
-//             tlc: data.tlc,
-//             pbo: data.pbo,
-//             tbo: data.tbo,
-//             cbo: data.cbo,
-//         });
-//         if (!update.modifiedCount) throw new Error("An engine has not been updated");
-//         const engine = await Engine.findOne({ id: id }).exec();
-//         if (data.tsn !== engine.tsn || data.csn !== engine.csn) {
-//             const newFH = culcFH(engine.legs, engine.tsn)
-//             const newFC = culcFC(engine.legs, engine.csn)
-//             const updateFHFC = await Aircraft.updateOne({ msn: msn }, { fh: newFH, fc: newFC });
-
-//             if (!updateFHFC.modifiedCount) throw new Error("FH or FC has not been updated");
-//         }
-
-
-
-
-
-
-//         res.statusMessage = "Engine successfully updated";
-//         res.json(engine);
-//     } catch (error) {
-//         res.statusCode = 403;
-//         res.statusMessage = error.message;
-//         res.json({ message: error.message })
-//     }
-// })
+EngineRouter.post('/engine/update', async (req, res) => {
+    try {
+        const data = req.body;
+        const update = await Engine.updateOne({ _id: data._id }, {
+            type: data.type,
+            msn: data.msn,
+            manufDate: data.manufDate,
+            tsn: data.tsn,
+            csn: data.csn,
+            engTsn: data.engTsn,
+            engCsn: data.engCsn,
+            overhaulNum: data.overhaulNum,
+            lastOverhaulDate: data.lastOverhaulDate,
+            tsnAtlastOverhaul: data.tsnAtlastOverhaul,
+            csnAtlastOverhaul: data.csnAtlastOverhaul,
+            tlp: data.tlp,
+            tlt: data.tlt,
+            tlc: data.tlc,
+            pbo: data.pbo,
+            tbo: data.tbo,
+            cbo: data.cbo,
+        });
+        if (!update.modifiedCount) throw new Error("An engine has not been updated");
+        const engine = await Engine.findOne({ id: data._id }).exec();
+        await engine.reculcFhFc();
+        await engine.save();
+        const updatedEngine = await Engine.findOne({ id: data._id }).exec();
+        res.statusMessage = "Engine successfully updated";
+        res.json(updatedEngine);
+    } catch (error) {
+        res.statusCode = 403;
+        res.statusMessage = error.message;
+        res.json({ message: error.message })
+    }
+})
 
 EngineRouter.post('/engine/install', async (req, res) => {
     try {
